@@ -24,8 +24,7 @@ setup(
         "videohash",
         "video hashing",
         "hashing",
-        "video"
-        "video diff",
+        "video" "video diff",
         "compare videos",
     ],
     install_requires=["ImageHash", "Pillow"],

@@ -38,13 +38,12 @@ def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_co
 
     first_frame_image = Image.open(frame_list[0])
 
-
     frame_image_width, frame_image_height = first_frame_image.size
-    scale = ((collage_image_width) / (images_per_row_in_collage * frame_image_width))
+    scale = (collage_image_width) / (images_per_row_in_collage * frame_image_width)
     scaled_frame_image_width = ceil(frame_image_width * scale)
     scaled_frame_image_height = ceil(frame_image_height * scale)
-    number_of_rows = (ceil(len(frame_list) / images_per_row_in_collage))
-    collage_image_height = (ceil(scale * frame_image_height * number_of_rows))
+    number_of_rows = ceil(len(frame_list) / images_per_row_in_collage)
+    collage_image_height = ceil(scale * frame_image_height * number_of_rows)
     collage_image = Image.new("RGB", (collage_image_width, collage_image_height))
     i, j = (0, 0)
     for count, frame in enumerate(frame_list):
@@ -57,7 +56,7 @@ def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_co
         x = i
         y = (j // images_per_row_in_collage) * scaled_frame_image_height
         collage_image.paste(frame, (x, y))
-        i = (i + scaled_frame_image_width)
+        i = i + scaled_frame_image_width
         j += 1
     collage_image.save(task_dir + "collage.jpeg")
 
