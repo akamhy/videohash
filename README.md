@@ -2,7 +2,7 @@
 
 # VIDEOHASH
 
-<h2>A simple Video Hashing Library</h2>
+<h3>A simple Video Hashing Library</h3>
 
 </div>
 
