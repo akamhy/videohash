@@ -1,6 +1,6 @@
 <div align="center">
 
-# VIDEOHASH
+<h1> VIDEOHASH </h1>
 
 <h3>A simple Video Hashing Library</h3>
 
