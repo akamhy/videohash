@@ -59,9 +59,12 @@ pip install git+https://github.com/akamhy/videohash.git
 '3cffff0000000eff'
 >>> 
 ```
+
   - Notice that the difference of hash1 and hash2 is 2, but the difference between hash1 and hash3 is 37.
   
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified.
+  
+  - You can hash local video using `videohash.from_path("<absolute path to video>")`.
 
   - Public domain files used. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
   
