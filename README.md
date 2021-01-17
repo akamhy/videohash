@@ -12,7 +12,7 @@
 <a href="https://github.com/akamhy/videohash/commits/master"><img alt="GitHub lastest commit" src="https://img.shields.io/github/last-commit/akamhy/videohash?color=blue&style=flat-square"></a>
 <a href="#"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/videohash?style=flat-square"></a>
 
-
+--------------------------------------------------------------------------
 
 
 ### Installation
@@ -74,3 +74,5 @@ pip install git+https://github.com/akamhy/videohash.git
 <img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/collage.jpeg"><br>
 
 </div>
+
+------------------------------------------------------------------------------------
