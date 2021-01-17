@@ -31,13 +31,20 @@ pip install git+https://github.com/akamhy/videohash.git
 >>> str(hash1)
 '7c7e7ff9ffff0000'
 >>> hash2 = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA")
+>>> str(hash2)
+'fc7e7ffbffff0000'
+>>> 
 >>> diff = hash1 - hash2
 >>> diff
-0
+2
+>>> 
 >>> hash3 = videohash.from_url("https://www.youtube.com/watch?v=_T8cn2J13-4")
 >>> diff = hash1 - hash3
 >>> diff
-31
+37
+>>> str(hash3)
+'3cffff0000000eff'
 >>> 
-
 ```
+  - Notice that the difference of hash1 and hash2 is 2, but the difference between hash1 and hash3 is 37.
+  - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified.
