@@ -75,4 +75,11 @@ pip install git+https://github.com/akamhy/videohash.git
 
 </div>
 
+
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
+
+Released under the MIT License. See
+[license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
+
 ------------------------------------------------------------------------------------
