@@ -56,7 +56,7 @@ pip install git+https://github.com/akamhy/videohash.git
 
   - Public domain files used. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
   
-  - We create collage of frames and actually were are performing image hashing under the hood.
+  - We create collage of frames and actually are calculating image hashes under the hood.
   
 
 
