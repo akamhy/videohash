@@ -1,2 +1,3 @@
 # videohash
-FOOBAR
+
+A simple Video Hashing Library.
