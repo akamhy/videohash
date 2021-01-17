@@ -1,6 +1,10 @@
-# videohash
+<div align="center">
+
+# VIDEOHASH
 
 A simple Video Hashing Library.
+
+</div>
 
 ### Installation
 
@@ -50,3 +54,10 @@ pip install git+https://github.com/akamhy/videohash.git
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified.
 
   - Public domain files used. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
+
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/collage.jpeg"><br>
+
+</div>
