@@ -2,9 +2,18 @@
 
 # VIDEOHASH
 
-A simple Video Hashing Library.
+<h2>A simple Video Hashing Library</h2>
 
 </div>
+
+<p align="center">
+<a href="https://pypi.org/project/videohash/"><img alt="pypi" src="https://img.shields.io/pypi/v/videohash.svg"></a>
+<a href="https://pepy.tech/project/videohash?versions=1*&versions=2*"><img alt="Downloads" src="https://pepy.tech/badge/videohash/month"></a>
+<a href="https://github.com/akamhy/videohash/commits/master"><img alt="GitHub lastest commit" src="https://img.shields.io/github/last-commit/akamhy/videohash?color=blue&style=flat-square"></a>
+<a href="#"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/videohash?style=flat-square"></a>
+
+
+
 
 ### Installation
 
