@@ -1,2 +1,3 @@
 ImageHash
 Pillow
+youtube_dl
