@@ -9,7 +9,7 @@ from math import ceil
 import shutil
 import tempfile
 
-dir = tempfile.mkdtemp() + "/files/"
+dir = os.path.join(tempfile.mkdtemp(), "files/")
 
 
 def download(input_url, output_file):
@@ -34,7 +34,7 @@ def frames(input_file, output_prefix):
 
 def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_collage):
 
-    frame_list = sorted([image_dir + image for image in os.listdir(image_dir)])
+    frame_list = sorted([os.path.join(image_dir, image) for image in os.listdir(image_dir)])
 
     first_frame_image = Image.open(frame_list[0])
 
@@ -58,7 +58,7 @@ def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_co
         collage_image.paste(frame, (x, y))
         i = i + scaled_frame_image_width
         j += 1
-    collage_image.save(task_dir + "collage.jpeg")
+    collage_image.save(os.path.join(task_dir, "collage.jpeg"))
 
 
 def task_uid_dir():
@@ -66,21 +66,21 @@ def task_uid_dir():
     task_uid = "vh_" + "".join(
         sys_random.choice(string.ascii_lowercase + string.digits) for _ in range(12)
     )
-    task_dir = dir + task_uid + "/"
+    task_dir = os.path.join(dir, task_uid + "/")
     Path(task_dir).mkdir(parents=True, exist_ok=True)
     return (task_uid, task_dir)
 
 
 def from_url(input_url):
     task_uid, task_dir = task_uid_dir()
-    output_file = task_dir + task_uid + ".%(ext)s"
+    output_file = os.path.join(task_dir , task_uid + ".%(ext)s")
     download(input_url, output_file)
     l = [filename for filename in os.listdir(task_dir) if filename.startswith(task_uid)]
     if len(l) == 0:
         raise FileNotFoundError(
             "0 frame frame_list found! Failed to generate frame_list from frames."
         )
-    input_file = task_dir + l[0]
+    input_file = os.path.join(task_dir, l[0])
     return from_path(input_file, task_uid=task_uid, task_dir=task_dir)
 
 
@@ -88,12 +88,12 @@ def from_path(input_file, task_uid=None, task_dir=None):
 
     if not task_uid or not task_dir:
         task_uid, task_dir = task_uid_dir()
-    image_dir = task_dir + "frames/"
+    image_dir = os.path.join(task_dir, "frames/")
     Path(image_dir).mkdir(parents=True, exist_ok=True)
-    image_prefix = image_dir + task_uid
+    image_prefix = os.path.join(image_dir, task_uid)
     frames(input_file, image_prefix)
     collage_maker(image_dir, task_dir, 800, 8)
-    collage = task_dir + "collage.jpeg"
+    collage = os.path.join(task_dir, "collage.jpeg")
     hash = imagehash.average_hash(Image.open(collage))
     shutil.rmtree(dir)
     return hash
