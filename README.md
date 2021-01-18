@@ -96,9 +96,7 @@ pip install git+https://github.com/akamhy/videohash.git
   
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified.
   
-  - Public domain files used. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
-  
-  - We create collage of frames and actually are calculating image hashes under the hood.
+  - A collage of frames is generated and imagehash of this collage is videohash for the full video.
   
 
 
@@ -114,6 +112,8 @@ pip install git+https://github.com/akamhy/videohash.git
 
 Released under the MIT License. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
+
+NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
 
 
 ------------------------------------------------------------------------------------
