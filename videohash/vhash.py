@@ -61,6 +61,23 @@ def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_co
         j += 1
     collage_image.save(join(task_dir, "collage.jpeg"))
 
+def hash_manager(collage, image_hash=None):
+    img = Image.open(collage)
+
+    if image_hash == "phash":
+        hash = imagehash.phash(img)
+    elif image_hash == "dhash":
+        hash = imagehash.dhash(img)
+    elif image_hash == "whash":
+        hash = imagehash.whash(img)
+    elif image_hash == "colorhash":
+        hash = imagehash.colorhash(img)
+    elif image_hash == "crop_resistant_hash":
+        hash = imagehash.crop_resistant_hash(img)
+    else:
+        hash = imagehash.average_hash(img)
+
+    return hash
 
 def task_uid_dir():
     sys_random = random.SystemRandom()
@@ -72,7 +89,7 @@ def task_uid_dir():
     return (task_uid, task_dir)
 
 
-def from_url(input_url):
+def from_url(input_url, image_hash=None):
     task_uid, task_dir = task_uid_dir()
     output_file = join(task_dir, task_uid + ".%(ext)s")
     download(input_url, output_file)
@@ -80,10 +97,10 @@ def from_url(input_url):
     if len(l) == 0:
         raise FileNotFoundError("Could Not Find Frames! Failed to generate frames.")
     input_file = join(task_dir, l[0])
-    return from_path(input_file, task_uid=task_uid, task_dir=task_dir)
+    return from_path(input_file, task_uid=task_uid, task_dir=task_dir, image_hash=image_hash)
 
 
-def from_path(input_file, task_uid=None, task_dir=None):
+def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
 
     if not task_uid or not task_dir:
         task_uid, task_dir = task_uid_dir()
@@ -93,6 +110,6 @@ def from_path(input_file, task_uid=None, task_dir=None):
     frames(input_file, image_prefix)
     collage_maker(image_dir, task_dir, 800, 8)
     collage = join(task_dir, "collage.jpeg")
-    hash = imagehash.average_hash(Image.open(collage))
+    hash = hash_manager(collage, image_hash=image_hash)
     shutil.rmtree(dir)
     return hash
