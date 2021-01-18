@@ -26,8 +26,14 @@ You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
 #### Install FFmpeg
 
 ##### Linux
+
+  - APT
 ```bash
 sudo apt install ffmpeg
+```
+  - Snap
+```bash
+sudo snap install ffmpeg
 ```
 
 ##### macOS
