@@ -97,7 +97,10 @@ pip install git+https://github.com/akamhy/videohash.git
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified and downscaled.
   
   - A collage of frames is generated and imagehash(Average hashing) of this collage is videohash for the full video.
-  
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/collage.jpeg"><br>
+</div>
   
 You can change the algorithm used to generate the hash of the college. The default algorithm is `average_hash`.
 
@@ -116,13 +119,6 @@ You can change the algorithm used to generate the hash of the college. The defau
 </details>
 videohash uses <https://github.com/JohannesBuchner/imagehash> to use these algorithms.
 
-
-
-<div align="center">
-
-<img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/collage.jpeg"><br>
-
-</div>
 
 
 ## License
