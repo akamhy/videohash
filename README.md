@@ -35,6 +35,7 @@ sudo apt install ffmpeg
 brew install ffmpeg
 ```
 
+#### Install videohash
 
   - Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
 
