@@ -28,7 +28,7 @@ setup(
         "compare videos",
     ],
     install_requires=["ImageHash", "Pillow", "youtube_dl"],
-    python_requires=">=3.4",
+    python_requires=">=3.5",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
