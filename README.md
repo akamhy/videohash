@@ -22,8 +22,8 @@
 ### Installation
 You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
 
-
-#### Install FFmpeg
+<details><summary>Install FFmpeg</summary>
+<p>
 
 ##### Linux
 
@@ -40,6 +40,10 @@ sudo snap install ffmpeg
 ```bash
 brew install ffmpeg
 ```
+</p>
+</details>
+
+
 
 #### Install videohash
 
