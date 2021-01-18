@@ -101,8 +101,10 @@ pip install git+https://github.com/akamhy/videohash.git
 <div align="center">
 <img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/collage.jpeg"><br>
 </div>
-  
-You can change the algorithm used to generate the hash of the college. The default algorithm is `average_hash`.
+
+
+
+You can change the algorithm used to generate the hash of the collage. The default algorithm is `average_hash`.
 
 ```python
 >>> hash = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA", image_hash="crop_resistant_hash")
