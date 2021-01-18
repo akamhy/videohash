@@ -96,8 +96,26 @@ pip install git+https://github.com/akamhy/videohash.git
   
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified and downscaled.
   
-  - A collage of frames is generated and imagehash of this collage is videohash for the full video.
+  - A collage of frames is generated and imagehash(Average hashing) of this collage is videohash for the full video.
   
+  
+You can change the algorithm used to generate the hash of the college. The default algorithm is `average_hash`.
+
+```python
+>>> hash = videohash.from_path("/home/akamhy/Downloads/rocket.webm", image_hash="phash")
+```
+<details><summary>Algorithms supported</summary>
+<p>
+  - average_hash (default)
+  - phash
+  - dhash
+  - whash
+  - colorhash
+  - crop_resistant_hash
+</p>
+</details>
+videohash uses <https://github.com/JohannesBuchner/imagehash> to use these algorithms.
+
 
 
 <div align="center">
