@@ -7,7 +7,8 @@
 </div>
 
 <p align="center">
-<a href="https://github.com/akamhy/videohash/actions?query=workflow%3ACI"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/CI/badge.svg"></a>
+<a href="https://github.com/akamhy/videohash/actions?query=workflow%3AUbuntu"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/Ubuntu/badge.svg"></a>
+<a href="https://github.com/akamhy/videohash/actions?query=workflow%3AmacOS"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/macOS/badge.svg"></a>
 <a href="https://codecov.io/gh/akamhy/videohash"><img alt="codecov" src="https://codecov.io/gh/akamhy/videohash/branch/main/graph/badge.svg"></a>
 <a href="https://pypi.org/project/videohash/"><img alt="pypi" src="https://img.shields.io/pypi/v/videohash.svg"></a>
 <a href="https://pepy.tech/project/videohash?versions=1*"><img alt="Downloads" src="https://pepy.tech/badge/videohash/month"></a>
@@ -19,9 +20,31 @@
 
 
 ### Installation
-
 You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
+<details><summary>Install FFmpeg</summary>
+<p>
 
+###### Linux
+
+  - APT
+```bash
+sudo apt install ffmpeg
+```
+  - Snap
+```bash
+sudo snap install ffmpeg
+```
+
+###### macOS
+```bash
+brew install ffmpeg
+```
+</p>
+</details>
+
+
+
+#### Install videohash
 
   - Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
 
@@ -67,15 +90,13 @@ pip install git+https://github.com/akamhy/videohash.git
 
   - <https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm> is copy of <https://www.youtube.com/watch?v=PapBjpzRhnA>, and are about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program) and [SLS rocket](https://en.wikipedia.org/wiki/Space_Launch_System).
  
-  - <https://www.youtube.com/watch?v=_T8cn2J13-4> is a completly different video also about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program).
+  - <https://www.youtube.com/watch?v=_T8cn2J13-4> is an entirely distinct video also about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program).
 
   - Notice that the difference of hash1 and hash2 is 2, but the difference between hash1 and hash3 is 37.
   
-  - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified.
+  - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified and downscaled.
   
-  - Public domain files used. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
-  
-  - We create collage of frames and actually are calculating image hashes under the hood.
+  - A collage of frames is generated and imagehash of this collage is videohash for the full video.
   
 
 
@@ -89,8 +110,9 @@ pip install git+https://github.com/akamhy/videohash.git
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
+NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
+
 Released under the MIT License. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
-
 
 ------------------------------------------------------------------------------------
