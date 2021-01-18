@@ -110,10 +110,9 @@ pip install git+https://github.com/akamhy/videohash.git
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
-Released under the MIT License. See
-[license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
-
 NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
 
+Released under the MIT License. See
+[license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
 
 ------------------------------------------------------------------------------------
