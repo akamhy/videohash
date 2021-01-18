@@ -23,6 +23,7 @@
 You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
 <details><summary>Install FFmpeg</summary>
 <p>
+
 ###### Linux
 
   - APT
