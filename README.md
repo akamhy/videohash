@@ -55,7 +55,7 @@ pip install git+https://github.com/akamhy/videohash.git
 >>> str(hash3)
 '3cffff0000000eff'
 >>>
->>> #hash4 file is hash1 downloaded locally. Use absolute path
+>>> #hash4 file is hash1 file downloaded locally. Use absolute path
 >>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.webm")
 >>> diff = hash4 - hash1
 >>> diff
