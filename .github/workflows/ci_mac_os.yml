@@ -1,4 +1,4 @@
-name: MacOsCI
+name: macOS
 
 on:
   push:
