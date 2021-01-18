@@ -74,13 +74,11 @@ def task_uid_dir():
 
 def from_url(input_url):
     task_uid, task_dir = task_uid_dir()
-    output_file = join(task_dir , task_uid + ".%(ext)s")
+    output_file = join(task_dir, task_uid + ".%(ext)s")
     download(input_url, output_file)
     l = [filename for filename in os.listdir(task_dir) if filename.startswith(task_uid)]
     if len(l) == 0:
-        raise FileNotFoundError(
-            "0 frame frame_list found! Failed to generate frame_list from frames."
-        )
+        raise FileNotFoundError("Could Not Find Frames! Failed to generate frames.")
     input_file = join(task_dir, l[0])
     return from_path(input_file, task_uid=task_uid, task_dir=task_dir)
 
