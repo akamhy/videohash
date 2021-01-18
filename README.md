@@ -55,6 +55,11 @@ pip install git+https://github.com/akamhy/videohash.git
 >>> str(hash3)
 '3cffff0000000eff'
 >>> 
+>>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.webm") #hash1 downloaded locally. Use absolute path
+>>> diff = hash4 - hash1
+>>> diff
+0
+>>>
 ```
 
   - <https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm> is copy of <https://www.youtube.com/watch?v=PapBjpzRhnA>, and are about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program) and [SLS rocket](https://en.wikipedia.org/wiki/Space_Launch_System).
@@ -65,8 +70,6 @@ pip install git+https://github.com/akamhy/videohash.git
   
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified.
   
-  - You can hash local video using `videohash.from_path("<absolute path to video>")`.
-
   - Public domain files used. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
   
   - We create collage of frames and actually are calculating image hashes under the hood.
