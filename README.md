@@ -21,6 +21,18 @@
 
 ### Installation
 
+#### Install FFmpeg
+
+##### Linux
+```bash
+sudo apt install ffmpeg
+```
+
+##### macOS
+```bash
+brew install ffmpeg
+```
+
 You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
 
 
