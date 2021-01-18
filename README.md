@@ -20,6 +20,8 @@
 
 
 ### Installation
+You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
+
 
 #### Install FFmpeg
 
@@ -32,8 +34,6 @@ sudo apt install ffmpeg
 ```bash
 brew install ffmpeg
 ```
-
-You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
 
 
   - Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
