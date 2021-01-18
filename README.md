@@ -8,6 +8,7 @@
 
 <p align="center">
 <a href="https://github.com/akamhy/videohash/actions?query=workflow%3ACI"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/CI/badge.svg"></a>
+<a href="https://github.com/akamhy/videohash/actions?query=workflow%3AMacOsCI"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/MacOsCI/badge.svg"></a>
 <a href="https://codecov.io/gh/akamhy/videohash"><img alt="codecov" src="https://codecov.io/gh/akamhy/videohash/branch/main/graph/badge.svg"></a>
 <a href="https://pypi.org/project/videohash/"><img alt="pypi" src="https://img.shields.io/pypi/v/videohash.svg"></a>
 <a href="https://pepy.tech/project/videohash?versions=1*"><img alt="Downloads" src="https://pepy.tech/badge/videohash/month"></a>
