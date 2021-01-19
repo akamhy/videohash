@@ -64,21 +64,21 @@ pip install git+https://github.com/akamhy/videohash.git
 >>> import videohash
 >>> hash1 = videohash.from_url("https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm")
 >>> str(hash1)
-'7c7e7ff9ffff0000'
+'be1fffff9ffc0000'
 >>> hash2 = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA")
 >>> str(hash2)
-'fc7e7ffbffff0000'
->>> 
+'fe3fffff9ffc0000'
+>>>
 >>> diff = hash1 - hash2
 >>> diff
 2
->>> 
+>>>
 >>> hash3 = videohash.from_url("https://www.youtube.com/watch?v=_T8cn2J13-4")
 >>> diff = hash1 - hash3
 >>> diff
-37
+31
 >>> str(hash3)
-'3cffff0000000eff'
+'3cffff00000081f0'
 >>>
 >>> #hash4 file is hash1 file downloaded locally. Use absolute path
 >>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.webm")
@@ -89,13 +89,13 @@ pip install git+https://github.com/akamhy/videohash.git
 ```
 
   - <https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm> is copy of <https://www.youtube.com/watch?v=PapBjpzRhnA>, and are about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program) and [SLS rocket](https://en.wikipedia.org/wiki/Space_Launch_System).
- 
+
   - <https://www.youtube.com/watch?v=_T8cn2J13-4> is an entirely distinct video also about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program).
 
   - Notice that the difference of hash1 and hash2 is 2, but the difference between hash1 and hash3 is 37.
-  
+
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified and downscaled.
-  
+
   - A collage of frames is generated and imagehash(Average hashing) of this collage is videohash for the full video.
 
 <div align="center">
@@ -111,16 +111,16 @@ You can change the algorithm used to generate the hash of the collage via the `i
 >>> hash = videohash.from_path("/home/akamhy/Downloads/rocket.webm", image_hash="phash")
 ```
 <details><summary>Algorithms supported</summary>
-  
+
 <p>
-  
+
 - `average_hash`
 - `phash`
 - `dhash`
 - `whash`
 - `colorhash`
 - `crop_resistant_hash`
-  
+
 </p>
 
 </details>
