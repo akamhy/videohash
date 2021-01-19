@@ -155,6 +155,6 @@ def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
     frames(input_file, image_prefix)
     collage_maker(image_dir, task_dir, 800, 8)
     collage = join(task_dir, "collage.jpeg")
-    hash = hash_manager(collage, image_hash=image_hash)
+    _hash = hash_manager(collage, image_hash=image_hash)
     shutil.rmtree(dir)
-    return hash
+    return _hash
