@@ -1,6 +1,7 @@
 import pytest
 import os
 from videohash.vhash import from_url, from_path, hash_manager
+from videohash.exceptions import DownloadFailed
 
 
 def test_all():
@@ -26,5 +27,14 @@ def test_all():
     assert str(hash_manager(collage, image_hash="dhash")) == "c8c0cf23339c0070"
     assert str(hash_manager(collage, image_hash="whash")) == "2c787ffbffe00000"
     assert str(hash_manager(collage, image_hash="colorhash")) == "1ec00000000"
-    assert str(hash_manager(collage, image_hash="crop_resistant_hash")) == "dc98381819313818,b8f8f4f6ff7cfcfe,c8cbc3e5c5cce8f3,ae9deec68eceeeee,fbf4c48881c48990,dbf5c48881c68890,a929292d15b5d555,c8c0cf23339c0070"
+    assert (
+        str(hash_manager(collage, image_hash="crop_resistant_hash"))
+        == "dc98381819313818,b8f8f4f6ff7cfcfe,c8cbc3e5c5cce8f3,ae9deec68eceeeee,fbf4c48881c48990,dbf5c48881c68890,a929292d15b5d555,c8c0cf23339c0070"
+    )
     assert str(hash_manager(collage)) == "fc7e7ff9ffff0000"
+
+    with pytest.raises(FileNotFoundError):
+        hash = from_path(this_dir)
+
+    with pytest.raises(DownloadFailed):
+        hash = from_url("https://www.youtube.com/watch?v=_x8cnakamh4")

@@ -9,11 +9,16 @@ from math import ceil
 import shutil
 import tempfile
 from os.path import join
+from .exceptions import DownloadFailed
 
 dir = join(tempfile.mkdtemp(), "files/")
 
 
 def download(input_url, output_file):
+    """
+    downloads the video via youtube-dl
+    cli. download the lowest quality file.
+    """
     command = "youtube-dl -f worst {input_url} -o {output_file}".format(
         input_url=input_url, output_file=output_file
     )
@@ -24,6 +29,9 @@ def download(input_url, output_file):
 
 
 def frames(input_file, output_prefix):
+    """
+    Export frames as images at output_prefix.
+    """
     command = "ffmpeg -i {input_file} -r 1 {output_prefix}_%07d.jpeg".format(
         input_file=input_file, output_prefix=output_prefix
     )
@@ -34,11 +42,15 @@ def frames(input_file, output_prefix):
 
 
 def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_collage):
+    """
+    Create a collage of all the images(frames).
+    In sorted manner. Sorting is necessary to maintain consistency.
+    collage_image_width decides the width of the collage's width.
+    images_per_row_in_collage is the number of images in a row in the collage.
+    """
 
     frame_list = sorted([join(image_dir, image) for image in os.listdir(image_dir)])
-
     first_frame_image = Image.open(frame_list[0])
-
     frame_image_width, frame_image_height = first_frame_image.size
     scale = (collage_image_width) / (images_per_row_in_collage * frame_image_width)
     scaled_frame_image_width = ceil(frame_image_width * scale)
@@ -61,7 +73,11 @@ def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_co
         j += 1
     collage_image.save(join(task_dir, "collage.jpeg"))
 
+
 def hash_manager(collage, image_hash=None):
+    """
+    Selects the hash passed in image_hash.
+    """
     img = Image.open(collage)
 
     if image_hash == "phash":
@@ -79,7 +95,16 @@ def hash_manager(collage, image_hash=None):
 
     return hash
 
+
 def task_uid_dir():
+    """
+    Create a 12 digits unique task id.
+    The task id ensure that we are not messing
+    with files created by other instances.
+
+    Infact we indentify the downloaded video and
+    the frames using this id.
+    """
     sys_random = random.SystemRandom()
     task_uid = "vh_" + "".join(
         sys_random.choice(string.ascii_lowercase + string.digits) for _ in range(12)
@@ -90,17 +115,37 @@ def task_uid_dir():
 
 
 def from_url(input_url, image_hash=None):
+    """
+    download the video as input_url using YouTube-dl
+    and calculate the hash.
+    """
     task_uid, task_dir = task_uid_dir()
     output_file = join(task_dir, task_uid + ".%(ext)s")
     download(input_url, output_file)
     l = [filename for filename in os.listdir(task_dir) if filename.startswith(task_uid)]
-    if len(l) == 0:
-        raise FileNotFoundError("Could Not Find Frames! Failed to generate frames.")
+    if l == []:
+        raise DownloadFailed(
+            "Failed to download the video.\nYouTube-dl Failed to download your file."
+        )
     input_file = join(task_dir, l[0])
-    return from_path(input_file, task_uid=task_uid, task_dir=task_dir, image_hash=image_hash)
+    return from_path(
+        input_file, task_uid=task_uid, task_dir=task_dir, image_hash=image_hash
+    )
 
 
 def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
+    """
+    calculate videohash of file at absolute path input_file.
+    from_url relies upon this function to do the main job after downloading
+    the video.
+    Ensure that the video exist at absolute path input_file, if not raise FileNotFoundError.
+    Delete the tempfile after we are done.
+    """
+
+    if not Path(input_file).is_file():
+        raise FileNotFoundError(
+            "Can't find your file on this path.\nMake sure you are using an absolute path."
+        )
 
     if not task_uid or not task_dir:
         task_uid, task_dir = task_uid_dir()
