@@ -5,7 +5,7 @@ import string
 from pathlib import Path
 from PIL import Image
 import imagehash
-from math import ceil
+from math import ceil, sqrt
 import shutil
 import tempfile
 from os.path import join
@@ -14,18 +14,36 @@ from .exceptions import DownloadFailed
 dir = join(tempfile.mkdtemp(), "files/")
 
 
-def download(input_url, output_file):
+def download(input_url, output_file, task_dir, task_uid):
     """
     downloads the video via youtube-dl
     cli. download the lowest quality file.
     """
-    command = "youtube-dl -f worst {input_url} -o {output_file}".format(
-        input_url=input_url, output_file=output_file
+    tries = 0
+    while tries <= 3:
+        tries += 1
+
+        command = "youtube-dl -f worst {input_url} -o {output_file}".format(
+            input_url=input_url, output_file=output_file
+        )
+        process = subprocess.Popen(
+            command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
+        )
+        output, error = process.communicate()
+
+        l = [
+            filename
+            for filename in os.listdir(task_dir)
+            if filename.startswith(task_uid)
+        ]
+        if l == []:
+            continue
+        else:
+            return l[0]
+
+    raise DownloadFailed(
+        "Failed to download the video.\nYouTube-dl Failed to download your file."
     )
-    process = subprocess.Popen(
-        command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
-    )
-    output, error = process.communicate()
 
 
 def frames(input_file, output_prefix):
@@ -41,15 +59,15 @@ def frames(input_file, output_prefix):
     output, error = process.communicate()
 
 
-def collage_maker(image_dir, task_dir, collage_image_width, images_per_row_in_collage):
+def collage_maker(image_dir, task_dir, collage_image_width):
     """
     Create a collage of all the images(frames).
     In sorted manner. Sorting is necessary to maintain consistency.
     collage_image_width decides the width of the collage's width.
     images_per_row_in_collage is the number of images in a row in the collage.
     """
-
     frame_list = sorted([join(image_dir, image) for image in os.listdir(image_dir)])
+    images_per_row_in_collage = int(sqrt(len(frame_list)))
     first_frame_image = Image.open(frame_list[0])
     frame_image_width, frame_image_height = first_frame_image.size
     scale = (collage_image_width) / (images_per_row_in_collage * frame_image_width)
@@ -121,13 +139,8 @@ def from_url(input_url, image_hash=None):
     """
     task_uid, task_dir = task_uid_dir()
     output_file = join(task_dir, task_uid + ".%(ext)s")
-    download(input_url, output_file)
-    l = [filename for filename in os.listdir(task_dir) if filename.startswith(task_uid)]
-    if l == []:
-        raise DownloadFailed(
-            "Failed to download the video.\nYouTube-dl Failed to download your file."
-        )
-    input_file = join(task_dir, l[0])
+    downloaded_file = download(input_url, output_file, task_dir, task_uid)
+    input_file = join(task_dir, downloaded_file)
     return from_path(
         input_file, task_uid=task_uid, task_dir=task_dir, image_hash=image_hash
     )
@@ -153,7 +166,7 @@ def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
     Path(image_dir).mkdir(parents=True, exist_ok=True)
     image_prefix = join(image_dir, task_uid)
     frames(input_file, image_prefix)
-    collage_maker(image_dir, task_dir, 800, 8)
+    collage_maker(image_dir, task_dir, 800)
     collage = join(task_dir, "collage.jpeg")
     _hash = hash_manager(collage, image_hash=image_hash)
     shutil.rmtree(dir)
