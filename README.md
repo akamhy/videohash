@@ -130,6 +130,7 @@ videohash uses <https://github.com/JohannesBuchner/imagehash> to use these hashi
 
 
 ## License
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3842875fd3f14028b58e2a457c96666c)](https://app.codacy.com/gh/akamhy/videohash?utm_source=github.com&utm_medium=referral&utm_content=akamhy/videohash&utm_campaign=Badge_Grade)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
 NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
