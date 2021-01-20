@@ -1,7 +1,6 @@
 import subprocess
 import os
 import random
-import string
 from pathlib import Path
 from PIL import Image
 import imagehash
@@ -125,7 +124,7 @@ def task_uid_dir():
     """
     sys_random = random.SystemRandom()
     task_uid = "vh_" + "".join(
-        sys_random.choice(string.ascii_lowercase + string.digits) for _ in range(12)
+        sys_random.choice("abcdefghijklmnopqrstuvwxyz" + "0123456789") for _ in range(12)
     )
     task_dir = join(dir, task_uid + "/")
     Path(task_dir).mkdir(parents=True, exist_ok=True)
