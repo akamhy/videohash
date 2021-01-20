@@ -14,9 +14,14 @@ dir = join(tempfile.mkdtemp(), "files/")
 
 
 def download(input_url, output_file, task_dir, task_uid):
-    """
-    downloads the video via youtube-dl
-    cli. download the lowest quality file.
+    """Downloads the video using youtube-dl cli.
+    
+    Download the worst quality of video if multiple
+    quality 20 are available.
+    
+    output_file is the path(abs) of the downloaded file.
+
+    If downloading fails raise DownloadFailed.
     """
     tries = 0
     while tries <= 3:
@@ -46,8 +51,8 @@ def download(input_url, output_file, task_dir, task_uid):
 
 
 def frames(input_file, output_prefix):
-    """
-    Export frames as images at output_prefix.
+    """Extracts frames of the video.
+    Export frames as images at output_prefix as 7 digit padded jpeg file.
     """
     command = "ffmpeg -i {input_file} -r 1 {output_prefix}_%07d.jpeg".format(
         input_file=input_file, output_prefix=output_prefix
@@ -59,11 +64,15 @@ def frames(input_file, output_prefix):
 
 
 def collage_maker(image_dir, task_dir, collage_image_width):
-    """
-    Create a collage of all the images(frames).
+    """Create a collage of all the images(frames).
+    
     In sorted manner. Sorting is necessary to maintain consistency.
     collage_image_width decides the width of the collage's width.
+    
     images_per_row_in_collage is the number of images in a row in the collage.
+    
+    images_per_row_in_collage is picked to make the collage as close to a 
+    square matrix as possible.
     """
     frame_list = sorted([join(image_dir, image) for image in os.listdir(image_dir)])
     images_per_row_in_collage = int(sqrt(len(frame_list)))
@@ -93,7 +102,7 @@ def collage_maker(image_dir, task_dir, collage_image_width):
 
 def hash_manager(collage, image_hash=None):
     """
-    Selects the hash passed in image_hash.
+    Use the hash algo passed in image_hash.
     """
     img = Image.open(collage)
 
