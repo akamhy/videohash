@@ -22,7 +22,7 @@
 
 ### Installation
 You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
-<details><summary>Install FFmpeg</summary>
+<details><summary>Steps to install FFmpeg (Linux, macOS and Windows)</summary>
 <p>
 
 ###### Linux
