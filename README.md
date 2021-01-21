@@ -128,7 +128,7 @@ You can change the algorithm used to generate the hash of the collage via the `i
 >>> hash = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA", image_hash="crop_resistant_hash")
 >>> hash = videohash.from_path("/home/akamhy/Downloads/rocket.mkv", image_hash="phash")
 ```
-<details><summary>Algorithms supported</summary>
+<details><summary>➤ Algorithms supported</summary>
 
 <p>
 
