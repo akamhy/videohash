@@ -26,7 +26,7 @@ jobs:
       run: |
         python -m pip install requests
         python assets/windows_ffmpeg_downloader_at_cwd.py
-        set PATH=%PATH%;D:\a\videohash\videohash\ffmpeg.exe
+        set PATH=%PATH%;D:\a\videohash\videohash\
         ffmpeg -version
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest codecov pytest-cov
