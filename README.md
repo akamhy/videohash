@@ -105,6 +105,8 @@ pip install git+https://github.com/akamhy/videohash.git
 0
 >>>
 ```
+<sub>Run the above code @ <https://repl.it/@akamhy/video-hash-example#main.py></sub>
+
 
   - <https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv> is copy of <https://www.youtube.com/watch?v=PapBjpzRhnA>, and are about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program) and [SLS rocket](https://en.wikipedia.org/wiki/Space_Launch_System).
 
@@ -143,7 +145,7 @@ You can change the algorithm used to generate the hash of the collage via the `i
 
 </details>
 
-videohash uses <https://github.com/JohannesBuchner/imagehash> to use these hashing algorithms.
+videohash is using <https://github.com/JohannesBuchner/imagehash> to use these image-hashing algorithms.
 
 
 
