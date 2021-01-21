@@ -24,7 +24,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        sudo apt update && apt install ffmpeg
+        sudo apt install ffmpeg --fix-missing
         ffmpeg -version
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest codecov pytest-cov
