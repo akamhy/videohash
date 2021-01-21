@@ -62,7 +62,7 @@ pip install git+https://github.com/akamhy/videohash.git
 
 ```python
 >>> import videohash
->>> hash1 = videohash.from_url("https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm")
+>>> hash1 = videohash.from_url("https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv")
 >>> str(hash1)
 'be1fffff9ffc0000'
 >>> hash2 = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA")
@@ -81,7 +81,7 @@ pip install git+https://github.com/akamhy/videohash.git
 '3cffff00000081f0'
 >>>
 >>> #hash4 file is hash1 file downloaded locally. Use absolute path
->>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.webm")
+>>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.mkv")
 >>> diff = hash4 - hash1
 >>> diff
 0

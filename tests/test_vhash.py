@@ -8,11 +8,11 @@ def test_all():
     this_dir = os.path.dirname(os.path.realpath(__file__))
 
     hash_url = from_url(
-        "https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm"
+        "https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv"
     )
     assert str(hash_url) == "be1fffff9ffc0000"
 
-    local_video = this_dir + "/../assets/rocket.webm"
+    local_video = this_dir + "/../assets/rocket.mkv"
     hash_path = from_path(local_video)
     assert str(hash_path) == "be1fffff9ffc0000"
     assert hash_url - hash_path == 0
