@@ -8,6 +8,7 @@
 
 <p align="center">
 <a href="https://github.com/akamhy/videohash/actions?query=workflow%3AUbuntu"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/Ubuntu/badge.svg"></a>
+<a href="https://github.com/akamhy/videohash/actions?query=workflow%3AWindows"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/Windows/badge.svg"></a>
 <a href="https://github.com/akamhy/videohash/actions?query=workflow%3AmacOS"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/macOS/badge.svg"></a>
 <a href="https://codecov.io/gh/akamhy/videohash"><img alt="codecov" src="https://codecov.io/gh/akamhy/videohash/branch/main/graph/badge.svg"></a>
 <a href="https://pypi.org/project/videohash/"><img alt="pypi" src="https://img.shields.io/pypi/v/videohash.svg"></a>
@@ -21,7 +22,7 @@
 
 ### Installation
 You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
-<details><summary>Install FFmpeg</summary>
+<details><summary>➤ Install FFmpeg</summary>
 <p>
 
 ###### Linux
@@ -35,6 +36,22 @@ sudo apt install ffmpeg
 ```bash
 sudo snap install ffmpeg
 ```
+
+###### Windows
+Steps are [Based on video.stackexchange.com/a/20496](https://video.stackexchange.com/a/20496), but note that the download site is outdated as of January 2021.
+  - Download the `release full` variant from <https://www.gyan.dev/ffmpeg/builds/>. You can download any variant you want, but I prefer the full release.
+  - Decompress the archive.
+  - Copy the bin directory from the decompressed folder, and paste inside `C:\Program Files\ffmpeg\`.
+  - Right click on "This PC" and navigate to `Properties > Advanced System Settings > Advanced tab > Environment Variables`.
+  - In the Environment Variables window, click the "Path" row under the "Variable" column, then click Edit.
+  - Click New and add `C:\Program Files\ffmpeg\bin\`to the list.
+  - Click Ok on all the windows we just opened up. (Answer postive)
+  
+If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you. 
+
+Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>
+  
+
 
 ###### macOS
 ```bash
@@ -111,7 +128,7 @@ You can change the algorithm used to generate the hash of the collage via the `i
 >>> hash = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA", image_hash="crop_resistant_hash")
 >>> hash = videohash.from_path("/home/akamhy/Downloads/rocket.mkv", image_hash="phash")
 ```
-<details><summary>Algorithms supported</summary>
+<details><summary>➤ Algorithms supported</summary>
 
 <p>
 
