@@ -37,6 +37,22 @@ sudo apt install ffmpeg
 sudo snap install ffmpeg
 ```
 
+###### Windows
+Steps are [Based on video.stackexchange.com/a/20496](https://video.stackexchange.com/a/20496), but note that the download site is outdated as of January 2021.
+  - Download the `release full` variant from <https://www.gyan.dev/ffmpeg/builds/>. You can download any variant you want, but I prefer the full release.
+  - Decompress the archive.
+  - Copy the bin directory from the decompressed folder, and paste inside `C:\Program Files\ffmpeg\`.
+  - Right click on "This PC" and navigate to `Properties > Advanced System Settings > Advanced tab > Environment Variables`.
+  - In the Environment Variables window, click the "Path" row under the "Variable" column, then click Edit.
+  - Click New and add `C:\Program Files\ffmpeg\bin\`to the list.
+  - Click Ok on all the windows we just opened up. (Answer postive)
+  
+If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you. 
+
+Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>
+  
+
+
 ###### macOS
 ```bash
 brew install ffmpeg
