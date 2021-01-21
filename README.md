@@ -28,6 +28,7 @@ You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
 
   - APT
 ```bash
+sudo apt-get update
 sudo apt install ffmpeg
 ```
   - Snap
