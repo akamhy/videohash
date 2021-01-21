@@ -38,7 +38,7 @@ sudo snap install ffmpeg
 ```
 
 ###### Windows
-Steps are [Based on video.stackexchange.com/a/20496](https://video.stackexchange.com/a/20496), but note that the download site is outdated as of January 2021.
+Steps are [based on video.stackexchange.com/a/20496](https://video.stackexchange.com/a/20496), please note that the download site is outdated as of January 2021.
   - Download the `release full` variant from <https://www.gyan.dev/ffmpeg/builds/>. You can download any variant you want, but I prefer the full release.
   - Decompress the archive.
   - Copy the bin directory from the decompressed folder, and paste inside `C:\Program Files\ffmpeg\`.
@@ -49,9 +49,7 @@ Steps are [Based on video.stackexchange.com/a/20496](https://video.stackexchange
   
 If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you. 
 
-Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>
-  
-
+Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>.
 
 ###### macOS
 ```bash
@@ -59,7 +57,6 @@ brew install ffmpeg
 ```
 </p>
 </details>
-
 
 
 #### Install videohash
