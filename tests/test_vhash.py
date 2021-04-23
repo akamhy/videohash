@@ -10,16 +10,16 @@ def test_all():
     hash_url = from_url(
         "https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv"
     )
-    assert str(hash_url) == "be1fffff9ffc0000"
+    assert str(hash_url) == "fe3fffff8ff80000"
 
     local_video = this_dir + "/../assets/rocket.mkv"
     hash_path = from_path(local_video)
-    assert str(hash_path) == "be1fffff9ffc0000"
+    assert str(hash_path) == "fe3fffff8ff80000"
     assert hash_url - hash_path == 0
     different_file_hash = from_url("https://www.youtube.com/watch?v=_T8cn2J13-4")
     assert str(different_file_hash) == "3cffff00000081f0"
     diff = different_file_hash - hash_url
-    assert diff == 31
+    assert diff == 29
 
     collage = this_dir + "/../assets/collage.jpeg"
     assert str(hash_manager(collage, image_hash="phash")) == "c08257d5df6fb202"

@@ -15,10 +15,10 @@ dir = join(tempfile.mkdtemp(), "files/")
 
 def download(input_url, output_file, task_dir, task_uid):
     """Downloads the video using youtube-dl cli.
-    
+
     Download the worst quality of video if multiple
     quality 20 are available.
-    
+
     output_file is the path(abs) of the downloaded file.
 
     If downloading fails raise DownloadFailed.
@@ -65,13 +65,13 @@ def frames(input_file, output_prefix):
 
 def collage_maker(image_dir, task_dir, collage_image_width):
     """Create a collage of all the images(frames).
-    
+
     In sorted manner. Sorting is necessary to maintain consistency.
     collage_image_width decides the width of the collage's width.
-    
+
     images_per_row_in_collage is the number of images in a row in the collage.
-    
-    images_per_row_in_collage is picked to make the collage as close to a 
+
+    images_per_row_in_collage is picked to make the collage as close to a
     square matrix as possible.
     """
     frame_list = sorted([join(image_dir, image) for image in os.listdir(image_dir)])
@@ -153,6 +153,21 @@ def from_url(input_url, image_hash=None):
         input_file, task_uid=task_uid, task_dir=task_dir, image_hash=image_hash
     )
 
+def compressor(input_file, task_dir, task_uid):
+    # APPLY : ffmpeg -i input.webm -s 64x64 -r 30  output.mp4
+
+    output_file = join(task_dir, task_uid + "_compressed_.mp4")
+    command = "ffmpeg -i {input_file} -s 64x64 -r 30 {output_file}".format(
+        input_file=input_file, output_file=output_file
+    )
+    process = subprocess.Popen(
+        command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
+    )
+    output, error = process.communicate()
+
+
+    return output_file
+
 
 def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
     """
@@ -173,6 +188,15 @@ def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
     image_dir = join(task_dir, "frames/")
     Path(image_dir).mkdir(parents=True, exist_ok=True)
     image_prefix = join(image_dir, task_uid)
+
+    # APPLY : ffmpeg -i input.webm -s 64x64 -r 30  output.mp4
+    # 64 x 64 resolution at 30 fps
+    # and assign output as input_file, mp4 is consistency and small size improves
+    # speed.
+    input_file = compressor(input_file, task_dir, task_uid)
+
+
+
     frames(input_file, image_prefix)
     collage_maker(image_dir, task_dir, 800)
     collage = join(task_dir, "collage.jpeg")
