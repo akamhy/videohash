@@ -156,7 +156,7 @@ def from_url(input_url, image_hash=None):
 def compressor(input_file, task_dir, task_uid):
     # APPLY : ffmpeg -i input.webm -s 64x64 -r 30  output.mp4
 
-    output_file = join(task_dir, task_uid + "_compressed_.mp4")
+    output_file = join(task_dir, task_uid + "compressed.mp4")
     command = "ffmpeg -i {input_file} -s 64x64 -r 30 {output_file}".format(
         input_file=input_file, output_file=output_file
     )
