@@ -46,8 +46,8 @@ Steps are [based on video.stackexchange.com/a/20496](https://video.stackexchange
   - In the Environment Variables window, click the "Path" row under the "Variable" column, then click Edit.
   - Click New and add `C:\Program Files\ffmpeg\bin\`to the list.
   - Click Ok on all the windows we just opened up. (Answer postive)
-  
-If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you. 
+
+If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you.
 
 Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>.
 
@@ -79,23 +79,23 @@ pip install git+https://github.com/akamhy/videohash.git
 >>> import videohash
 >>> hash1 = videohash.from_url("https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv")
 >>> str(hash1)
-'be1fffff9ffc0000'
+'fe3fffff8ff80000'
 >>> hash2 = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA")
 >>> str(hash2)
-'fe3fffff9ffc0000'
+'fe3fffff9ff80000'
 >>>
 >>> diff = hash1 - hash2
 >>> diff
-2
+1
 >>>
 >>> hash3 = videohash.from_url("https://www.youtube.com/watch?v=_T8cn2J13-4")
 >>> diff = hash1 - hash3
 >>> diff
-31
+29
 >>> str(hash3)
 '3cffff00000081f0'
 >>>
->>> #hash4 file is hash1 file downloaded locally. Use absolute path
+>>> #hash4 file is hash1 file downloaded locally. NOTE :  Use absolute path
 >>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.mkv")
 >>> diff = hash4 - hash1
 >>> diff
@@ -109,7 +109,7 @@ pip install git+https://github.com/akamhy/videohash.git
 
   - <https://www.youtube.com/watch?v=_T8cn2J13-4> is an entirely distinct video also about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program).
 
-  - Notice that the difference of hash1 and hash2 is 2, but the difference between hash1 and hash3 is 37.
+  - Notice that the difference of hash1 and hash2 is 1, but the difference between hash1 and hash3 is 29.
 
   - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified and downscaled.
 
