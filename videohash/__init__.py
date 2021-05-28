@@ -6,7 +6,7 @@
 # ░░░╚═╝░░░╚═╝╚═════╝░╚══════╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝
 
 """
-videohash is a video hashing library written in Python
+videohash is a video hashing library in Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://github.com/akamhy/videohash
 

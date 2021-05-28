@@ -1,4 +1,4 @@
-import subprocess
+from subprocess import Popen, PIPE, DEVNULL, STDOUT
 import os
 import random
 from pathlib import Path
@@ -10,19 +10,21 @@ import tempfile
 from os.path import join
 from .exceptions import DownloadFailed
 
-dir = join(tempfile.mkdtemp(), "files/")
+working_temp_dir = join(tempfile.mkdtemp(), "files/")
 
 
 def download(input_url, output_file, task_dir, task_uid):
-    """Downloads the video using youtube-dl cli.
+    """Downloads the video using youtube-dl via its cli interface.
 
-    Download the worst quality of video if multiple
-    quality 20 are available.
+    We want the smallest file size, Select the worst quality format (-f worst).
 
-    output_file is the path(abs) of the downloaded file.
+    output_file is the absolute path of the downloaded file.
 
-    If downloading fails raise DownloadFailed.
+    Three attempts to download the file, if failed to download
+    raises DownloadFailed. But it's recommended to download the file locally
+    before calculating the hash and use from_path instead of from_url.
     """
+
     tries = 0
     while tries <= 3:
         tries += 1
@@ -30,49 +32,48 @@ def download(input_url, output_file, task_dir, task_uid):
         command = "youtube-dl -f worst {input_url} -o {output_file}".format(
             input_url=input_url, output_file=output_file
         )
-        process = subprocess.Popen(
-            command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
-        )
+        process = Popen(command.split(), stdout=PIPE, stderr=PIPE)
         output, error = process.communicate()
 
-        l = [
+        file_list_with_uid = [
             filename
             for filename in os.listdir(task_dir)
             if filename.startswith(task_uid)
         ]
-        if l == []:
+
+        if file_list_with_uid == []:
             continue
         else:
-            return l[0]
+            return file_list_with_uid[0]
 
+    # if process.returncode != 0:
     raise DownloadFailed(
-        "Failed to download the video.\nYouTube-dl Failed to download your file."
+        "Downloading failed %d %s %s"
+        % (process.returncode, output.decode(), error.decode())
     )
 
 
 def frames(input_file, output_prefix):
-    """Extracts frames of the video.
-    Export frames as images at output_prefix as 7 digit padded jpeg file.
+    """Extract the frames of the video.
+    Export frames as images at output_prefix as a 7 digit padded jpeg file.
     """
     command = "ffmpeg -i {input_file} -r 1 {output_prefix}_%07d.jpeg".format(
         input_file=input_file, output_prefix=output_prefix
     )
-    process = subprocess.Popen(
-        command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
-    )
+    process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
     output, error = process.communicate()
 
 
 def collage_maker(image_dir, task_dir, collage_image_width):
-    """Create a collage of all the images(frames).
+    """Create a collage from the extracted frames, and make sure that the
+    collage is as close to a square image. It's necessary to make it similar to
+    square as the image hash will decrease the collage to a 8*8 = 64 pixel image
+    whhich is a sqaure.
 
-    In sorted manner. Sorting is necessary to maintain consistency.
     collage_image_width decides the width of the collage's width.
-
     images_per_row_in_collage is the number of images in a row in the collage.
-
     images_per_row_in_collage is picked to make the collage as close to a
-    square matrix as possible.
+    square.
     """
     frame_list = sorted([join(image_dir, image) for image in os.listdir(image_dir)])
     images_per_row_in_collage = int(sqrt(len(frame_list)))
@@ -102,7 +103,7 @@ def collage_maker(image_dir, task_dir, collage_image_width):
 
 def hash_manager(collage, image_hash=None):
     """
-    Use the hash algo passed in image_hash.
+    Use the imagehash algorithm passed by the client.
     """
     img = Image.open(collage)
 
@@ -128,14 +129,15 @@ def task_uid_dir():
     The task id ensure that we are not messing
     with files created by other instances.
 
-    Infact we indentify the downloaded video and
-    the frames using this id.
+    this id is also used to indentify the downloaded video and
+    the extracted frames.
     """
     sys_random = random.SystemRandom()
     task_uid = "vh_" + "".join(
-        sys_random.choice("abcdefghijklmnopqrstuvwxyz" + "0123456789") for _ in range(12)
+        sys_random.choice("abcdefghijklmnopqrstuvwxyz" + "0123456789")
+        for _ in range(12)
     )
-    task_dir = join(dir, task_uid + "/")
+    task_dir = join(working_temp_dir, task_uid + "/")
     Path(task_dir).mkdir(parents=True, exist_ok=True)
     return (task_uid, task_dir)
 
@@ -153,6 +155,7 @@ def from_url(input_url, image_hash=None):
         input_file, task_uid=task_uid, task_dir=task_dir, image_hash=image_hash
     )
 
+
 def compressor(input_file, task_dir, task_uid):
     # APPLY : ffmpeg -i input.webm -s 64x64 -r 30  output.mp4
 
@@ -160,11 +163,8 @@ def compressor(input_file, task_dir, task_uid):
     command = "ffmpeg -i {input_file} -s 64x64 -r 30 {output_file}".format(
         input_file=input_file, output_file=output_file
     )
-    process = subprocess.Popen(
-        command.split(), stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
-    )
+    process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
     output, error = process.communicate()
-
 
     return output_file
 
@@ -195,11 +195,9 @@ def from_path(input_file, task_uid=None, task_dir=None, image_hash=None):
     # speed.
     input_file = compressor(input_file, task_dir, task_uid)
 
-
-
     frames(input_file, image_prefix)
     collage_maker(image_dir, task_dir, 800)
     collage = join(task_dir, "collage.jpeg")
     _hash = hash_manager(collage, image_hash=image_hash)
-    shutil.rmtree(dir)
+    shutil.rmtree(working_temp_dir)
     return _hash
