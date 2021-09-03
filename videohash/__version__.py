@@ -1,5 +1,5 @@
 __title__ = "videohash"
-__description__ = "Video Hashing Library"
+__description__ = "videohash is a video fingerprinting / video hashing tool written in Python"
 __url__ = "https://akamhy.github.io/videohash/"
 __version__ = "1.0.7"
 __author__ = "akamhy"
