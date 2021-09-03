@@ -6,13 +6,13 @@
 # ░░░╚═╝░░░╚═╝╚═════╝░╚══════╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝
 
 """
-videohash is a video hashing library in Python
+videohash is a video fingerprinting / video hashing tool written in Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://github.com/akamhy/videohash
 
 Usage:
     >>> import videohash
-    >>> hash1 = videohash.from_url("https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.webm")
+    >>> hash1 = videohash.from_url("https://github.com/akamhy/videohash/raw/main/assets/rocket.mkv")
     >>> str(hash1)
     '7c7e7ff9ffff0000'
     >>> hash2 = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA")
