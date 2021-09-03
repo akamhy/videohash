@@ -57,10 +57,10 @@ def frames(input_file, output_prefix):
     """Extract the frames of the video.
     Export frames as images at output_prefix as a 7 digit padded jpeg file.
     """
-    command = "ffmpeg -i {input_file} -r 1 {output_prefix}_%07d.jpeg".format(
+    command = "ffmpeg -i \"{input_file}\" -r 1 \"{output_prefix}_%07d.jpeg\"".format(
         input_file=input_file, output_prefix=output_prefix
     )
-    process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
+    process = Popen(command, shell=True, stdout=DEVNULL, stderr=STDOUT)
     output, error = process.communicate()
 
 
@@ -160,10 +160,10 @@ def compressor(input_file, task_dir, task_uid):
     # APPLY : ffmpeg -i input.webm -s 64x64 -r 30  output.mp4
 
     output_file = join(task_dir, task_uid + "compressed.mp4")
-    command = "ffmpeg -i {input_file} -s 64x64 -r 30 {output_file}".format(
+    command = "ffmpeg -i \"{input_file}\" -s 64x64 -r 30 \"{output_file}\"".format(
         input_file=input_file, output_file=output_file
     )
-    process = Popen(command.split(), stdout=DEVNULL, stderr=STDOUT)
+    process = Popen(command, shell=True, stdout=DEVNULL, stderr=STDOUT)
     output, error = process.communicate()
 
     return output_file
