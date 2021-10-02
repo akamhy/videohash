@@ -4,6 +4,7 @@ videohash.exceptions
 This module contains the videohash's exceptions.
 """
 
+
 class DownloadFailed(Exception):
     """Failed to download the video file from url supplied"""
 

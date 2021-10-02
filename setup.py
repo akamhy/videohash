@@ -19,15 +19,17 @@ setup(
     author=about["__author__"],
     author_email=about["__author_email__"],
     url=about["__url__"],
-    download_url="https://github.com/akamhy/videohash/archive/1.0.7.tar.gz",
+    download_url="https://github.com/akamhy/videohash/archive/%s.tar.gz"
+    % ["__version__"],
     keywords=[
         "videohash",
         "video hashing",
         "hashing",
-        "video" "video diff",
+        "video",
+        "video diff",
         "compare videos",
     ],
-    install_requires=["ImageHash", "Pillow", "youtube_dl"],
+    install_requires=["ImageHash", "Pillow", "youtube_dl", "yt-dlp"],
     python_requires=">=3.5",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
