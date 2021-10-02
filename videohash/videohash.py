@@ -73,7 +73,6 @@ class VideoHash(object):
         return "VideoHash(hash=%s, hash_hex=%s, collage_path=%s, bits_in_hash=%s)" % (
             self.hash,
             self.hash_hex,
-            self.path,
             self.collage_path,
             self.bits_in_hash,
         )
