@@ -6,7 +6,7 @@
 # ░░░╚═╝░░░╚═╝╚═════╝░╚══════╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝
 
 """
-vA Python Perceptual Video Hashing/Fingerprinting Package
+A Python Perceptual Video Hashing/Fingerprinting Package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://github.com/akamhy/videohash
 
