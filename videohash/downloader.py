@@ -90,7 +90,7 @@ class Download(object):
 
         command = (
             shlex.quote(self.youtube_dl_path)
-            # + " -f worst "
+            + " -f worst "
             + " "
             + '"'
             + self.url
