@@ -1,6 +1,5 @@
 import pytest
 import os
-import videohash
 from videohash.videohash import VideoHash
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
