@@ -1,6 +1,8 @@
 import pytest
 import os
 from videohash.videohash import VideoHash
+from videohash.exceptions import DidNotSupplyPathOrUrl, StoragePathDoesNotExist
+from videohash.utils import create_and_return_temporary_directory
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -38,6 +40,9 @@ def test_all():
 
     with pytest.raises(TypeError):
         prefix_err_diff = videohash1 - ("XX" + hash1[2:])
+
+    with pytest.raises(TypeError):
+        non_str_and_videohash_error = videohash1 - True
 
     source2 = (
         this_dir
@@ -81,3 +86,36 @@ def test_all():
     assert videohash1 != videohash4
     assert videohash2 != videohash4
     assert videohash3 != videohash4
+
+    with pytest.raises(ValueError):
+        # not padded with 0x
+        VideoHash.hex2bin("741fcfff8f780000", 64)
+
+    with pytest.raises(ValueError):
+        # not padded with 0b
+        VideoHash.bin2hex("010101001")
+
+    with pytest.raises(ValueError):
+        # hamming_distance is not defined.
+        VideoHash.hamming_distance("abc", "abcd")
+
+    with pytest.raises(DidNotSupplyPathOrUrl):
+        VideoHash(url=None, path=None)
+
+    with pytest.raises(StoragePathDoesNotExist):
+        storage_path = os.path.join(
+            create_and_return_temporary_directory(),
+            ("thisdirdoesnotexist" + os.path.sep),
+        )
+        VideoHash(url="https://example.com", storage_path=storage_path)
+
+    with pytest.raises(ValueError):
+        VideoHash(
+            url="https://example.com", path=create_and_return_temporary_directory()
+        )
+
+    with pytest.raises(ValueError):
+        path = os.path.join(
+            create_and_return_temporary_directory(), "file_extension_less_video"
+        )
+        VideoHash(path=path)
