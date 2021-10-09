@@ -1,7 +1,6 @@
 from shutil import which
 from .utils import does_path_exists
 from .exceptions import (
-    FileNotFoundError,
     FramesExtractorOutPutDirDoesNotExits,
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
@@ -75,16 +74,14 @@ class FramesExtractor(object):
         try:
             # check_output will raise FileNotFoundError if it does not finds the ffmpeg
             output = check_output([str(self.ffmpeg_path), "-version"]).decode()
-
-            # ffmpeg version should be in the version flag output, we raise the FileNotFoundError
-            # to trigger the rise FFmpegNotFound error
-            if not "ffmpeg version" in output:
-                raise FileNotFoundError(
-                    "The string 'ffmpeg version' not in 'ffmpeg -version' output."
-                )
-
         except FileNotFoundError:
-            raise FFmpegNotFound("ffmpeg is not on the path '%s'." % self.ffmpeg_path)
+            raise FFmpegNotFound("FFmpeg not found at '%s'." % self.ffmpeg_path)
+        else:
+            if not "ffmpeg version" in output:
+                raise FFmpegNotFound(
+                    "ffmpeg at '%s' is not really ffmpeg. Output of ffmpeg -version is \n'%s'."
+                    % (self.ffmpeg_path, output)
+                )
 
     def extract(self):
         """

@@ -1,7 +1,7 @@
 from math import ceil, sqrt
 from PIL import Image
 import os.path
-from .exceptions import CollageOfZeroFramesError, FileNotFoundError
+from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
 
 """

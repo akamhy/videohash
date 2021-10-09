@@ -5,37 +5,55 @@ This module contains the videohash's exceptions.
 """
 
 
-class DownloadFailed(Exception):
+class VideoHashError(Exception):
+    """Main Exception for the package"""
+
+    pass
+
+
+class DownloadError(Exception):
+    """Base for all downloading errors."""
+
+    pass
+
+
+class FFmpegError(Exception):
+    """Base FFmpeg software error"""
+
+    pass
+
+
+class DownloadSoftwareError(DownloadError):
+    """Base for all youtube_dl and yt-dlp errors."""
+
+    pass
+
+
+class DownloadFailed(DownloadError):
     """Failed to download the video file from url supplied"""
 
     pass
 
 
-class DownloadOutPutDirDoesNotExits(Exception):
+class DownloadOutPutDirDoesNotExits(DownloadError):
     """The output directory supplied to store the downloaded video does not exists."""
 
     pass
 
 
-class YouTubeDLNotFound(Exception):
+class YouTubeDLNotFound(DownloadSoftwareError):
     """youtube-dl and yt-dl are not found in path"""
 
     pass
 
 
-class FileNotFoundError(Exception):
-    """Could not find the video file on path supplied"""
-
-    pass
-
-
-class FFmpegNotFound(Exception):
+class FFmpegNotFound(FFmpegError):
     """FFmpeg is not is the path"""
 
     pass
 
 
-class FFmpegFailedToExtractFrames(Exception):
+class FFmpegFailedToExtractFrames(FFmpegError):
     """FFmpeg failed to extract any frame"""
 
     pass
