@@ -90,6 +90,9 @@ class FramesExtractor(object):
         Extract the frames at every n seconds where n is the
         integer set to self.interval.
         """
+        ffmpeg_path = self.ffmpeg_path
+        video_path = self.video_path
+        output_dir = self.output_dir
         if os.name == "posix":
             ffmpeg_path = shlex.quote(self.ffmpeg_path)
             video_path = shlex.quote(self.video_path)
