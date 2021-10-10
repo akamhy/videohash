@@ -2,7 +2,7 @@
 
 <h1> VideoHash </h1>
 
-<h3>A Python Perceptual Video Hashing/Fingerprinting Package</h3>
+<h2>A Python package for Perceptual Video Hashing and Video Fingerprinting</h2>
 
 </div>
 
@@ -21,42 +21,8 @@
 
 
 ### Installation
-You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
-<details><summary>➤ Install FFmpeg</summary>
-<p>
-
-###### Linux
-
-  - APT
-```bash
-sudo apt-get update
-sudo apt install ffmpeg
-```
-  - Snap
-```bash
-sudo snap install ffmpeg
-```
-
-###### Windows
-Steps are [based on video.stackexchange.com/a/20496](https://video.stackexchange.com/a/20496), please note that the download site is outdated as of January 2021.
-  - Download the `release full` variant from <https://www.gyan.dev/ffmpeg/builds/>. You can download any variant you want, but I prefer the full release.
-  - Decompress the archive.
-  - Copy the bin directory from the decompressed folder, and paste inside `C:\Program Files\ffmpeg\`.
-  - Right click on "This PC" and navigate to `Properties > Advanced System Settings > Advanced tab > Environment Variables`.
-  - In the Environment Variables window, click the "Path" row under the "Variable" column, then click Edit.
-  - Click New and add `C:\Program Files\ffmpeg\bin\`to the list.
-  - Click Ok on all the windows we just opened up. (Answer postive)
-
-If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you.
-
-Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>.
-
-###### macOS
-```bash
-brew install ffmpeg
-```
-</p>
-</details>
+You must have [ffmpeg](https://ffmpeg.org/) installed to use this software. If don't know how to install it please read
+[How to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F).
 
 
 #### Install videohash
@@ -103,7 +69,8 @@ pip install git+https://github.com/akamhy/videohash.git
 0
 >>> hash2 - "0x341fefff8f780000"
 0
->>> hash1 - "0b0011010000011111111011111111111110001111011110000000000000000000"0
+>>> hash1 - "0b0011010000011111111011111111111110001111011110000000000000000000"
+0
 >>> hash1 == hash2
 True
 >>> hash1 != hash2
@@ -128,13 +95,15 @@ False
 34
 >>> hash4 != hash2
 True
->>> hash4 - "0b0011010000011111111011111111111110001111011110000000000000000000"34
->>> hash4 - "0b0111110011111111111111110000000000000000000000001110111111110000"0
+>>> hash4 - "0b0011010000011111111011111111111110001111011110000000000000000000"
+34
+>>> hash4 - "0b0111110011111111111111110000000000000000000000001110111111110000"
+0
 >>> hash4 - "0x7cffff000000eff0"
 0
 >>>
 ```
-<sub>Run the above code @ </sub>
+<sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
 
 
 
@@ -143,8 +112,10 @@ True
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
-
 Released under the MIT License. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
+
+Videos are from NASA and are in the public domain.
+> NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
 
 ------------------------------------------------------------------------------------
