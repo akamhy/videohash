@@ -25,7 +25,7 @@ class VideoHash(object):
     class.
     """
 
-    def __init__(self, path=None, url=None, storage_path=None):
+    def __init__(self, path=None, url=None, storage_path=None, download_worst=True):
         """
         :param path: absolute path of the video file.
 
@@ -35,10 +35,17 @@ class VideoHash(object):
         :param storage_path: If you want to provide a storage path for the files
                              created/downloaded by the instance, pass the
                              absolute path to that directory.
+
+        :param download_worst: If set to False, download the default quality of
+                               youtube-dl/yt-dlp downloader. These two downloaders
+                               usually default to the best quality available.
+                               Worst quality may be an issue for some users, they
+                               are free to set the download_worst to False.
         """
         self.path = path
         self.url = url
         self.storage_path = storage_path
+        self.download_worst = download_worst
         self.video_path = None
         self.task_uid = VideoHash._get_task_uid()
         self._create_required_dirs_and_check_for_errors()
@@ -174,7 +181,12 @@ class VideoHash(object):
             copyfile(self.path, self.video_path)
 
         if self.url:
-            Download(self.url, self.video_download_dir, youtube_dl_path=None)
+            Download(
+                self.url,
+                self.video_download_dir,
+                youtube_dl_path=None,
+                worst=self.download_worst,
+            )
             downloaded_file = get_list_of_all_files_in_dir(self.video_download_dir)[0]
             self.video_path = "%svideo.%s" % (
                 self.video_dir,

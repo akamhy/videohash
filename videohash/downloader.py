@@ -19,7 +19,7 @@ class Download(object):
     Uses youtube-dl or yt-dl to download the videos.
     """
 
-    def __init__(self, url, output_dir, youtube_dl_path=None):
+    def __init__(self, url, output_dir, youtube_dl_path=None, worst=True):
         """
         Check if output_dir exists and is a directory, must end with "/".
         Check youtube_dl_path and verify that it is working else raises Exception.
@@ -33,10 +33,16 @@ class Download(object):
         :param youtube_dl_path: If youtube_dl is not in path environment variable,
                                 pass the path to the youtube-dl or yt-dlp to this param.
                                 Must be string and only absolute path allowed.
+
+        :param worst: The quality of video downloaded by the downloader.
+                      True for worst quality and False for the default settings
+                      of the downloader. The downloaders are yt-dlp and youtube_dl.
+                      Default worst is True
         """
         self.url = url
         self.output_dir = output_dir
         self.youtube_dl_path = youtube_dl_path
+        self.worst = worst
 
         if not does_path_exists(self.output_dir):
             raise DownloadOutPutDirDoesNotExits(
@@ -94,9 +100,13 @@ class Download(object):
             youtube_dl_path = shlex.quote(self.youtube_dl_path)
             output_dir = shlex.quote(self.output_dir)
 
+        worst = " "
+        if self.worst:
+            worst = " -f worst "
+
         command = (
             youtube_dl_path
-            + " -f worst "
+            + worst
             + " "
             + '"'
             + self.url
