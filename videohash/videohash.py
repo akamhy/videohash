@@ -45,6 +45,7 @@ class VideoHash(object):
         self.path = path
         self.url = url
         self.storage_path = storage_path
+        self._storage_path = storage_path
         self.download_worst = download_worst
         self.video_path = None
         self.task_uid = VideoHash._get_task_uid()
@@ -244,7 +245,13 @@ class VideoHash(object):
 
     def delete_storage_path(self):
         """Delete the storage_path directory tree."""
-        shutil.rmtree(self.storage_path, ignore_errors=True, onerror=None)
+        dir = self.storage_path
+        if not self._storage_path:
+            dir = "%s%s" % (
+                os.path.dirname(os.path.dirname(os.path.dirname(self.storage_path))),
+                os.path.sep,
+            )
+        shutil.rmtree(dir, ignore_errors=True, onerror=None)
 
     @staticmethod
     def _get_task_uid():
