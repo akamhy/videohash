@@ -6,8 +6,8 @@
 # ░░░╚═╝░░░╚═╝╚═════╝░╚══════╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝
 
 """
-A Python Perceptual Video Hashing/Fingerprinting Package
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A Python package for Perceptual Video Hashing and Video Fingerprinting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 https://github.com/akamhy/videohash
 
 Usage:
@@ -81,6 +81,7 @@ from .__version__ import (
     __description__,
     __url__,
     __version__,
+    __status__,
     __author__,
     __author_email__,
     __license__,

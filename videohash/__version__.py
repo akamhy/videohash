@@ -1,7 +1,10 @@
 __title__ = "videohash"
-__description__ = "A Python Perceptual Video Hashing/Fingerprinting Package"
+__description__ = (
+    "A Python package for Perceptual Video Hashing and Video Fingerprinting"
+)
 __url__ = "https://akamhy.github.io/videohash/"
 __version__ = "2.0.0"
+__status__ = "production"
 __author__ = "Akash Mahanty"
 __author_email__ = "akamhy@yahoo.com"
 __license__ = "MIT"
