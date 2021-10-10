@@ -21,7 +21,7 @@
 
 
 ### Installation
-You must have [ffmpeg](https://ffmpeg.org/) installed to use this software. If don't know how to install it please read
+You must have [FFmpeg](https://ffmpeg.org/) installed to use this software. If you don't know how to install FFmpeg, please read
 [How to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F).
 
 
