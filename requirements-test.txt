@@ -1,7 +1,10 @@
+requests
 pytest
-patool
-flake8
-pytest
-codecov
 pytest-cov
+codecov
+patool
+pyunpack
+flake8
 black
+
+
