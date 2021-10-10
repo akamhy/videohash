@@ -44,7 +44,7 @@ class VideoHash(object):
         self._create_required_dirs_and_check_for_errors()
         self._copy_video_to_video_dir()
         FramesExtractor(self.video_path, self.frames_dir, interval=1, ffmpeg_path=None)
-        self.collage_path = self.collage_dir + "collage.jpg"
+        self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
         MakeCollage(
             get_list_of_all_files_in_dir(self.frames_dir),
             self.collage_path,
@@ -170,16 +170,15 @@ class VideoHash(object):
             else:
                 raise ValueError("File name (path) does not have an extension.")
 
-            self.video_path = self.video_dir + "video." + extension
+            self.video_path = os.path.join(self.video_dir, ("video.%s" % extension))
             copyfile(self.path, self.video_path)
 
         if self.url:
             Download(self.url, self.video_download_dir, youtube_dl_path=None)
             downloaded_file = get_list_of_all_files_in_dir(self.video_download_dir)[0]
-            self.video_path = (
-                self.video_dir
-                + "video."
-                + re.search(r"\.(.*?)$", downloaded_file).group(1)
+            self.video_path = "%svideo.%s" % (
+                self.video_dir,
+                re.search(r"\.(.*?)$", downloaded_file).group(1),
             )
             copyfile(downloaded_file, self.video_path)
 
@@ -217,14 +216,18 @@ class VideoHash(object):
                 "Storage path '%s' does not exist." % self.storage_path
             )
 
-        self.storage_path = self.storage_path + ("%s/" % self.task_uid)
-        self.video_dir = self.storage_path + "video/"
+        self.storage_path = os.path.join(
+            self.storage_path, ("%s%s" % (self.task_uid, os.path.sep))
+        )
+        self.video_dir = os.path.join(self.storage_path, ("video%s" % os.path.sep))
         Path(self.video_dir).mkdir(parents=True, exist_ok=True)
-        self.video_download_dir = self.storage_path + "downloadedvideo/"
+        self.video_download_dir = os.path.join(
+            self.storage_path, ("downloadedvideo%s" % os.path.sep)
+        )
         Path(self.video_download_dir).mkdir(parents=True, exist_ok=True)
-        self.frames_dir = self.storage_path + "frames/"
+        self.frames_dir = os.path.join(self.storage_path, ("frames%s" % os.path.sep))
         Path(self.frames_dir).mkdir(parents=True, exist_ok=True)
-        self.collage_dir = self.storage_path + "collage/"
+        self.collage_dir = os.path.join(self.storage_path, ("collage%s" % os.path.sep))
         Path(self.collage_dir).mkdir(parents=True, exist_ok=True)
 
     @staticmethod
@@ -235,8 +238,7 @@ class VideoHash(object):
         """
         sys_random = random.SystemRandom()
         return "".join(
-            sys_random.choice("abcdefghijklmnopqrstuvwxyz" + "0123456789")
-            for _ in range(12)
+            sys_random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(12)
         )
 
     @staticmethod
@@ -264,7 +266,9 @@ class VideoHash(object):
         """
         if not hexstr.lower().startswith("0x"):
             raise ValueError("Input hexadecimal string must have '0x' as the prefix.")
-        return "0b" + str(bin(int(hexstr.lower(), 0))).replace("0b", "").zfill(padding)
+        return "0b%s" % (
+            str(bin(int(hexstr.lower(), 0))).replace("0b", "").zfill(padding)
+        )
 
     @staticmethod
     def bin2hex(binstr):
@@ -303,5 +307,5 @@ class VideoHash(object):
                 self.hash += "0"
 
         # the binary value must be prefixed with 0b.
-        self.hash = "0b" + self.hash
+        self.hash = "0b%s" % self.hash
         self.hash_hex = VideoHash.bin2hex(self.hash)

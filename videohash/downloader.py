@@ -88,9 +88,12 @@ class Download(object):
 
     def download_video(self):
         """Download the video from URL"""
+        if os.name == "posix":
+            youtube_dl_path = shlex.quote(self.youtube_dl_path)
+            output_dir = shlex.quote(self.output_dir)
 
         command = (
-            shlex.quote(self.youtube_dl_path)
+            youtube_dl_path
             + " -f worst "
             + " "
             + '"'
@@ -98,7 +101,7 @@ class Download(object):
             + '"'
             + " -o "
             + '"'
-            + shlex.quote(self.output_dir)
+            + output_dir
             + "video_file.%(ext)s"
             + '"'
         )

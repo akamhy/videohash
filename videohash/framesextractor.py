@@ -1,3 +1,4 @@
+import os
 import shlex
 from shutil import which
 from subprocess import check_output, Popen, PIPE
@@ -89,18 +90,23 @@ class FramesExtractor(object):
         Extract the frames at every n seconds where n is the
         integer set to self.interval.
         """
+        if os.name == "posix":
+            ffmpeg_path = shlex.quote(self.ffmpeg_path)
+            video_path = shlex.quote(self.video_path)
+            output_dir = shlex.quote(self.output_dir)
+
         command = (
-            shlex.quote(self.ffmpeg_path)
+            ffmpeg_path
             + " -i "
             + '"'
-            + shlex.quote(self.video_path)
+            + video_path
             + '"'
             + " -s 144x144 "
             + " -r "
             + str(self.interval)
             + " "
             + '"'
-            + shlex.quote(self.output_dir)
+            + self.output_dir
             + "video_frame_%07d.jpeg"
             + '"'
         )
@@ -111,15 +117,7 @@ class FramesExtractor(object):
         ffmpeg_output = output.decode()
         ffmpeg_error = error.decode()
 
-        command_for_number_of_files = "ls " + self.output_dir + " | wc -l"
-
-        process = Popen(
-            command_for_number_of_files, shell=True, stdout=PIPE, stderr=PIPE
-        )
-
-        out, err = process.communicate()
-
-        if "0\n" == out.decode():
+        if len(os.listdir(self.output_dir)) == 0:
             raise FFmpegFailedToExtractFrames(
                 "FFmpeg could not extract any frames.\n%s\n%s\n%s"
                 % (command, ffmpeg_output, ffmpeg_error)
