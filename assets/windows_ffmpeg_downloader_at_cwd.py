@@ -1,23 +1,15 @@
-"""This file downloads the
-ffmpeg binaries from google
-drive and writes them at
-os.getcwd()
-"""
-
+from pyunpack import Archive
 import requests
-import zipfile
 import os
-from os.path import join
 from pathlib import Path
+from shutil import copyfile
 
 
 base = os.getcwd()
 
 Path(base).mkdir(parents=True, exist_ok=True)
 
-ffmpeg_url = (
-    "https://drive.google.com/uc?export=download&id=1HNKmdxYLpBfjg30EDFMuTXtfCFLkwvI9"
-)
+ffmpeg_url = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z"
 
 tries = 0
 while True:
@@ -30,7 +22,19 @@ while True:
     if tries > 5:
         break
 
-ffmpeg_path = join(base, "ffmpeg.exe")
-with open(ffmpeg_path, "wb") as fd:
+ffmpeg_7z_path = os.path.join(base, "ffmpeg_full.7z")
+with open(ffmpeg_7z_path, "wb") as fd:
     fd.write(r.content)
-print(ffmpeg_path)
+print(ffmpeg_7z_path)
+
+
+Archive(ffmpeg_7z_path).extractall(".")
+
+build_dir = None
+for file in os.listdir(base):
+    if "build" in file:
+        build_dir = os.path.join(base, (file + os.path.sep))
+        break
+
+ffmpeg_path = os.path.join(build_dir, "bin", "ffmpeg.exe")
+copyfile(ffmpeg_path, os.path.join(base, "ffmpeg.exe"))

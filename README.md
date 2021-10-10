@@ -2,7 +2,7 @@
 
 <h1> VideoHash </h1>
 
-<h3>A simple Video Hashing Library</h3>
+<h2>A Python package for Perceptual Video Hashing and Video Fingerprinting</h2>
 
 </div>
 
@@ -21,42 +21,8 @@
 
 
 ### Installation
-You must have [ffmpeg](https://ffmpeg.org/) installed to use this library.
-<details><summary>➤ Install FFmpeg</summary>
-<p>
-
-###### Linux
-
-  - APT
-```bash
-sudo apt-get update
-sudo apt install ffmpeg
-```
-  - Snap
-```bash
-sudo snap install ffmpeg
-```
-
-###### Windows
-Steps are [based on video.stackexchange.com/a/20496](https://video.stackexchange.com/a/20496), please note that the download site is outdated as of January 2021.
-  - Download the `release full` variant from <https://www.gyan.dev/ffmpeg/builds/>. You can download any variant you want, but I prefer the full release.
-  - Decompress the archive.
-  - Copy the bin directory from the decompressed folder, and paste inside `C:\Program Files\ffmpeg\`.
-  - Right click on "This PC" and navigate to `Properties > Advanced System Settings > Advanced tab > Environment Variables`.
-  - In the Environment Variables window, click the "Path" row under the "Variable" column, then click Edit.
-  - Click New and add `C:\Program Files\ffmpeg\bin\`to the list.
-  - Click Ok on all the windows we just opened up. (Answer postive)
-
-If you still have doubts read the answer <https://video.stackexchange.com/a/20496>, it has images to guide you.
-
-Prefer video? <https://www.youtube.com/watch?v=qjtmgCb8NcE>.
-
-###### macOS
-```bash
-brew install ffmpeg
-```
-</p>
-</details>
+You must have [FFmpeg](https://ffmpeg.org/) installed to use this software. If you don't know how to install FFmpeg, please read
+[How to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F).
 
 
 #### Install videohash
@@ -76,82 +42,80 @@ pip install git+https://github.com/akamhy/videohash.git
 ### Usage
 
 ```python
->>> import videohash
->>> hash1 = videohash.from_url("https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv")
+>>> from videohash import VideoHash
+>>> hash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA")
 >>> str(hash1)
-'fe3fffff8ff80000'
->>> hash2 = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA")
->>> str(hash2)
-'fe3fffff9ff80000'
->>>
->>> diff = hash1 - hash2
->>> diff
-1
->>>
->>> hash3 = videohash.from_url("https://www.youtube.com/watch?v=_T8cn2J13-4")
->>> diff = hash1 - hash3
->>> diff
-29
->>> str(hash3)
-'3cffff00000081f0'
->>>
->>> #hash4 file is hash1 file downloaded locally. NOTE :  Use absolute path
->>> hash4 = videohash.from_path("/home/akamhy/Downloads/rocket.mkv")
->>> diff = hash4 - hash1
->>> diff
+'0b0011010000011111111011111111111110001111011110000000000000000000'
+>>> hash1.hash
+'0b0011010000011111111011111111111110001111011110000000000000000000'
+>>> hash1.hash_hex
+'0x341fefff8f780000'
+>>> repr(hash1)
+'VideoHash(hash=0b0011010000011111111011111111111110001111011110000000000000000000, hash_hex=0x341fefff8f780000, collage_path=/tmp/tmp3kzva948/temp_storage_dir/kyci5lleck1z/collage/collage.jpg, bits_in_hash=64)'
+>>> hash1.collage_path
+'/tmp/tmp3kzva948/temp_storage_dir/kyci5lleck1z/collage/collage.jpg'
+>>> hash1.bits_in_hash
+64
+>>> len(hash1)
+66
+>>> hash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv")
+>>> hash2.hash
+'0b0011010000011111111011111111111110001111011110000000000000000000'
+>>> hash2.hash_hex
+'0x341fefff8f780000'
+>>> hash1.hash_hex
+'0x341fefff8f780000'
+>>> hash1 - hash2
+0
+>>> hash2 - "0x341fefff8f780000"
+0
+>>> hash1 - "0b0011010000011111111011111111111110001111011110000000000000000000"
+0
+>>> hash1 == hash2
+True
+>>> hash1 != hash2
+False
+>>> hash3 = VideoHash(path="/home/akamhy/Downloads/rocket.mkv")
+>>> hash3.hash_hex
+'0x341fefff8f780000'
+>>> hash3.hash
+'0b0011010000011111111011111111111110001111011110000000000000000000'
+>>> hash3 - hash2
+0
+>>> hash3 == hash1
+True
+>>> hash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4")
+>>> hash4.hash_hex
+'0x7cffff000000eff0'
+>>> hash4.hash
+'0b0111110011111111111111110000000000000000000000001110111111110000'
+>>> hash4 == hash3
+False
+>>> hash4 - hash2
+34
+>>> hash4 != hash2
+True
+>>> hash4 - "0b0011010000011111111011111111111110001111011110000000000000000000"
+34
+>>> hash4 - "0b0111110011111111111111110000000000000000000000001110111111110000"
+0
+>>> hash4 - "0x7cffff000000eff0"
 0
 >>>
 ```
-<sub>Run the above code @ <https://repl.it/@akamhy/video-hash-example#main.py></sub>
+<sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
 
 
-  - <https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv> is copy of <https://www.youtube.com/watch?v=PapBjpzRhnA>, and are about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program) and [SLS rocket](https://en.wikipedia.org/wiki/Space_Launch_System).
-
-  - <https://www.youtube.com/watch?v=_T8cn2J13-4> is an entirely distinct video also about the [Artemis program](https://en.wikipedia.org/wiki/Artemis_program).
-
-  - Notice that the difference of hash1 and hash2 is 1, but the difference between hash1 and hash3 is 29.
-
-  - The difference of hash1 and hash2 is not 0 as the file in this repository is slightly modified and downscaled.
-
-  - A collage of frames is generated and imagehash(Average hashing) of this collage is videohash for the full video.
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/collage.jpeg"><br>
-</div>
-
-
-
-You can change the algorithm used to generate the hash of the collage via the `image_hash` argument. The default algorithm is `average_hash`.
-
-```python
->>> hash = videohash.from_url("https://www.youtube.com/watch?v=PapBjpzRhnA", image_hash="crop_resistant_hash")
->>> hash = videohash.from_path("/home/akamhy/Downloads/rocket.mkv", image_hash="phash")
-```
-<details><summary>➤ Algorithms supported</summary>
-
-<p>
-
-- `average_hash`
-- `phash`
-- `dhash`
-- `whash`
-- `colorhash`
-- `crop_resistant_hash`
-
-</p>
-
-</details>
-
-videohash is using <https://github.com/JohannesBuchner/imagehash> to use these image-hashing algorithms.
 
 
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
-NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
-
 Released under the MIT License. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
+
+Videos are from NASA and are in the public domain.
+> NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
 
 ------------------------------------------------------------------------------------
