@@ -19,7 +19,7 @@ def does_path_exists(path):
 
 
     """
-    if path.endswith("/"):
+    if path.endswith("/") or path.endswith("\\"):
         # it's directory
         return os.path.isdir(path)
 
@@ -32,6 +32,6 @@ def create_and_return_temporary_directory():
     """
     create a temporary directory where we can store the video, frames and the collage.
     """
-    path = os.path.join(tempfile.mkdtemp(), "temp_storage_dir/")
+    path = os.path.join(tempfile.mkdtemp(), ("temp_storage_dir%s" % os.path.sep))
     Path(path).mkdir(parents=True, exist_ok=True)
     return path
