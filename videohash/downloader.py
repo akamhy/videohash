@@ -1,9 +1,10 @@
-from .exceptions import YouTubeDLNotFound, DownloadOutPutDirDoesNotExits, DownloadFailed
-from shutil import which
-from subprocess import check_output, Popen, PIPE
 import re
 import shlex
+import os
+from shutil import which
+from subprocess import check_output, Popen, PIPE
 from .utils import does_path_exists
+from .exceptions import YouTubeDLNotFound, DownloadOutPutDirDoesNotExits, DownloadFailed
 
 """
 Python module to download the video from URL supplied.
@@ -108,15 +109,7 @@ class Download(object):
         youtube_dl_output = output.decode()
         youtube_dl_error = error.decode()
 
-        command_for_number_of_files = "ls " + self.output_dir + " | wc -l"
-
-        process = Popen(
-            command_for_number_of_files, shell=True, stdout=PIPE, stderr=PIPE
-        )
-
-        out, err = process.communicate()
-
-        if "0\n" == out.decode():
+        if len(os.listdir(self.output_dir)) == 0:
             raise DownloadFailed(
                 "%s failed to download the video at '%s'.\n%s\n%s"
                 % (self.youtube_dl_path, self.url, youtube_dl_output, youtube_dl_error)
