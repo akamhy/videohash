@@ -1,0 +1,6 @@
+pytest
+patool
+flake8
+pytest
+codecov
+pytest-cov
