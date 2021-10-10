@@ -3,7 +3,7 @@ import random
 import re
 from PIL import Image
 import imagehash
-from shutil import copyfile
+import shutil
 from pathlib import Path
 
 from .collagemaker import MakeCollage
@@ -178,7 +178,7 @@ class VideoHash(object):
                 raise ValueError("File name (path) does not have an extension.")
 
             self.video_path = os.path.join(self.video_dir, ("video.%s" % extension))
-            copyfile(self.path, self.video_path)
+            shutil.copyfile(self.path, self.video_path)
 
         if self.url:
             Download(
@@ -192,7 +192,7 @@ class VideoHash(object):
                 self.video_dir,
                 re.search(r"\.(.*?)$", downloaded_file).group(1),
             )
-            copyfile(downloaded_file, self.video_path)
+            shutil.copyfile(downloaded_file, self.video_path)
 
     def _create_required_dirs_and_check_for_errors(self):
         """
@@ -241,6 +241,10 @@ class VideoHash(object):
         Path(self.frames_dir).mkdir(parents=True, exist_ok=True)
         self.collage_dir = os.path.join(self.storage_path, ("collage%s" % os.path.sep))
         Path(self.collage_dir).mkdir(parents=True, exist_ok=True)
+
+    def delete_storage_path(self):
+        """Delete the storage_path directory tree."""
+        shutil.rmtree(self.storage_path, ignore_errors=True, onerror=None)
 
     @staticmethod
     def _get_task_uid():

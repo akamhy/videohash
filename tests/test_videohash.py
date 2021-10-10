@@ -13,6 +13,7 @@ def test_all():
         "https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv"
     )
     videohash1 = VideoHash(url=source1)
+    videohash1.delete_storage_path()
     hash1 = videohash1.hash
     hash_hex1 = videohash1.hash_hex
     assert hash1 == "0b0011010000011111111011111111111110001111011110000000000000000000"
