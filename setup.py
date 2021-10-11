@@ -20,7 +20,7 @@ setup(
     author_email=about["__author_email__"],
     url=about["__url__"],
     download_url="https://github.com/akamhy/videohash/archive/%s.tar.gz"
-    % ["__version__"],
+    % about["__version__"],
     keywords=[
         "videohash",
         "video hashing",
