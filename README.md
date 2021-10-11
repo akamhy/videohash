@@ -2,7 +2,7 @@
 
 <h1> VideoHash </h1>
 
-<h2>A Python package for Perceptual Video Hashing and Video Fingerprinting</h2>
+<h2> Python package for Perceptual Video Hashing </h2>
 
 </div>
 
