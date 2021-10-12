@@ -41,6 +41,7 @@ pip install git+https://github.com/akamhy/videohash.git
 
 ### Features
   - Generate videohash of a video directly from its URL or its path.
+  - Can be used to implement scalable Near Duplicate Video Retrieval.
   - Image representation of the video is accessible by the end-user.
   - An instance of videohash can be compared with a stored hash(64-bit), its hex representation, and other instances of videohash.
   - Faster than the primitive process of comparing all the frames one by one. The videohash package produces a single 64-bit hash, a lot of database space is saved. And the number of comparisons required drops significantly.
