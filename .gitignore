@@ -1,6 +1,9 @@
 # Report
 report.html
 
+# ffmpeg install on tests @ windows
+ffmpeg*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

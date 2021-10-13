@@ -5,36 +5,18 @@ from pathlib import Path
 from shutil import copyfile
 
 
-base = os.getcwd()
-
-Path(base).mkdir(parents=True, exist_ok=True)
-
-ffmpeg_url = "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z"
-
-tries = 0
-while True:
-    tries += 1
-    try:
-        r = requests.get(ffmpeg_url)
-        break
-    except Exception as e:
-        print(e)
-    if tries > 5:
-        break
-
-ffmpeg_7z_path = os.path.join(base, "ffmpeg_full.7z")
+cwd = os.getcwd()
+Path(cwd).mkdir(parents=True, exist_ok=True)
+ffmpeg_7z_path = os.path.join(cwd, "ffmpeg_full.7z")
 with open(ffmpeg_7z_path, "wb") as fd:
-    fd.write(r.content)
-print(ffmpeg_7z_path)
-
-
+    fd.write(
+        requests.get("https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z").content
+    )
 Archive(ffmpeg_7z_path).extractall(".")
-
-build_dir = None
-for file in os.listdir(base):
-    if "build" in file:
-        build_dir = os.path.join(base, (file + os.path.sep))
+for file in os.listdir(cwd):
+    if "build" and "ffmpeg" in file:
+        copyfile(
+            os.path.join(os.path.join(cwd, (file + os.path.sep)), "bin", "ffmpeg.exe"),
+            os.path.join(cwd, "ffmpeg.exe"),
+        )
         break
-
-ffmpeg_path = os.path.join(build_dir, "bin", "ffmpeg.exe")
-copyfile(ffmpeg_path, os.path.join(base, "ffmpeg.exe"))

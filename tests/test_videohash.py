@@ -34,16 +34,16 @@ def test_all():
         assert videohash1 != hash_hex1
 
     with pytest.raises(TypeError):
-        videohash1 - None
+        _ = videohash1 - None
 
     with pytest.raises(ValueError):
-        videohash1 - hash1[0:-2]
+        _ = videohash1 - hash1[0:-2]
 
     with pytest.raises(TypeError):
-        videohash1 - ("XX" + hash1[2:])
+        _ = videohash1 - ("XX" + hash1[2:])
 
     with pytest.raises(TypeError):
-        videohash1 - True
+        _ = videohash1 - True
 
     source2 = (
         this_dir

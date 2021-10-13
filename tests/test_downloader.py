@@ -38,7 +38,7 @@ def test_all():
     url = "https://www.youtube.com/watch?v=ThisVideoDN"
     _dir = create_and_return_temporary_directory()
     with pytest.raises(YouTubeDLNotFound):
-        download2 = Download(
+        Download(
             url=url, output_dir=_dir, youtube_dl_path="/home/akamhy/ytdlfake"
         )  # non existant youtube_dl path
 
