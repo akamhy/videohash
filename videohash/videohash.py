@@ -18,6 +18,7 @@ from .utils import (
 
 
 class VideoHash(object):
+
     """
     The VideoHash class provides an interface for computing & comparing the hash
     values for files supported by the ffmpeg. Every video format, encoding and
@@ -245,13 +246,13 @@ class VideoHash(object):
 
     def delete_storage_path(self):
         """Delete the storage_path directory tree."""
-        dir = self.storage_path
+        directory = self.storage_path
         if not self._storage_path:
-            dir = "%s%s" % (
+            directory = "%s%s" % (
                 os.path.dirname(os.path.dirname(os.path.dirname(self.storage_path))),
                 os.path.sep,
             )
-        shutil.rmtree(dir, ignore_errors=True, onerror=None)
+        shutil.rmtree(directory, ignore_errors=True, onerror=None)
 
     @staticmethod
     def _get_task_uid():

@@ -4,7 +4,6 @@ from videohash.collagemaker import MakeCollage
 from videohash.exceptions import CollageOfZeroFramesError
 from videohash.utils import (
     create_and_return_temporary_directory,
-    get_list_of_all_files_in_dir,
 )
 
 

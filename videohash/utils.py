@@ -3,12 +3,12 @@ import tempfile
 from pathlib import Path
 
 
-def get_list_of_all_files_in_dir(dir):
+def get_list_of_all_files_in_dir(directory):
     """
     Returns a list containing all the file paths(absolute path) in a directory.
     The list is sorted.
     """
-    return sorted([(dir + filename) for filename in os.listdir(dir)])
+    return sorted([(directory + filename) for filename in os.listdir(directory)])
 
 
 def does_path_exists(path):

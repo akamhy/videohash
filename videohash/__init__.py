@@ -8,7 +8,6 @@
 
 """
 Python package for Perceptual Video Hashing (Near Duplicate Video Detection)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 https://github.com/akamhy/videohash
 

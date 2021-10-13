@@ -11,13 +11,12 @@ from .exceptions import (
 )
 
 
-"""
-python module to extract the frames from the input video.
-Uses the FFmpeg Software to extract the frames.
-"""
+# python module to extract the frames from the input video.
+# Uses the FFmpeg Software to extract the frames.
 
 
 class FramesExtractor(object):
+
     """
     extract from from the passed video file and save at the output directory.
     """

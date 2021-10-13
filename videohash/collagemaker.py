@@ -5,13 +5,13 @@ import os
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
 
-"""
-Module to create collage from list of images, the
-images are the extracted frames of the input video.
-"""
+
+# Module to create collage from list of images, the
+# images are the extracted frames of the input video.
 
 
 class MakeCollage(object):
+
     """
     Class that creates the collage from list of images.
 

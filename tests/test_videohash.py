@@ -34,16 +34,16 @@ def test_all():
         assert videohash1 != hash_hex1
 
     with pytest.raises(TypeError):
-        none_err_diff = videohash1 - None
+        videohash1 - None
 
     with pytest.raises(ValueError):
-        bin_len_err_diff = videohash1 - hash1[0:-2]
+        videohash1 - hash1[0:-2]
 
     with pytest.raises(TypeError):
-        prefix_err_diff = videohash1 - ("XX" + hash1[2:])
+        videohash1 - ("XX" + hash1[2:])
 
     with pytest.raises(TypeError):
-        non_str_and_videohash_error = videohash1 - True
+        videohash1 - True
 
     source2 = (
         this_dir
@@ -78,7 +78,6 @@ def test_all():
     source4 = "https://www.youtube.com/watch?v=_T8cn2J13-4"
     videohash4 = VideoHash(url=source4)
     hash4 = videohash4.hash
-    hash_hex4 = videohash4.hash_hex
 
     assert hash4 != hash1
     assert hash4 != hash2
