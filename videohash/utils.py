@@ -4,8 +4,11 @@ from pathlib import Path
 
 
 def get_list_of_all_files_in_dir(dir):
-    file_list = [(dir + filename) for filename in os.listdir(dir)]
-    return sorted(file_list)
+    """
+    Returns a list containing all the file paths(absolute path) in a directory.
+    The list is sorted.
+    """
+    return sorted([(dir + filename) for filename in os.listdir(dir)])
 
 
 def does_path_exists(path):
@@ -13,11 +16,9 @@ def does_path_exists(path):
     If a directory is supplied then check if it exists.
     If a file is supplied then check if it exists.
 
-    Directory ends with "/" and files do not.
+    Directory ends with "/" on posix or "\" in windows and files do not.
 
     If directory/file exists returns True else returns False
-
-
     """
     if path.endswith("/") or path.endswith("\\"):
         # it's directory

@@ -3,11 +3,15 @@ import shlex
 import os
 from shutil import which
 from subprocess import check_output, Popen, PIPE
+
 from .utils import does_path_exists
 from .exceptions import YouTubeDLNotFound, DownloadOutPutDirDoesNotExits, DownloadFailed
 
 """
-Python module to download the video from URL supplied.
+Python module to download the video from the input URL.
+Uses youtube_dl or yt-dlp to download the video.
+If both yt-dlp and youtube_dl are installed, it selects
+yt-dlp. yt-dlp is more maintained than youtube_dl.
 """
 
 

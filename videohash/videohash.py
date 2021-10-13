@@ -329,6 +329,6 @@ class VideoHash(object):
             else:
                 self.hash += "0"
 
-        # the binary value must be prefixed with 0b.
+        # the binary value is prefixed with 0b.
         self.hash = "0b%s" % self.hash
         self.hash_hex = VideoHash.bin2hex(self.hash)

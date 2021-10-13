@@ -2,6 +2,7 @@ import os
 import shlex
 from shutil import which
 from subprocess import check_output, Popen, PIPE
+
 from .utils import does_path_exists
 from .exceptions import (
     FramesExtractorOutPutDirDoesNotExits,
@@ -11,7 +12,8 @@ from .exceptions import (
 
 
 """
-python module to extract the frames from a video.
+python module to extract the frames from the input video.
+Uses the FFmpeg Software to extract the frames.
 """
 
 
@@ -79,7 +81,7 @@ class FramesExtractor(object):
         except FileNotFoundError:
             raise FFmpegNotFound("FFmpeg not found at '%s'." % self.ffmpeg_path)
         else:
-            if not "ffmpeg version" in output:
+            if "ffmpeg version" not in output:
                 raise FFmpegNotFound(
                     "ffmpeg at '%s' is not really ffmpeg. Output of ffmpeg -version is \n'%s'."
                     % (self.ffmpeg_path, output)
@@ -109,7 +111,7 @@ class FramesExtractor(object):
             + str(self.interval)
             + " "
             + '"'
-            + self.output_dir
+            + output_dir
             + "video_frame_%07d.jpeg"
             + '"'
         )

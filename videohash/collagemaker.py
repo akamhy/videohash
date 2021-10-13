@@ -1,12 +1,13 @@
 from math import ceil, sqrt
 from PIL import Image
 import os
+
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
 
 """
 Module to create collage from list of images, the
-images are extracted frames of the video.
+images are the extracted frames of the input video.
 """
 
 
@@ -16,8 +17,9 @@ class MakeCollage(object):
 
     Collage that should be as close to the shape of a square.
 
-    The images must be arranged in the sequence of the list,
-    they are arranged by timestamp of the frames.
+    The images are arranged by timestamp of the frames, their
+    index in the image_list is based on thier timestamp on the
+    video.
 
     Example:
     Let's say we have a list with 9 images.
@@ -54,20 +56,20 @@ class MakeCollage(object):
     vacant spaces.
     """
 
-    def __init__(self, image_list, output_path, collage_image_width=720):
+    def __init__(self, image_list, output_path, collage_image_width=1024):
         """
         Checks if the list passed is not an empty list.
         Also makes sure that the output_path directory exists.
 
-        And calls the make method.
+        And calls the make method, make method creates the collage.
 
         :param image_list: A python list instance containing the list of absolute
                            path of images that are to be added in the collage.
-                           The order of image is kept intact.
+                           The order of images is kept intact.
 
         :param output_path: A string of the absolute path of the image including
                             the image name.
-                            Example: '/home/alex/projects/collage.jpeg'.
+                            Example: '/home/username/projects/collage.jpeg'.
 
         :param collage_image_width: An integer specifying the image width of the
                                     output collage. Default value is 1024 pixels.
@@ -100,12 +102,13 @@ class MakeCollage(object):
 
         It calculates the scale of the images on collage by
         measuring the first image width and height, there's no
-        reason for choosing first one and it's arbitrary.
+        reason for choosing first one and it's arbitrary. But
+        we assume that all the images passed should have same size.
 
         Read the comments made in the code to understand how the
         collage maker algorithm works.
         """
-        # arbitrary selecting the first image from the list
+        # arbitrarily selecting the first image from the list, index 0
         first_frame_image = Image.open(self.image_list[0])
 
         # calculate the width and height of the first image of the list.
@@ -117,9 +120,10 @@ class MakeCollage(object):
         # clearly denominator will be bigger than numerator unless
         # collage_image_width is set to a very small integer, the video
         # is of very low resolution or collage_image_width is set to a big
-        # integer. It is not possible in real world.
+        # integer.
+
         # Therefore scale will always lie between 0 and 1, which implies that
-        # the imgges will always be downsized.
+        # the images are always going to get downsized.
         scale = (self.collage_image_width) / (
             self.images_per_row_in_collage * frame_image_width
         )
@@ -141,6 +145,8 @@ class MakeCollage(object):
 
         # Create an image of passed collage_image_width and calculated collage_image_height.
         # The downsized images will be pasted on this new base image.
+        # The image is 0,0,0 RGB(black) and can't affect the hash value also it reduces the
+        # issues with the black-bars in some videos.
         collage_image = Image.new(
             "RGB", (self.collage_image_width, self.collage_image_height)
         )
