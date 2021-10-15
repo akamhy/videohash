@@ -21,24 +21,24 @@
 
 --------------------------------------------------------------------------
 
-### Introduction
+## ⭐️ Introduction
 
-Videohash is a Python package for Near Duplicate Video Detection (Perceptual Video Hashing). The package can be used to generate a 64-bit comparable hash-value for any video input. The hash-values are the same or similar for identical/near-duplicate videos, which implies that hash-value should remain unchanged or not change drastically for the video if it's resized (upscaled/downscaled), transcoded, slightly-cropped, or black-bars added/removed.
+Videohash is a Python library for **detecting near-duplicate videos (Perceptual Video Hashing)**. Any video input can be used to build a 64-bit equivalent hash value with this package. The hash-values for identical/near-duplicate videos are the same or similar, implying that if the video is enlarged (upscaled/downscaled), transcoded, slightly cropped, or black-bars added/removed, the hash-value should remain unchanged or not vary substantially.
 
-How the hash values are calculated?
->  - Every one second a frame of the input video is extracted, the frames are resized to a 144x144 pixel square, a collage is created that embeds all the resized frames(square-shaped) in it, the wavelet hash value of the collage is computed, and it is the video hash value for the original input video.
+### How the hash values are calculated.
+>  - Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's wavelet hash value is computed, and the video hash value for the original input video is computed.
 
-When not to use Videohash?
->  - Videohash can not be used for verifying if one video is part of another video(video fingerprinting). Videohash doesn't produce the same or similar hash value if the video is reversed or rotated by a significant angle(more than 10 degrees), but you can always reverse the video yourself and generate the hash value for reversed video.
+### When not to use Videohash.
+>  - Videohash cannot be used to verify whether one video is a part of another (video fingerprinting). If the video is reversed or rotated by a substantial angle (greater than 10 degrees), Videohash will not provide the same or similar hash result, but you can always reverse the video manually and generate the hash value for reversed video.
 
-How to compare the video hash values stored in a database?
+### How to compare the video hash values stored in a database.
 > - Read [Hamming Distance / Similarity searches in a database - Stack Overflow](https://stackoverflow.com/questions/9606492/hamming-distance-similarity-searches-in-a-database) [(Archive link)](https://web.archive.org/web/20211015120052/https://stackoverflow.com/questions/9606492/hamming-distance-similarity-searches-in-a-database)
 
 --------------------------------------------------------------------------
 
-### Installation
-You must have [FFmpeg](https://ffmpeg.org/) installed to use this software. If you don't know how to install FFmpeg, please read
-[how to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F).
+### 🏗 Installation
+To use this software, you must have [FFmpeg](https://ffmpeg.org/) installed. Please read  
+[how to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F) if you don't already know how.
 
 
 #### Install videohash
@@ -46,27 +46,27 @@ You must have [FFmpeg](https://ffmpeg.org/) installed to use this software. If y
   - Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
 
 ```bash
-pip install videohash
+$ pip install videohash
 ```
 
   - Install directly from GitHub:
 
 ```bash
-pip install git+https://github.com/akamhy/videohash.git
+$ pip install git+https://github.com/akamhy/videohash.git
 ```
 --------------------------------------------------------------------------
 
-### Features
+### 🌱 Features
 
   - Generate videohash of a video directly from its URL or its path.
   - Can be used to implement scalable Near Duplicate Video Retrieval.
-  - Image representation of the video is accessible by the end-user.
-  - An instance of videohash can be compared with a stored hash(64-bit), its hex representation, and other instances of videohash.
-  - Faster than the primitive process of comparing all the frames one by one. The videohash package produces a single 64-bit video hash value, a lot of database space is saved. And the number of comparisons needed decreases significantly.
+  - The end-user can see an image representation of the video.
+  - A videohash instance can be compared to a 64-bit stored hash, its hex representation, and other videohash instances.
+  - Faster than the old method of comparing each frame individually. The videohash package generates a single 64-bit video hash value, which saves a significant amount of database space. And the number of comparisons required drops dramatically.
 
 --------------------------------------------------------------------------
 
-### Usage
+### 🚀 Usage
 
 ```python
 >>> from videohash import VideoHash
@@ -147,7 +147,7 @@ True
 
 --------------------------------------------------------------------------
   
-### License
+### 🛡 License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
 Released under the MIT License. See
