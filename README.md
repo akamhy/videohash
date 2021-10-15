@@ -26,7 +26,7 @@
 Videohash is a Python library for **detecting near-duplicate videos (Perceptual Video Hashing)**. Any video input can be used to build a 64-bit equivalent hash value with this package. The hash-values for identical/near-duplicate videos are the same or similar, implying that if the video is enlarged (upscaled/downscaled), transcoded, slightly cropped, or black-bars added/removed, the hash-value should remain unchanged or not vary substantially.
 
 ### How the hash values are calculated.
->  - Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's wavelet hash value is computed, and the video hash value for the original input video is computed.
+>  - Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://web.archive.org/web/20201108093251/https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) is the video hash value for the original input video.
 
 ### When not to use Videohash.
 >  - Videohash cannot be used to verify whether one video is a part of another (video fingerprinting). If the video is reversed or rotated by a substantial angle (greater than 10 degrees), Videohash will not provide the same or similar hash result, but you can always reverse the video manually and generate the hash value for reversed video.
@@ -142,11 +142,11 @@ True
 >>>
 ```
 <sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
-  
+
 **Wiki/Extended Usage/Docs** : <https://github.com/akamhy/videohash/wiki>
 
 --------------------------------------------------------------------------
-  
+
 ### 🛡 License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 

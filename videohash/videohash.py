@@ -325,8 +325,9 @@ class VideoHash(object):
 
     def _calc_hash(self):
         """
-        Calculates the binary hash value by calling the whash method of
-        imagehash package.
+        Calculates the hash value by calling the whash(wavelet hash) method of
+        imagehash package. The wavelet hash of the collage is the videohash for
+        the original input video.
 
         End-user is not provided any access to the imagehash instance but
         instead the binary and hexadecimal equivalent of the result of

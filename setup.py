@@ -25,10 +25,12 @@ setup(
     download_url=download_url,
     keywords=[
         "videohash",
+        "perceptual video hashing",
         "video hashing",
+        "near duplicate video",
+        "compare videos",
         "video",
         "video diff",
-        "compare videos",
     ],
     install_requires=["ImageHash", "Pillow", "youtube_dl", "yt-dlp"],
     python_requires=">=3.5",

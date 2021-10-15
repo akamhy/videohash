@@ -108,9 +108,15 @@ class MakeCollage(object):
         reason for choosing first one and it's arbitrary. But
         we assume that all the images passed should have same size.
 
-        Read the comments made in the code to understand how the
-        collage maker algorithm works.
+        A base image of 'collage_image_width' width and of 'number
+        of rows times scaled frame image height' height is created.
+        The base image has all pixels with RGB value 0,0,0 that is
+        the base image is pure black. The frame images are now embeded
+        on it.
+        The frame images are scaled to fit the collage base image such
+        that the shape of collage is as close to the shape of a square.
         """
+
         # arbitrarily selecting the first image from the list, index 0
         first_frame_image = Image.open(self.image_list[0])
 
