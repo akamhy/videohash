@@ -12,8 +12,6 @@ from videohash.utils import (
     get_list_of_all_files_in_dir,
 )
 
-this_dir = os.path.dirname(os.path.realpath(__file__))
-
 
 def test_all():
     _dir = os.path.join(

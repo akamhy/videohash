@@ -25,7 +25,7 @@ class MakeCollage(object):
 
 
     Let's say we have a list with 9 images.
-    
+
     As the images should be arranged in a way to resemble a
     square, we take the square root of 9 and that is 3. Now
     we need to make a 3x3 frames collage.
@@ -55,7 +55,7 @@ class MakeCollage(object):
 
     X denotes the empty space due to lack of images.
     But the empty spaces will not affect the robustness
-    as downsized/transcoded version of the video will also 
+    as downsized/transcoded version of the video will also
     produce these vacant spaces.
     """
 
@@ -146,7 +146,7 @@ class MakeCollage(object):
 
         # Create an image of passed collage_image_width and calculated collage_image_height.
         # The downsized images will be pasted on this new base image.
-        # The image is 0,0,0 RGB(black) and has little effect on the hash value also it 
+        # The image is 0,0,0 RGB(black) and has little effect on the hash value also it
         # reduces the issues with the black-bars in some videos.
         collage_image = Image.new(
             "RGB", (self.collage_image_width, self.collage_image_height)
@@ -176,17 +176,16 @@ class MakeCollage(object):
             # i is set to 0 if we are on the first column.
             x = i
 
-            
             # It ensures that y coordinate stays the same for any given row.
-            # The floor of a real number is the largest integer that is less 
-            # than or equal to the number. floor division is used because of 
+            # The floor of a real number is the largest integer that is less
+            # than or equal to the number. floor division is used because of
             # the zero based indexing, the floor of the division stays same
             # for an entier row as the decimal values are negled by the floor.
             # for the first row the result of floor division is always zero and
             # the product of 0 with scaled_frame_image_height is also zero, they
             # y coordinate for the first row is 0.
             # For the second row the result of floor division is one and the prodcut
-            # with scaled_frame_image_height enusre that the y coordinate is 
+            # with scaled_frame_image_height enusre that the y coordinate is
             # scaled_frame_image_height below the images of the first row.
             y = (j // self.images_per_row_in_collage) * scaled_frame_image_height
 

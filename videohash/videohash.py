@@ -20,7 +20,7 @@ from .utils import (
 class VideoHash(object):
 
     """
-    The VideoHash class provides an interface for computing & comparing the video 
+    The VideoHash class provides an interface for computing & comparing the video
     hash values for videos supported by the ffmpeg. Every video format, encoding and
     containers that are supported by the ffmpeg can be used as an input.
     """
@@ -67,7 +67,7 @@ class VideoHash(object):
 
     def __str__(self):
         """
-        The video hash value of the instance. The hash value is 64 bit string 
+        The video hash value of the instance. The hash value is 64 bit string
         prefixed with '0b', indicating the that the hash value is binary.
         """
 
@@ -96,9 +96,9 @@ class VideoHash(object):
         """
         Definition of the "!=" operator for the VideoHash objects.
 
-        Instance of the VideoHash class and string prefixed with '0x' and '0b' 
+        Instance of the VideoHash class and string prefixed with '0x' and '0b'
         are accepted other types.
-        
+
         If the hamming distance of this instance and the other instance
         is zero returns False else returns True.
         """
@@ -109,10 +109,10 @@ class VideoHash(object):
     def __eq__(self, other):
         """
         Definition of the '=' operator on VideoHash objects.
-        
-        Instance of the VideoHash class and string prefixed with '0x' and '0b' 
+
+        Instance of the VideoHash class and string prefixed with '0x' and '0b'
         are accepted other types.
-        
+
         If the hamming distance of the instance and the other instance
         is zero returns True else returns False.
         """
@@ -125,11 +125,11 @@ class VideoHash(object):
         """
         Definition of the '-' operator on VideoHash objects.
 
-        Instance of the VideoHash class and string prefixed with '0x' and '0b' 
+        Instance of the VideoHash class and string prefixed with '0x' and '0b'
         are accepted other types.
 
-        The method checks that the binary strings are prefixed with '0b', 
-        hexadecimal strings prefixed with '0x' and if the string is not 
+        The method checks that the binary strings are prefixed with '0b',
+        hexadecimal strings prefixed with '0x' and if the string is not
         prefixed then raise ValueError.
 
         Raises ValueError if the object passed is not an instance of string
@@ -165,9 +165,9 @@ class VideoHash(object):
     def _copy_video_to_video_dir(self):
         """
         Copy the video from the path to the video directory.
-        
+
         Copying avoids issues such as the user or some other
-        process deleting the instance files while we are still 
+        process deleting the instance files while we are still
         processing.
 
         If instead of the path the uploader specified an url,
@@ -206,8 +206,8 @@ class VideoHash(object):
     def _create_required_dirs_and_check_for_errors(self):
         """
         Creates important directories before the main processing starts.
-        
-        The instance files are stored in these directories, no need to worry 
+
+        The instance files are stored in these directories, no need to worry
         about the end user or some other processes interfering with the instance
         generated files.
 
@@ -216,7 +216,7 @@ class VideoHash(object):
                                        specified for creating the object.
 
         :raises ValueError: If user passed both path and url. Only pass
-                            one of them if the file is available on both 
+                            one of them if the file is available on both
                             then pass the path only.
 
         :raises StoragePathDoesNotExist: If the storage path specified by the
@@ -267,14 +267,17 @@ class VideoHash(object):
         """
         Returns an unique task id for the instance. Task id is used to
         differentiate the instance files from the other unrelated files.
-        
-        We want to make sure that only the instance is manipulating the instance files 
+
+        We want to make sure that only the instance is manipulating the instance files
         and no other process nor user by accident deletes or edits instance files while
         we are still processing.
         """
         sys_random = random.SystemRandom()
         return "".join(
-            sys_random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") for _ in range(20)
+            sys_random.choice(
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+            )
+            for _ in range(20)
         )
 
     @staticmethod
