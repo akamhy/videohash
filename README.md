@@ -2,7 +2,7 @@
 
 <h1> VideoHash </h1>
 
-<h2> Python package for Perceptual Video Hashing </h2>
+<h2> The Python package for near duplicate video detection </h2>
 
 </div>
 
@@ -23,7 +23,7 @@
 
 ### Introduction
 
-Videohash is a Python package for Perceptual Video Hashing (Near-Duplicate-Video-Detection). The package can be used to generate a 64-bit comparable hash-value for any video input. The hash-values are the same or similar for identical/near-duplicate videos, which implies that hash-value should remain unchanged or not change drastically for the video if it's resized (upscaled/downscaled), transcoded, slightly-cropped, or black-bars added/removed.
+Videohash is a Python package for Perceptual Video Hashing (Near Duplicate Video Detection). The package can be used to generate a 64-bit comparable hash-value for any video input. The hash-values are the same or similar for identical/near-duplicate videos, which implies that hash-value should remain unchanged or not change drastically for the video if it's resized (upscaled/downscaled), transcoded, slightly-cropped, or black-bars added/removed.
 
 How the hash values are calculated?
 >  - Every one second a frame of the input video is extracted, the frames are resized to a 144x144 pixel square, a collage is created that embeds all the resized frames(square-shaped) in it, the wavelet hash value of the collage is computed, and it is the video hash value for the original input video.
@@ -62,7 +62,7 @@ pip install git+https://github.com/akamhy/videohash.git
   - Can be used to implement scalable Near Duplicate Video Retrieval.
   - Image representation of the video is accessible by the end-user.
   - An instance of videohash can be compared with a stored hash(64-bit), its hex representation, and other instances of videohash.
-  - Faster than the primitive process of comparing all the frames one by one. The videohash package produces a single 64-bit hash, a lot of database space is saved. And the number of comparisons required drops significantly.
+  - Faster than the primitive process of comparing all the frames one by one. The videohash package produces a single 64-bit video hash value, a lot of database space is saved. And the number of comparisons needed decreases significantly.
 
 --------------------------------------------------------------------------
 
