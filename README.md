@@ -23,7 +23,7 @@
 
 ### Introduction
 
-Videohash is a Python package for Perceptual Video Hashing (Near Duplicate Video Detection). The package can be used to generate a 64-bit comparable hash-value for any video input. The hash-values are the same or similar for identical/near-duplicate videos, which implies that hash-value should remain unchanged or not change drastically for the video if it's resized (upscaled/downscaled), transcoded, slightly-cropped, or black-bars added/removed.
+Videohash is a Python package for Near Duplicate Video Detection (Perceptual Video Hashing). The package can be used to generate a 64-bit comparable hash-value for any video input. The hash-values are the same or similar for identical/near-duplicate videos, which implies that hash-value should remain unchanged or not change drastically for the video if it's resized (upscaled/downscaled), transcoded, slightly-cropped, or black-bars added/removed.
 
 How the hash values are calculated?
 >  - Every one second a frame of the input video is extracted, the frames are resized to a 144x144 pixel square, a collage is created that embeds all the resized frames(square-shaped) in it, the wavelet hash value of the collage is computed, and it is the video hash value for the original input video.
