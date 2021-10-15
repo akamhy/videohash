@@ -31,6 +31,9 @@ How the hash values are calculated?
 When not to use Videohash?
 >  - Videohash can not be used for verifying if one video is part of another video(video fingerprinting). Videohash doesn't produce the same or similar hash value if the video is reversed or rotated by a significant angle(more than 10 degrees), but you can always reverse the video yourself and generate the hash value for reversed video.
 
+How to compare the videohashes stored in a database?
+> - Read [Hamming Distance / Similarity searches in a database - Stack Overflow](https://stackoverflow.com/questions/9606492/hamming-distance-similarity-searches-in-a-database) [(Archive link)](https://web.archive.org/web/20211015120052/https://stackoverflow.com/questions/9606492/hamming-distance-similarity-searches-in-a-database)
+
 --------------------------------------------------------------------------
 
 ### Installation
