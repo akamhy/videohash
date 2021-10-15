@@ -1,6 +1,6 @@
-from math import ceil, sqrt
-from PIL import Image
 import os
+from PIL import Image
+from math import ceil, sqrt
 
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
@@ -19,10 +19,13 @@ class MakeCollage(object):
 
     The images are arranged by timestamp of the frames, their
     index in the image_list is based on thier timestamp on the
-    video.
+    video. The image with the index 2 is a frame from the 3rd
+    second and an index 39 is from at the 40th second. The index
+    is one less due to zero-based indexing.
 
-    Example:
+
     Let's say we have a list with 9 images.
+    
     As the images should be arranged in a way to resemble a
     square, we take the square root of 9 and that is 3. Now
     we need to make a 3x3 frames collage.
@@ -52,8 +55,8 @@ class MakeCollage(object):
 
     X denotes the empty space due to lack of images.
     But the empty spaces will not affect the robustness
-    as downsized version of the video will also have these
-    vacant spaces.
+    as downsized/transcoded version of the video will also 
+    produce these vacant spaces.
     """
 
     def __init__(self, image_list, output_path, collage_image_width=1024):
@@ -61,14 +64,14 @@ class MakeCollage(object):
         Checks if the list passed is not an empty list.
         Also makes sure that the output_path directory exists.
 
-        And calls the make method, make method creates the collage.
+        And calls the make method, the make method creates the collage.
 
-        :param image_list: A python list instance containing the list of absolute
+        :param image_list: A python list containing the list of absolute
                            path of images that are to be added in the collage.
-                           The order of images is kept intact.
+                           The order of images is kept intact and is very important.
 
-        :param output_path: A string of the absolute path of the image including
-                            the image name.
+        :param output_path: Absolute path of the collage including
+                            the image name. (This is where the collage is saved.)
                             Example: '/home/username/projects/collage.jpeg'.
 
         :param collage_image_width: An integer specifying the image width of the
@@ -98,7 +101,7 @@ class MakeCollage(object):
 
     def make(self):
         """
-        Creates the collage from list of images.
+        Creates the collage from the list of images.
 
         It calculates the scale of the images on collage by
         measuring the first image width and height, there's no
@@ -121,15 +124,13 @@ class MakeCollage(object):
         # collage_image_width is set to a very small integer, the video
         # is of very low resolution or collage_image_width is set to a big
         # integer.
-
         # Therefore scale will always lie between 0 and 1, which implies that
         # the images are always going to get downsized.
         scale = (self.collage_image_width) / (
             self.images_per_row_in_collage * frame_image_width
         )
 
-        # scaled frame image width and height are the height and width
-        # they will occupy on the collage.
+        # Calculating the scaled height and width for the frame image.
         scaled_frame_image_width = ceil(frame_image_width * scale)
         scaled_frame_image_height = ceil(frame_image_height * scale)
 
@@ -137,7 +138,7 @@ class MakeCollage(object):
         # was calculated by taking the square root of total images.
         number_of_rows = ceil(self.number_of_images / self.images_per_row_in_collage)
 
-        # we are multiplying the height of one downsized image with number of rows.
+        # We are multiplying the height of one downsized image with number of rows.
         # height of 1 downsized image = scale * frame_image_height
         # total height is clearly the multiplication of number of rows and height of
         # one downsized image.
@@ -145,13 +146,13 @@ class MakeCollage(object):
 
         # Create an image of passed collage_image_width and calculated collage_image_height.
         # The downsized images will be pasted on this new base image.
-        # The image is 0,0,0 RGB(black) and can't affect the hash value also it reduces the
-        # issues with the black-bars in some videos.
+        # The image is 0,0,0 RGB(black) and has little effect on the hash value also it 
+        # reduces the issues with the black-bars in some videos.
         collage_image = Image.new(
             "RGB", (self.collage_image_width, self.collage_image_height)
         )
 
-        # keep track of the x and y coordinates
+        # keep track of the x and y coordinates of the resized frame images
         i, j = (0, 0)
 
         # iterate the frames and paste them on their position on the collage_image
@@ -163,36 +164,44 @@ class MakeCollage(object):
             if (count % self.images_per_row_in_collage) == 0:
                 i = 0
 
-            # open the image, must open it to resize it using the thumbnail method
+            # open the frame image, must open it to resize it using the thumbnail method
             frame = Image.open(frame)
 
-            # scale the opened images
+            # scale the opened frame images
             frame.thumbnail(
                 (scaled_frame_image_width, scaled_frame_image_height), Image.ANTIALIAS
             )
 
-            # set the value x to that of i's value.
+            # set the value of x to that of i's value.
+            # i is set to 0 if we are on the first column.
             x = i
 
-            # Set the value of y to the row number of a zero based row indexing
-            # If images_per_row_in_collage is 4 then upto 4 but not including it
-            # we will get a zero. zero = first row's y coordinate.
-            # from 4 to 7 it will set the value of y to 2 and so on.
-            # It ensure that y coordinate stays the same for any given row.
+            
+            # It ensures that y coordinate stays the same for any given row.
+            # The floor of a real number is the largest integer that is less 
+            # than or equal to the number. floor division is used because of 
+            # the zero based indexing, the floor of the division stays same
+            # for an entier row as the decimal values are negled by the floor.
+            # for the first row the result of floor division is always zero and
+            # the product of 0 with scaled_frame_image_height is also zero, they
+            # y coordinate for the first row is 0.
+            # For the second row the result of floor division is one and the prodcut
+            # with scaled_frame_image_height enusre that the y coordinate is 
+            # scaled_frame_image_height below the images of the first row.
             y = (j // self.images_per_row_in_collage) * scaled_frame_image_height
 
-            # paste the image on the newly created base image
+            # paste the frame image on the newly created base image(base image is black)
             collage_image.paste(frame, (x, y))
 
             # increase the x coordinate by scaled_frame_image_width
             # to get the x coordinate of the next frame. unless the next image
-            # will be on the very first column this will be the x coordinate
+            # will be on the very first column this will be the x coordinate.
             i = i + scaled_frame_image_width
 
-            # increase the value of j by 1, this is to get calculate y coordinate of
-            # next image. The increase number will be floor divided by images_per_row_in_collage
-            # there for the y stays the same for any given row.
+            # increase the value of j by 1, this is to calculate the y coordinate of
+            # next image. The increased number will be floor divided by images_per_row_in_collage
+            # therefore the y coordinate stays the same for any given row.
             j += 1
 
-        # save the base image with all the scaled images pasted on it.
+        # save the base image with all the scaled images embeded on it.
         collage_image.save(self.output_path)

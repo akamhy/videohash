@@ -1,10 +1,10 @@
 import os
-import random
-import re
-from PIL import Image
-import imagehash
 import shutil
 from pathlib import Path
+import re
+import random
+from PIL import Image
+import imagehash
 
 from .collagemaker import MakeCollage
 from .downloader import Download
@@ -20,22 +20,21 @@ from .utils import (
 class VideoHash(object):
 
     """
-    The VideoHash class provides an interface for computing & comparing the hash
-    values for files supported by the ffmpeg. Every video format, encoding and
-    containers that are supported by the ffmpeg can be used as input for this
-    class.
+    The VideoHash class provides an interface for computing & comparing the video 
+    hash values for videos supported by the ffmpeg. Every video format, encoding and
+    containers that are supported by the ffmpeg can be used as an input.
     """
 
     def __init__(self, path=None, url=None, storage_path=None, download_worst=True):
         """
-        :param path: absolute path of the video file.
+        :param path: Absolute path of the video file.
 
         :param url: URL of the video file. Every URL that is supported by the
-                    youtube-dl or yt-dlp package can be used.
+                    youtube-dl or yt-dlp package can be passed.
 
         :param storage_path: If you want to provide a storage path for the files
                              created/downloaded by the instance, pass the
-                             absolute path to that directory.
+                             absolute path of that directory.
 
         :param download_worst: If set to False, download the default quality of
                                youtube-dl/yt-dlp downloader. These two downloaders
@@ -68,15 +67,15 @@ class VideoHash(object):
 
     def __str__(self):
         """
-        The hash value of the instance. The hash value is 64 bit value prefixed
-        with '0b', indicating the that the hash is binary.
+        The video hash value of the instance. The hash value is 64 bit string 
+        prefixed with '0b', indicating the that the hash value is binary.
         """
 
         return self.hash
 
     def __repr__(self):
         """
-        Developer's representation of the instance.
+        Developer's representation of the VideoHash object.
         """
 
         return "VideoHash(hash=%s, hash_hex=%s, collage_path=%s, bits_in_hash=%s)" % (
@@ -89,7 +88,7 @@ class VideoHash(object):
     def __len__(self):
         """
         Length of the hash value string. Total length is 66 characters, 64 for
-        the bitstring and 2 for the prefix '0b' of the hash value string.
+        the bitstring and 2 for the prefix '0b'.
         """
         return len(self.hash)
 
@@ -97,6 +96,9 @@ class VideoHash(object):
         """
         Definition of the "!=" operator for the VideoHash objects.
 
+        Instance of the VideoHash class and string prefixed with '0x' and '0b' 
+        are accepted other types.
+        
         If the hamming distance of this instance and the other instance
         is zero returns False else returns True.
         """
@@ -107,7 +109,10 @@ class VideoHash(object):
     def __eq__(self, other):
         """
         Definition of the '=' operator on VideoHash objects.
-
+        
+        Instance of the VideoHash class and string prefixed with '0x' and '0b' 
+        are accepted other types.
+        
         If the hamming distance of the instance and the other instance
         is zero returns True else returns False.
         """
@@ -118,13 +123,14 @@ class VideoHash(object):
 
     def __sub__(self, other):
         """
-        Define how the '-' operator should work for the class.
+        Definition of the '-' operator on VideoHash objects.
 
-        Checks that the binary strings are prefixed with '0b', hexadecimal
-        strings prefixed with '0x' and if the string is not prefixed with
-        any of them then raise ValueError.
+        Instance of the VideoHash class and string prefixed with '0x' and '0b' 
+        are accepted other types.
 
-        Instance of the VideoHash class are also supported.
+        The method checks that the binary strings are prefixed with '0b', 
+        hexadecimal strings prefixed with '0x' and if the string is not 
+        prefixed then raise ValueError.
 
         Raises ValueError if the object passed is not an instance of string
         nor VideoHash.
@@ -153,15 +159,16 @@ class VideoHash(object):
             return VideoHash.hamming_distance(self.hash, other.hash)
 
         raise TypeError(
-            "To calculate difference both of the hashes must be either hexadecimal/binary strings or instance of VideoHash"
+            "To calculate difference both of the hashes must be either hexadecimal/binary strings or instance of VideoHash class."
         )
 
     def _copy_video_to_video_dir(self):
         """
-        Copy the video from the path the video directory.
-        It avoids the issues like the user or some other
-        processes deleting the instance files while we are
-        still processing.
+        Copy the video from the path to the video directory.
+        
+        Copying avoids issues such as the user or some other
+        process deleting the instance files while we are still 
+        processing.
 
         If instead of the path the uploader specified an url,
         then download the video and copy the file to video
@@ -198,21 +205,22 @@ class VideoHash(object):
 
     def _create_required_dirs_and_check_for_errors(self):
         """
-        Creates some directories before the main processing starts.
-        The files are stored in these directories, no need to worry about
-        the end user or some other processes interfering with the instance
+        Creates important directories before the main processing starts.
+        
+        The instance files are stored in these directories, no need to worry 
+        about the end user or some other processes interfering with the instance
         generated files.
 
         :raises DidNotSupplyPathOrUrl: If the user forgot to specify both the
                                        path and the url. One of them must be
-                                       specified.
+                                       specified for creating the object.
 
-        :raises ValueError: If user passed both the path and the url. Only pass
-                            one of them if the file is available on both the
-                            path and the url.
+        :raises ValueError: If user passed both path and url. Only pass
+                            one of them if the file is available on both 
+                            then pass the path only.
 
         :raises StoragePathDoesNotExist: If the storage path specified by the
-                                         user in does not exists.
+                                         user does not exist.
         """
         if not self.path and not self.url:
             raise DidNotSupplyPathOrUrl(
@@ -257,25 +265,29 @@ class VideoHash(object):
     @staticmethod
     def _get_task_uid():
         """
-        Returns an unique task id for the instance and the task id is used to
+        Returns an unique task id for the instance. Task id is used to
         differentiate the instance files from the other unrelated files.
+        
+        We want to make sure that only the instance is manipulating the instance files 
+        and no other process nor user by accident deletes or edits instance files while
+        we are still processing.
         """
         sys_random = random.SystemRandom()
         return "".join(
-            sys_random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(12)
+            sys_random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") for _ in range(20)
         )
 
     @staticmethod
     def hamming_distance(string_a, string_b):
         """
-        Compute the hamming distance of the input strings.
+        Computes the hamming distance of the input strings.
 
         :raises ValueError: The input strings are of unequal length. Hamming
                             distance is not defined for unequal length strings.
         """
         if len(string_a) != len(string_b):
             raise ValueError(
-                "Strings are of unequal length can not compute hamming distance. Hamming distance is undefined."
+                "Strings are of unequal length. Can not compute hamming distance. Hamming distance is undefined."
             )
         return sum(char_1 != char_2 for char_1, char_2 in zip(string_a, string_b))
 
