@@ -109,7 +109,7 @@ class Download(object):
             worst = " -f worst "
 
         command = (
-            youtube_dl_path
+            f'"{youtube_dl_path}"'
             + worst
             + " "
             + '"'

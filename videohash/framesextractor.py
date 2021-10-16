@@ -100,7 +100,7 @@ class FramesExtractor(object):
             output_dir = shlex.quote(self.output_dir)
 
         command = (
-            ffmpeg_path
+            f'"{ffmpeg_path}"'
             + " -i "
             + '"'
             + video_path
