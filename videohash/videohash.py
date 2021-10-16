@@ -98,8 +98,9 @@ class VideoHash(object):
         """
         Definition of the "!=" operator for the VideoHash objects.
 
-        Instance of the VideoHash class and string prefixed with '0x' and '0b'
-        are accepted other types.
+        Instance of the VideoHash class, lists(bitlist) and string prefixed with
+         '0x' and '0b' are accepted other types.
+
 
         If the hamming distance of this instance and the other instance
         is zero returns False else returns True.
@@ -112,8 +113,9 @@ class VideoHash(object):
         """
         Definition of the '=' operator on VideoHash objects.
 
-        Instance of the VideoHash class and string prefixed with '0x' and '0b'
-        are accepted other types.
+        Instance of the VideoHash class, lists(bitlist) and string prefixed with
+         '0x' and '0b' are accepted other types.
+
 
         If the hamming distance of the instance and the other instance
         is zero returns True else returns False.
@@ -127,15 +129,15 @@ class VideoHash(object):
         """
         Definition of the '-' operator on VideoHash objects.
 
-        Instance of the VideoHash class and string prefixed with '0x' and '0b'
-        are accepted other types.
+        Instance of the VideoHash class, lists(bitlist) and string prefixed with
+         '0x' and '0b' are accepted other types.
 
         The method checks that the binary strings are prefixed with '0b',
         hexadecimal strings prefixed with '0x' and if the string is not
         prefixed then raise ValueError.
 
-        Raises ValueError if the object passed is not an instance of string
-        nor VideoHash.
+        Raises ValueError if the object passed is not an instance of string, list
+        or VideoHash.
         """
         if other is None:
             raise TypeError("Other hash is None. And it should not be None.")
@@ -157,6 +159,15 @@ class VideoHash(object):
                 raise TypeError(
                     "Hash string must start with either '0x' for hexadecimal or '0b' for binary."
                 )
+
+        if isinstance(other, list):
+            if len(other) != self.bits_in_hash:
+                raise ValueError(
+                    "The list does not have %s bits. Can not calculate hamming distance."
+                    % str(self.bits_in_hash)
+                )
+
+            return self.hamming_distance(bitlist_a=self.bitlist, bitlist_b=other)
 
         if isinstance(other, VideoHash):
             return self.hamming_distance(

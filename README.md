@@ -60,8 +60,8 @@ $ pip install git+https://github.com/akamhy/videohash.git
 
   - Generate videohash of a video directly from its URL or its path.
   - Can be used to implement scalable Near Duplicate Video Retrieval.
-  - The end-user can see an image representation of the video.
-  - A videohash instance can be compared to a 64-bit stored hash, its hex representation, and other videohash instances.
+  - The end-user can access the image representation(the collage) of the video.
+  - A videohash instance can be compared to a 64-bit stored hash, its hex representation, bitlist, and other videohash instances.
   - Faster than the old method of comparing each frame individually. The videohash package generates a single 64-bit video hash value, which saves a significant amount of database space. And the number of comparisons required drops dramatically.
 
 --------------------------------------------------------------------------
@@ -75,6 +75,12 @@ $ pip install git+https://github.com/akamhy/videohash.git
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>> hash1.hash # video hash value of the file, value is same as str(hash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
+>>> hash1.bitlist # If you are XOR'ing bits to get the hamming distance store the bitlist in your database and not the hash itself.
+[0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+>>> len(hash1.bitlist) # 64 bits of the hashvalue
+64
+>>> hash1 == hash1.bitlist  # the video hash support the equivalent operator on lists, but only pass bitlists.
+True
 >>> hash1.hash_hex # hexadecimal representation of the videohash value
 '0x341fefff8f780000'
 >>> repr(hash1) # representation of VideoHash object

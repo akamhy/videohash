@@ -68,6 +68,7 @@ def test_all():
     assert hash_hex3 == "0x741fcfff8f780000"
 
     assert hash1 == hash2
+    assert videohash1 == videohash2.bitlist
 
     assert hash_hex1 == hash_hex2
     assert videohash1 - hash_hex3 == 2
@@ -94,6 +95,10 @@ def test_all():
     with pytest.raises(ValueError):
         # not padded with 0b
         VideoHash.bin2hex("010101001")
+
+    with pytest.raises(ValueError):
+        # hamming distance not defined for unequal length bitlists
+        _ = videohash1 - [1, 0, 1, 1, 1]
 
     class FakeVideoHashForTesting(VideoHash):
         def __init__(self, hash=None):

@@ -41,7 +41,7 @@ def test_all():
         )  # non existant youtube_dl path
 
     if which("yt-dlp"):
-        url = "https://www.youtube.com/watch?v=YLslsZuEaNE"  # dog
+        url = "https://www.youtube.com/watch?v=3NOmU06Vs6o"  # video : A Step Toward Sustainable Lunar Exploration
         _dir = create_and_return_temporary_directory()
         Download(url=url, output_dir=_dir, youtube_dl_path=str(which("yt-dlp")))
         file_list = get_list_of_all_files_in_dir(_dir)
@@ -50,7 +50,7 @@ def test_all():
             raise Exception("File not downloaded. Url is %s ")
 
     if which("youtube-dl"):
-        url = "https://www.youtube.com/watch?v=o9aaoiyJlcM"  # italy
+        url = "https://www.youtube.com/watch?v=4fdbfLJYYgI"  # Video : Why Icy Moons are So Juicy
         _dir = create_and_return_temporary_directory()
         Download(url=url, output_dir=_dir, youtube_dl_path=str(which("youtube-dl")))
         file_list = get_list_of_all_files_in_dir(_dir)
