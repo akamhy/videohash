@@ -63,6 +63,7 @@ class VideoHash(object):
         self.hash = None
         self.hash_hex = None
         self.bits_in_hash = 64
+        self.bitlist = None
 
         self._calc_hash()
 
@@ -141,8 +142,9 @@ class VideoHash(object):
 
         if isinstance(other, str):
             if other.lower().startswith("0x"):
-                return VideoHash.hamming_distance(
-                    self.hash, VideoHash.hex2bin(other.lower(), self.bits_in_hash)
+                return self.hamming_distance(
+                    string_a=self.hash,
+                    string_b=VideoHash.hex2bin(other.lower(), self.bits_in_hash),
                 )
             elif other.lower().startswith("0b"):
                 if len(other) != len(self.hash):
@@ -150,14 +152,16 @@ class VideoHash(object):
                         "Can not compare different bits hashes. You must supply a %d bits hash."
                         % self.bits_in_hash
                     )
-                return VideoHash.hamming_distance(self.hash, other.lower())
+                return self.hamming_distance(string_a=self.hash, string_b=other.lower())
             else:
                 raise TypeError(
                     "Hash string must start with either '0x' for hexadecimal or '0b' for binary."
                 )
 
         if isinstance(other, VideoHash):
-            return VideoHash.hamming_distance(self.hash, other.hash)
+            return self.hamming_distance(
+                bitlist_a=self.bitlist, bitlist_b=other.bitlist
+            )
 
         raise TypeError(
             "To calculate difference both of the hashes must be either hexadecimal/binary strings or instance of VideoHash class."
@@ -281,24 +285,45 @@ class VideoHash(object):
             for _ in range(20)
         )
 
-    @staticmethod
-    def hamming_distance(string_a, string_b):
+    def hamming_distance(
+        self, string_a=None, string_b=None, bitlist_a=None, bitlist_b=None
+    ):
         """
-        Computes the hamming distance of the input bitstrings.
+        Computes the hamming distance of the input bitstrings or bitlists.
         string_a and string_b must be bitstrings.
+        bitlist_a and bitlist_b must be python strings containing only the
+        bits and not the prefix "0b".
 
-        :raises ValueError: The input strings are of unequal length. Hamming
-                            distance is not defined for unequal length strings.
+        :raises ValueError: The input strings are of unequal length or bitlists
+                            have different number of bits. Hamming distance is
+                            not defined for unequal length strings.
         """
-        if len(string_a) != len(string_b):
-            raise ValueError(
-                "Strings are of unequal length. Can not compute hamming distance. Hamming distance is undefined."
-            )
+        if bitlist_a and bitlist_b:
+            if len(bitlist_a) != len(bitlist_b):
+                raise ValueError(
+                    "Bit lists have unequal number of elements. Can not compute hamming distance. Hamming distance is undefined."
+                )
+
+        if string_a and string_b:
+            if len(string_a) != len(string_b):
+                raise ValueError(
+                    "Strings are of unequal length. Can not compute hamming distance. Hamming distance is undefined."
+                )
+
+            if string_a == self.hash:
+                bitlist_a = self.bitlist
+            else:
+                bitlist_a = list(map(int, string_a.replace("0b", "")))
+
+            if string_b == self.hash:
+                bitlist_b = self.bitlist
+            else:
+                bitlist_b = list(map(int, string_b.replace("0b", "")))
 
         return len(
             np.bitwise_xor(
-                list(map(int, string_a.replace("0b", ""))),
-                list(map(int, string_b.replace("0b", ""))),
+                bitlist_a,
+                bitlist_b,
             ).nonzero()[0]
         )
 
@@ -357,3 +382,4 @@ class VideoHash(object):
         # the binary value is prefixed with 0b.
         self.hash = "0b%s" % self.hash
         self.hash_hex = VideoHash.bin2hex(self.hash)
+        self.bitlist = list(map(int, self.hash.replace("0b", "")))

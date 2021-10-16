@@ -95,9 +95,23 @@ def test_all():
         # not padded with 0b
         VideoHash.bin2hex("010101001")
 
+    class FakeVideoHashForTesting(VideoHash):
+        def __init__(self, hash=None):
+            self.hash = hash
+
+    fake_videohash_object = FakeVideoHashForTesting(hash="0b0011010")
+    fake_videohash_object.hamming_distance(string_a="0b1011010", string_b="0b1011010")
+
+    fake_videohash_object = FakeVideoHashForTesting()
     with pytest.raises(ValueError):
         # hamming_distance is not defined.
-        VideoHash.hamming_distance("abc", "abcd")
+        fake_videohash_object.hamming_distance(string_a="abc", string_b="abcd")
+
+    with pytest.raises(ValueError):
+        # hamming_distance is not defined.
+        fake_videohash_object.hamming_distance(
+            bitlist_a=[1, 0, 1, 1, 0], bitlist_b=[1, 0, 1, 1]
+        )
 
     with pytest.raises(DidNotSupplyPathOrUrl):
         VideoHash(url=None, path=None)
