@@ -5,6 +5,7 @@ import re
 import random
 from PIL import Image
 import imagehash
+import numpy as np
 
 from .collagemaker import MakeCollage
 from .downloader import Download
@@ -283,7 +284,8 @@ class VideoHash(object):
     @staticmethod
     def hamming_distance(string_a, string_b):
         """
-        Computes the hamming distance of the input strings.
+        Computes the hamming distance of the input bitstrings.
+        string_a and string_b must be bitstrings.
 
         :raises ValueError: The input strings are of unequal length. Hamming
                             distance is not defined for unequal length strings.
@@ -292,7 +294,13 @@ class VideoHash(object):
             raise ValueError(
                 "Strings are of unequal length. Can not compute hamming distance. Hamming distance is undefined."
             )
-        return sum(char_1 != char_2 for char_1, char_2 in zip(string_a, string_b))
+
+        return len(
+            np.bitwise_xor(
+                list(map(int, string_a.replace("0b", ""))),
+                list(map(int, string_b.replace("0b", ""))),
+            ).nonzero()[0]
+        )
 
     @staticmethod
     def hex2bin(hexstr, padding):
