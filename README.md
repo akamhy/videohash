@@ -70,43 +70,41 @@ $ pip install git+https://github.com/akamhy/videohash.git
 
 ```python
 >>> from videohash import VideoHash
->>> hash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False) # video : Artemis I Hot Fire Test
->>> hash1.hash # video hash value of the file, value is same as str(hash1)
+>>> videohash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False) # video : Artemis I Hot Fire Test
+>>> videohash1.hash # video hash value of the file, value is same as str(hash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
->>> hash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv") # video : Artemis I Hot Fire Test, yes same as hash1(downscaled)
->>> hash2.hash
+>>> videohash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv") # video : Artemis I Hot Fire Test, yes same as hash1(downscaled)
+>>> videohash2.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
->>> hash2.hash_hex
+>>> videohash2.hash_hex
 '0x341fefff8f780000'
->>> hash1.hash_hex
+>>> videohash2.hash_hex
 '0x341fefff8f780000'
->>> hash1 - hash2 # videohash objects support application of '-' operator on them. The other value must be a string (prefixed with '0x' or '0b') or another VideoHash object
+>>> videohash1 - videohash2
 0
->>> hash1 == hash2
+>>> videohash1 == videohash2
 True
->>> hash1 == "0b0011010000011111111011111111111110001111011110000000000000000000"
+>>> videohash1 == "0b0011010000011111111011111111111110001111011110000000000000000000"
 True
->>> hash1 != hash2 # videohash objects support application of '!=' operator on them. The other value must be a string (prefixed with '0x' or '0b') or another VideoHash object.
+>>> videohash1 != videohash2
 False
->>> hash3 = VideoHash(path="/home/akamhy/Downloads/rocket.mkv") # video : Artemis I Hot Fire Test, yes same as hash2 (downloaded locally)
+>>> videohash3 = VideoHash(path="/home/akamhy/Downloads/rocket.mkv") # video : Artemis I Hot Fire Test, yes same video as videohash2 (downloaded locally)
 >>> hash3.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
->>> hash3 - hash2
+>>> videohash3 - videohash2
 0
->>> hash3 == hash1
-False
->>> hash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #  video : How We Are Going to the Moon - 4K, different video from the first 3 videos
->>> hash4.hash_hex
+>>> videohash3 == videohash1
+True
+>>> videohash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #  video : How We Are Going to the Moon - 4K, different video from the first 3 videos
+>>> videohash4.hash_hex
 '0x7cffff000000eff0'
->>> hash4 - "0x7cffff000000eff0"
+>>> videohash4 - "0x7cffff000000eff0"
 0
->>> hash4.hash
+>>> videohash4.hash
 '0b0111110011111111111111110000000000000000000000001110111111110000'
->>> hash4 == hash3
-False
->>> hash4 - hash2
+>>> videohash4 - videohash2
 34
->>> hash4 != hash2
+>>> videohash4 != videohash2
 True
 ```
 <sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
