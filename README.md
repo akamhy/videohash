@@ -1,10 +1,6 @@
-<div align="center">
+[![VideoHash Logo](https://raw.githubusercontent.com/akamhy/videohash/main/assets/logo/logo-banner.png)](https://github.com/akamhy/videohash)
 
-<h1> VideoHash </h1>
-
-<h2> The Python package for near duplicate video detection </h2>
-
-</div>
+<h2 align="center"> The Python package for near duplicate video detection </h2>
 
 <p align="center">
 <a href="https://github.com/akamhy/videohash/actions?query=workflow%3AUbuntu"><img alt="Build Status" src="https://github.com/akamhy/videohash/workflows/Ubuntu/badge.svg"></a>
@@ -131,6 +127,8 @@ True
 
 Released under the MIT License. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
+
+The VideoHash logo was created by [iconolocode](https://github.com/iconolocode). See [license](https://github.com/akamhy/videohash/blob/main/assets/logo/LICENSE-LOGO) for details.
 
 Videos are from NASA and are in the public domain.
 > NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
