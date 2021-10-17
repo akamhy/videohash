@@ -74,10 +74,14 @@ In the following usage example the first three instances of VideoHash class are 
   - videohash4 uses a completely different video at <https://www.youtube.com/watch?v=_T8cn2J13-4>.
 ```python
 >>> from videohash import VideoHash
->>> videohash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False) #video: Artemis I Hot Fire Test
+>>> # video: Artemis I Hot Fire Test
+>>> videohash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False)
+>>>
 >>> videohash1.hash # video hash value of the file, value is same as str(videohash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
->>> videohash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv") #video: Artemis I Hot Fire Test
+>>>
+>>> url2="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv" #VIDEO:Artemis I Hot Fire Test
+>>> videohash2 = VideoHash(url=url2) 
 >>> videohash2.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>> videohash2.hash_hex
@@ -92,14 +96,16 @@ True
 True
 >>> videohash1 != videohash2
 False
->>> videohash3 = VideoHash(path="/home/akamhy/Downloads/rocket.mkv") #video: Artemis I Hot Fire Test
+>>> path3 = "/home/akamhy/Downloads/rocket.mkv" #VIDEO: Artemis I Hot Fire Test
+>>> videohash3 = VideoHash(path=path3) 
 >>> videohash3.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>> videohash3 - videohash2
 0
 >>> videohash3 == videohash1
 True
->>> videohash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #video: How We Are Going to the Moon
+>>> url4 = "https://www.youtube.com/watch?v=_T8cn2J13-4" #VIDEO: How We Are Going to the Moon
+>>> videohash4 = VideoHash(url=url4) 
 >>> videohash4.hash_hex
 '0x7cffff000000eff0'
 >>> videohash4 - "0x7cffff000000eff0"
