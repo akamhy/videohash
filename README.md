@@ -110,6 +110,7 @@ True
 <sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
 
 **Extended Usage** : <https://github.com/akamhy/videohash/wiki/Extended-Usage>
+  
 **API Reference** : <https://github.com/akamhy/videohash/wiki/API-Reference>
 
 
