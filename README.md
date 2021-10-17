@@ -73,7 +73,7 @@ $ pip install git+https://github.com/akamhy/videohash.git
 >>> videohash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False) # video : Artemis I Hot Fire Test
 >>> videohash1.hash # video hash value of the file, value is same as str(hash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
->>> videohash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv") # video : Artemis I Hot Fire Test, yes same as hash1(downscaled)
+>>> videohash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv") # video : Artemis I Hot Fire Test
 >>> videohash2.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>> videohash2.hash_hex
@@ -88,14 +88,14 @@ True
 True
 >>> videohash1 != videohash2
 False
->>> videohash3 = VideoHash(path="/home/akamhy/Downloads/rocket.mkv") # video : Artemis I Hot Fire Test, yes same video as videohash2 (downloaded locally)
+>>> videohash3 = VideoHash(path="/home/akamhy/Downloads/rocket.mkv") # video : Artemis I Hot Fire Test
 >>> hash3.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>> videohash3 - videohash2
 0
 >>> videohash3 == videohash1
 True
->>> videohash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #  video : How We Are Going to the Moon - 4K, different video from the first 3 videos
+>>> videohash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #  video : How We Are Going to the Moon - 4K
 >>> videohash4.hash_hex
 '0x7cffff000000eff0'
 >>> videohash4 - "0x7cffff000000eff0"
