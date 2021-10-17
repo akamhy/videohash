@@ -1,0 +1,9 @@
+colorscheme:
+yellow: F7D734
+blue: 00A8B3
+green: 29ED09
+violet: 582A94
+
+font name: Righteous
+by: Astigmatic
+license: Open Font license 
