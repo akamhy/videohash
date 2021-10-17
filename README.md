@@ -67,11 +67,15 @@ $ pip install git+https://github.com/akamhy/videohash.git
 --------------------------------------------------------------------------
 
 ### 🚀 Usage
-
+In the following usage example the first three instances of VideoHash class are computing the hash for the same video and the last one is a different video.
+  - videohash1 is the video at <https://www.youtube.com/watch?v=PapBjpzRhnA>.
+  - videohash2 is downscaled copy of https://www.youtube.com/watch?v=PapBjpzRhnA contained in [Matroska Multimedia Container](https://www.matroska.org/index.html).
+  - videohash3 is the same video as videohash2 but on local storage.
+  - videohash4 uses a completely different video at <https://www.youtube.com/watch?v=_T8cn2J13-4>.
 ```python
 >>> from videohash import VideoHash
 >>> videohash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False) #video: Artemis I Hot Fire Test
->>> videohash1.hash # video hash value of the file, value is same as str(hash1)
+>>> videohash1.hash # video hash value of the file, value is same as str(videohash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>> videohash2 = VideoHash(url="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv") #video: Artemis I Hot Fire Test
 >>> videohash2.hash
