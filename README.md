@@ -76,7 +76,8 @@ In the following usage example the first three instances of VideoHash class are 
 >>> videohash1.hash # video hash value of the file, value is same as str(videohash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
 >>>
->>> url2="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv" #VIDEO:Artemis I Hot Fire Test
+>>> #VIDEO:Artemis I Hot Fire Test
+>>> url2="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv" 
 >>> videohash2 = VideoHash(url=url2) 
 >>> videohash2.hash
 '0b0011010000011111111011111111111110001111011110000000000000000000'
