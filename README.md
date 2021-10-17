@@ -82,12 +82,6 @@ $ pip install git+https://github.com/akamhy/videohash.git
 '0x341fefff8f780000'
 >>> hash1 - hash2 # videohash objects support application of '-' operator on them. The other value must be a string (prefixed with '0x' or '0b') or another VideoHash object
 0
->>> hash2 - "0x341fefff8f780000"
-0
->>> hash1 - "0b0011010000011111111011111111111110001111011110000000000000000000"
-0
->>> hash1 - "0b1111111111111111111111111111111111111111111111111111111111111111"
-32
 >>> hash1 == hash2
 True
 >>> hash1 == "0b0011010000011111111011111111111110001111011110000000000000000000"
@@ -101,9 +95,7 @@ False
 0
 >>> hash3 == hash1
 False
->>> hash3 == hash2
-True
->>> hash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #  video : How We Are Going to the Moon - 4K, a completely different video from the first 3 videos
+>>> hash4 = VideoHash(url="https://www.youtube.com/watch?v=_T8cn2J13-4") #  video : How We Are Going to the Moon - 4K, different video from the first 3 videos
 >>> hash4.hash_hex
 '0x7cffff000000eff0'
 >>> hash4 - "0x7cffff000000eff0"
