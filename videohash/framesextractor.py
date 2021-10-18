@@ -121,16 +121,24 @@ class FramesExtractor(object):
             process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
 
             output, error = process.communicate()
+
             matches = re.findall(
                 r"crop\=[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}",
                 (output.decode() + error.decode()),
             )
+
             for match in matches:
                 crop_list.append(match)
 
-        mode = max(set(crop_list), key=crop_list.count)  # mode seems better than mean
+        mode = None
+        if len(crop_list) > 0:
+            mode = max(crop_list, key=crop_list.count)
 
-        return mode
+        crop = " "
+        if mode:
+            crop = " -vf %s " % mode
+
+        return crop
 
     def extract(self):
         """
@@ -153,7 +161,7 @@ class FramesExtractor(object):
             f'"{ffmpeg_path}"'
             + " -i "
             + f'"{video_path}"'
-            + f' -vf "{crop}" '
+            + f"{crop}"
             + " -s 144x144 "
             + " -r "
             + str(self.interval)
