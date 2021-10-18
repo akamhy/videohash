@@ -64,8 +64,8 @@ def test_all():
     videohash3 = VideoHash(url=source3)
     hash3 = videohash3.hash
     hash_hex3 = videohash3.hash_hex
-    assert hash3 == "0b0111010000011111110011111111111110001111011110000000000000000000"
-    assert hash_hex3 == "0x741fcfff8f780000"
+    assert hash3 == "0b0111000000011111111011111111111110001111011110000000000000000000"
+    assert hash_hex3 == "0x701fefff8f780000"
 
     assert hash1 == hash2
     assert videohash1 == videohash2.bitlist

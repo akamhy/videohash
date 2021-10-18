@@ -1,4 +1,5 @@
 import os
+import re
 import shlex
 from shutil import which
 from subprocess import check_output, Popen, PIPE
@@ -86,6 +87,51 @@ class FramesExtractor(object):
                     % (self.ffmpeg_path, output)
                 )
 
+    @staticmethod
+    def detect_crop(video_path=None, frames=3, ffmpeg_path=None):
+        """
+        Detects the the amount of cropping to remove black bars.
+
+        The method uses [ffmpeg.git] / libavfilter /vf_cropdetect.c
+        to detect_crop for some fixed intervals.
+
+        The mode of the detected crops is selected as the crop required.
+        """
+
+        # We look upto the 120th minute into the video to detect the most
+        # precise crop value
+        time_start_list = [
+            2,
+            5,
+            10,
+            20,
+            40,
+            100,
+            300,
+            600,
+            1200,
+            2400,
+            7200,
+            14400,
+        ]
+
+        crop_list = []
+        for start_time in time_start_list:
+            command = f'"{ffmpeg_path}" -ss {start_time} -i "{video_path}" -vframes {frames} -vf cropdetect -f null -'
+            process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
+
+            output, error = process.communicate()
+            matches = re.findall(
+                r"crop\=[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}",
+                (output.decode() + error.decode()),
+            )
+            for match in matches:
+                crop_list.append(match)
+
+        mode = max(set(crop_list), key=crop_list.count)  # mode seems better than mean
+
+        return mode
+
     def extract(self):
         """
         Extract the frames at every n seconds where n is the
@@ -99,12 +145,15 @@ class FramesExtractor(object):
             video_path = shlex.quote(self.video_path)
             output_dir = shlex.quote(self.output_dir)
 
+        crop = FramesExtractor.detect_crop(
+            video_path=video_path, frames=3, ffmpeg_path=ffmpeg_path
+        )
+
         command = (
             f'"{ffmpeg_path}"'
             + " -i "
-            + '"'
-            + video_path
-            + '"'
+            + f'"{video_path}"'
+            + f' -vf "{crop}" '
             + " -s 144x144 "
             + " -r "
             + str(self.interval)
