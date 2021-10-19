@@ -116,12 +116,13 @@ class MakeCollage(object):
         that the shape of collage is as close to the shape of a square.
         """
 
+        frame_image_width, frame_image_height = (0, 0)
         # arbitrarily selecting the first image from the list, index 0
-        first_frame_image = Image.open(self.image_list[0])
+        with Image.open(self.image_list[0]) as first_frame_image:
 
-        # calculate the width and height of the first image of the list.
-        # Here we assume that all the images passed should have same size.
-        frame_image_width, frame_image_height = first_frame_image.size
+            # calculate the width and height of the first image of the list.
+            # Here we assume that all the images passed should have same size.
+            frame_image_width, frame_image_height = first_frame_image.size
 
         # scale is the ratio of collage_image_width and product of
         # images_per_row_in_collage with frame_image_width.
@@ -196,6 +197,7 @@ class MakeCollage(object):
 
             # paste the frame image on the newly created base image(base image is black)
             collage_image.paste(frame, (x, y))
+            frame.close()
 
             # increase the x coordinate by scaled_frame_image_width
             # to get the x coordinate of the next frame. unless the next image
@@ -209,3 +211,4 @@ class MakeCollage(object):
 
         # save the base image with all the scaled images embeded on it.
         collage_image.save(self.output_path)
+        collage_image.close()
