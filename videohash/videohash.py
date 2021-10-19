@@ -6,6 +6,7 @@ import random
 from PIL import Image
 import imagehash
 import numpy as np
+from typing import List, Union
 
 from .collagemaker import MakeCollage
 from .downloader import Download
@@ -26,7 +27,13 @@ class VideoHash(object):
     containers that are supported by the ffmpeg can be used as an input.
     """
 
-    def __init__(self, path=None, url=None, storage_path=None, download_worst=True):
+    def __init__(
+        self,
+        path: str = "",
+        url: str = "",
+        storage_path: str = "",
+        download_worst: bool = True,
+    ) -> None:
         """
         :param path: Absolute path of the video file.
 
@@ -38,7 +45,7 @@ class VideoHash(object):
                              absolute path of that directory.
 
         :param download_worst: If set to False, download the default quality of
-                               youtube-dl/yt-dlp downloader. These two downloaders
+                               youtube-dl/yt-dlp downloader. These two downloader
                                usually default to the best quality available.
                                Worst quality may be an issue for some users, they
                                are free to set the download_worst to False.
@@ -48,11 +55,10 @@ class VideoHash(object):
         self.storage_path = storage_path
         self._storage_path = storage_path
         self.download_worst = download_worst
-        self.video_path = None
         self.task_uid = VideoHash._get_task_uid()
         self._create_required_dirs_and_check_for_errors()
         self._copy_video_to_video_dir()
-        FramesExtractor(self.video_path, self.frames_dir, interval=1, ffmpeg_path=None)
+        FramesExtractor(self.video_path, self.frames_dir, interval=1)
         self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
         MakeCollage(
             get_list_of_all_files_in_dir(self.frames_dir),
@@ -60,14 +66,11 @@ class VideoHash(object):
             collage_image_width=1024,
         )
         self.image = Image.open(self.collage_path)
-        self.hash = None
-        self.hash_hex = None
         self.bits_in_hash = 64
-        self.bitlist = None
 
         self._calc_hash()
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         The video hash value of the instance. The hash value is 64 bit string
         prefixed with '0b', indicating the that the hash value is binary.
@@ -75,7 +78,7 @@ class VideoHash(object):
 
         return self.hash
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Developer's representation of the VideoHash object.
         """
@@ -87,14 +90,14 @@ class VideoHash(object):
             self.bits_in_hash,
         )
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Length of the hash value string. Total length is 66 characters, 64 for
         the bitstring and 2 for the prefix '0b'.
         """
         return len(self.hash)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         """
         Definition of the "!=" operator for the VideoHash objects.
 
@@ -109,7 +112,7 @@ class VideoHash(object):
             return False
         return True
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """
         Definition of the '=' operator on VideoHash objects.
 
@@ -125,7 +128,7 @@ class VideoHash(object):
             return True
         return False
 
-    def __sub__(self, other):
+    def __sub__(self, other: Union[str, List]) -> int:
         """
         Definition of the '-' operator on VideoHash objects.
 
@@ -178,7 +181,7 @@ class VideoHash(object):
             "To calculate difference both of the hashes must be either hexadecimal/binary strings or instance of VideoHash class."
         )
 
-    def _copy_video_to_video_dir(self):
+    def _copy_video_to_video_dir(self) -> None:
         """
         Copy the video from the path to the video directory.
 
@@ -193,6 +196,7 @@ class VideoHash(object):
         :raises ValueError: If the path supplied by the end user
                             lacks an extension. Like webm or mp4.
         """
+        self.video_path: str = ""
         if self.path:
             # create a copy of the video at self.storage_path
             match = re.search(r"\.([^.]+$)", self.path)
@@ -209,7 +213,6 @@ class VideoHash(object):
             Download(
                 self.url,
                 self.video_download_dir,
-                youtube_dl_path=None,
                 worst=self.download_worst,
             )
             downloaded_file = get_list_of_all_files_in_dir(self.video_download_dir)[0]
@@ -219,7 +222,7 @@ class VideoHash(object):
             )
             shutil.copyfile(downloaded_file, self.video_path)
 
-    def _create_required_dirs_and_check_for_errors(self):
+    def _create_required_dirs_and_check_for_errors(self) -> None:
         """
         Creates important directories before the main processing starts.
 
@@ -268,7 +271,7 @@ class VideoHash(object):
         self.collage_dir = os.path.join(self.storage_path, ("collage%s" % os.path.sep))
         Path(self.collage_dir).mkdir(parents=True, exist_ok=True)
 
-    def delete_storage_path(self):
+    def delete_storage_path(self) -> None:
         """Delete the storage_path directory tree."""
         directory = self.storage_path
         if not self._storage_path:
@@ -279,7 +282,7 @@ class VideoHash(object):
         shutil.rmtree(directory, ignore_errors=True, onerror=None)
 
     @staticmethod
-    def _get_task_uid():
+    def _get_task_uid() -> str:
         """
         Returns an unique task id for the instance. Task id is used to
         differentiate the instance files from the other unrelated files.
@@ -297,8 +300,12 @@ class VideoHash(object):
         )
 
     def hamming_distance(
-        self, string_a=None, string_b=None, bitlist_a=None, bitlist_b=None
-    ):
+        self,
+        string_a: str = "",
+        string_b: str = "",
+        bitlist_a: List = [],
+        bitlist_b: List = [],
+    ) -> int:
         """
         Computes the hamming distance of the input bitstrings or bitlists.
         string_a and string_b must be bitstrings.
@@ -339,12 +346,12 @@ class VideoHash(object):
         )
 
     @staticmethod
-    def hex2bin(hexstr, padding):
+    def hex2bin(hexstr: str, padding: int) -> str:
         """
         Convert hexadecimal('0x' prefixed) to bitstring string prefixed
         with '0b'.
 
-        :raises ValueError: It input hexadecimal string is not prefixed
+        :raises ValueError: If input hexadecimal string is not prefixed
                             with '0x'.
         """
         if not hexstr.lower().startswith("0x"):
@@ -354,7 +361,7 @@ class VideoHash(object):
         )
 
     @staticmethod
-    def bin2hex(binstr):
+    def bin2hex(binstr: str) -> str:
         """
         Convert bitstring('0b' prefixed) to hexadecimal string prefixed
         with '0x'.
@@ -367,7 +374,7 @@ class VideoHash(object):
 
         return str(hex(int(binstr, 2)))
 
-    def _calc_hash(self):
+    def _calc_hash(self) -> None:
         """
         Calculates the hash value by calling the whash(wavelet hash) method of
         imagehash package. The wavelet hash of the collage is the videohash for
@@ -382,7 +389,7 @@ class VideoHash(object):
         for row in imagehash.whash(self.image).hash.tolist():
             wavelethash_bit_list.extend(row)
 
-        self.hash = ""
+        self.hash: str = ""
 
         for bit in wavelethash_bit_list:
             if bit:
@@ -392,5 +399,5 @@ class VideoHash(object):
 
         # the binary value is prefixed with 0b.
         self.hash = "0b%s" % self.hash
-        self.hash_hex = VideoHash.bin2hex(self.hash)
-        self.bitlist = list(map(int, self.hash.replace("0b", "")))
+        self.hash_hex: str = VideoHash.bin2hex(self.hash)
+        self.bitlist: List = list(map(int, self.hash.replace("0b", "")))

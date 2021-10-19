@@ -23,7 +23,9 @@ class Download(object):
     Uses youtube-dl or yt-dl to download the videos.
     """
 
-    def __init__(self, url, output_dir, youtube_dl_path=None, worst=True):
+    def __init__(
+        self, url: str, output_dir: str, youtube_dl_path: str = "", worst: bool = True
+    ) -> None:
         """
         Check if output_dir exists and is a directory, must end with "/".
         Check youtube_dl_path and verify that it is working else raises Exception.
@@ -58,7 +60,7 @@ class Download(object):
 
         self.download_video()
 
-    def _check_youtube_dl(self):
+    def _check_youtube_dl(self) -> None:
         """Checks the youtube-dl and yt-dlp installations."""
         if not self.youtube_dl_path:
 
@@ -96,7 +98,7 @@ class Download(object):
                 "Youtube-dl/yt-dlp is not found at '%s'." % self.youtube_dl_path
             )
 
-    def download_video(self):
+    def download_video(self) -> None:
         """Download the video from URL"""
         youtube_dl_path = self.youtube_dl_path
         output_dir = self.output_dir

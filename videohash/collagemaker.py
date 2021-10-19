@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 from math import ceil, sqrt
+from typing import List
 
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
@@ -59,7 +60,9 @@ class MakeCollage(object):
     produce these vacant spaces.
     """
 
-    def __init__(self, image_list, output_path, collage_image_width=1024):
+    def __init__(
+        self, image_list: List, output_path: str, collage_image_width: int = 1024
+    ) -> None:
         """
         Checks if the list passed is not an empty list.
         Also makes sure that the output_path directory exists.
@@ -82,10 +85,6 @@ class MakeCollage(object):
         self.output_path = output_path
         self.collage_image_width = collage_image_width
 
-        # The algorithm will calculate the collage image height and set
-        # the value to this attribute.
-        self.collage_image_height = None
-
         self.images_per_row_in_collage = int(round(sqrt(self.number_of_images)))
 
         if self.number_of_images == 0:
@@ -99,7 +98,7 @@ class MakeCollage(object):
 
         self.make()
 
-    def make(self):
+    def make(self) -> None:
         """
         Creates the collage from the list of images.
 
