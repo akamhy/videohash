@@ -5,6 +5,6 @@ codecov
 patool
 pyunpack
 flake8
+mypy
+types-Pillow
 black
-
-

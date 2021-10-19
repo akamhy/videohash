@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 from math import ceil, sqrt
+from typing import List
 
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
@@ -59,7 +60,9 @@ class MakeCollage(object):
     produce these vacant spaces.
     """
 
-    def __init__(self, image_list, output_path, collage_image_width=1024):
+    def __init__(
+        self, image_list: List, output_path: str, collage_image_width: int = 1024
+    ) -> None:
         """
         Checks if the list passed is not an empty list.
         Also makes sure that the output_path directory exists.
@@ -82,10 +85,6 @@ class MakeCollage(object):
         self.output_path = output_path
         self.collage_image_width = collage_image_width
 
-        # The algorithm will calculate the collage image height and set
-        # the value to this attribute.
-        self.collage_image_height = None
-
         self.images_per_row_in_collage = int(round(sqrt(self.number_of_images)))
 
         if self.number_of_images == 0:
@@ -99,7 +98,7 @@ class MakeCollage(object):
 
         self.make()
 
-    def make(self):
+    def make(self) -> None:
         """
         Creates the collage from the list of images.
 
@@ -117,12 +116,13 @@ class MakeCollage(object):
         that the shape of collage is as close to the shape of a square.
         """
 
+        frame_image_width, frame_image_height = (0, 0)
         # arbitrarily selecting the first image from the list, index 0
-        first_frame_image = Image.open(self.image_list[0])
+        with Image.open(self.image_list[0]) as first_frame_image:
 
-        # calculate the width and height of the first image of the list.
-        # Here we assume that all the images passed should have same size.
-        frame_image_width, frame_image_height = first_frame_image.size
+            # calculate the width and height of the first image of the list.
+            # Here we assume that all the images passed should have same size.
+            frame_image_width, frame_image_height = first_frame_image.size
 
         # scale is the ratio of collage_image_width and product of
         # images_per_row_in_collage with frame_image_width.
@@ -197,6 +197,7 @@ class MakeCollage(object):
 
             # paste the frame image on the newly created base image(base image is black)
             collage_image.paste(frame, (x, y))
+            frame.close()
 
             # increase the x coordinate by scaled_frame_image_width
             # to get the x coordinate of the next frame. unless the next image
@@ -210,3 +211,4 @@ class MakeCollage(object):
 
         # save the base image with all the scaled images embeded on it.
         collage_image.save(self.output_path)
+        collage_image.close()

@@ -24,8 +24,8 @@ jobs:
         brew install ffmpeg
         ffmpeg -version
         python -m pip install --upgrade pip
-        python -m pip install flake8 pytest codecov pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
     - name: Test with pytest
       run: |
-        pytest --cov=videohash tests/ -v
+        pytest
