@@ -1,4 +1,6 @@
-[![VideoHash Logo](https://raw.githubusercontent.com/akamhy/videohash/main/assets/logo/logo-banner.png)](https://github.com/akamhy/videohash)
+<div align="center">
+<img src="https://raw.githubusercontent.com/akamhy/videohash/main/assets/logo/logo-optimized.svg"><br>
+</div>
 
 <h2 align="center"> The Python package for near duplicate video detection </h2>
 
