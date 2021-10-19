@@ -69,7 +69,9 @@ class Download(object):
                 if not which("youtube-dl"):
 
                     raise YouTubeDLNotFound(
-                        "youtube-dl and yt-dlp not found on path. Install one of the two and add them to the path. Or you can also pass the path to 'youtube_dl_path' param"
+                        "youtube-dl and yt-dlp not found on path."
+                        + " Install one of the two and add them to the path."
+                        + " Or you can also pass the path to 'youtube_dl_path' param"
                     )
 
                 else:

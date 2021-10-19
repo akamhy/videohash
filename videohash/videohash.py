@@ -6,7 +6,7 @@ import random
 from PIL import Image
 import imagehash  # type: ignore
 import numpy as np
-from typing import List, Union
+from typing import List
 
 from .collagemaker import MakeCollage
 from .downloader import Download
@@ -178,7 +178,8 @@ class VideoHash(object):
             )
 
         raise TypeError(
-            "To calculate difference both of the hashes must be either hexadecimal/binary strings or instance of VideoHash class."
+            "To calculate difference both of the hashes must be either"
+            + " hexadecimal/binary strings or instance of VideoHash class."
         )
 
     def _copy_video_to_video_dir(self) -> None:
@@ -327,7 +328,8 @@ class VideoHash(object):
         if bitlist_a and bitlist_b:
             if len(bitlist_a) != len(bitlist_b):
                 raise ValueError(
-                    "Bit lists have unequal number of elements. Can not compute hamming distance. Hamming distance is undefined."
+                    "Bit lists have unequal number of elements."
+                    + " Can not compute hamming distance. Hamming distance is undefined."
                 )
 
         if string_a and string_b:
