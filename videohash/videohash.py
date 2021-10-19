@@ -5,7 +5,7 @@ import re
 import random
 from PIL import Image
 import imagehash  # type: ignore
-import numpy as np
+import numpy as np # type: ignore
 from typing import List
 
 from .collagemaker import MakeCollage
