@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 import random
 from PIL import Image
-import imagehash
+import imagehash  # type: ignore
 import numpy as np
 from typing import List, Union
 
@@ -128,7 +128,7 @@ class VideoHash(object):
             return True
         return False
 
-    def __sub__(self, other: Union[str, List]) -> int:
+    def __sub__(self, other) -> int:
         """
         Definition of the '-' operator on VideoHash objects.
 
@@ -216,9 +216,17 @@ class VideoHash(object):
                 worst=self.download_worst,
             )
             downloaded_file = get_list_of_all_files_in_dir(self.video_download_dir)[0]
+            match = re.search(r"\.(.*?)$", downloaded_file)
+
+            # Matroska is universal format
+            extension = "mkv"
+
+            if match:
+                extension = match.group(1)
+
             self.video_path = "%svideo.%s" % (
                 self.video_dir,
-                re.search(r"\.(.*?)$", downloaded_file).group(1),
+                extension,
             )
             shutil.copyfile(downloaded_file, self.video_path)
 
