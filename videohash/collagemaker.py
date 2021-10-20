@@ -120,11 +120,11 @@ class MakeCollage(object):
         """
 
         # arbitrarily selecting the first image from the list, index 0
-        with Image.open(self.image_list[0]) as first_frame_image:
+        with Image.open(self.image_list[0]) as first_frame_image_in_list:
 
             # Find the width and height of the first image of the list.
             # Assuming all the images have same size.
-            frame_image_width, frame_image_height = first_frame_image.size
+            frame_image_width, frame_image_height = first_frame_image_in_list.size
 
         # scale is the ratio of collage_image_width and product of
         # images_per_row_in_collage with frame_image_width.
