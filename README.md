@@ -21,55 +21,67 @@
 
 ## ⭐️ Introduction
 
-Videohash is a Python library for **detecting near-duplicate videos (Perceptual Video Hashing)**. Any video input can be used to build a 64-bit equivalent hash value with this package. The hash-values for identical/near-duplicate videos are the same or similar, implying that if the video is enlarged (upscaled/downscaled), transcoded, slightly cropped, or black-bars added/removed, the hash-value should remain unchanged or not vary substantially.
+Videohash is a Python library for **detecting near-duplicate videos (Perceptual Video Hashing)**.
+Any video input can be used to generate a 64-bit equivalent hash value with this package.
 
-### How the hash values are calculated.
->  - Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://web.archive.org/web/20201108093251/https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) is the video hash value for the original input video.
+The video-hash-values for identical/near-duplicate videos are the same or similar, implying that if the video is resized (upscaled/downscaled), transcoded, watermark added/removed, changed color, changed frame rate, changed aspect ratio, slightly cropped, or black-bars added/removed, the hash-value should remain unchanged or not vary substantially.
 
-### When not to use Videohash.
->  - Videohash cannot be used to verify whether one video is a part of another (video fingerprinting). If the video is reversed or rotated by a substantial angle (greater than 10 degrees), Videohash will not provide the same or similar hash result, but you can always reverse the video manually and generate the hash value for reversed video.
+### How the hash values are calculated
 
-### How to compare the video hash values stored in a database.
+> - Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://web.archive.org/web/20201108093251/https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) is the video hash value for the original input video.
+
+### When not to use Videohash
+
+> - Videohash cannot be used to verify whether one video is a part of another (video fingerprinting). If the video is reversed or rotated by a substantial angle (greater than 10 degrees), Videohash will not provide the same or similar hash result, but you can always reverse the video manually and generate the hash value for reversed video.
+
+### How to compare the video hash values stored in a database
+
 > - Read [Hamming Distance / Similarity searches in a database - Stack Overflow](https://stackoverflow.com/questions/9606492/hamming-distance-similarity-searches-in-a-database) [(Archive link)](https://web.archive.org/web/20211015120052/https://stackoverflow.com/questions/9606492/hamming-distance-similarity-searches-in-a-database)
 
 --------------------------------------------------------------------------
 
 ### 🏗 Installation
-To use this software, you must have [FFmpeg](https://ffmpeg.org/) installed. Please read  
-[how to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F) if you don't already know how.
 
+To use this software, you must have [FFmpeg](https://ffmpeg.org/) installed. Please read [how to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F) if you don't already know how.
 
 #### Install videohash
 
-  - Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
+- Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
 
 ```bash
 pip install videohash
 ```
 
-  - Install directly from GitHub:
+- Install directly from GitHub:
 
 ```bash
 pip install git+https://github.com/akamhy/videohash.git
 ```
+
 --------------------------------------------------------------------------
 
 ### 🌱 Features
 
-  - Generate videohash of a video directly from its URL or its path.
-  - Can be used to implement scalable Near Duplicate Video Retrieval.
-  - The end-user can access the image representation(the collage) of the video.
-  - A videohash instance can be compared to a 64-bit stored hash, its hex representation, bitlist, and other videohash instances.
-  - Faster than the old method of comparing each frame individually. The videohash package generates a single 64-bit video hash value, which saves a significant amount of database space. And the number of comparisons required drops dramatically.
+- Generate videohash of a video directly from its URL or its path.
+- Can be used to implement scalable Near Duplicate Video Retrieval.
+- The end-user can access the image representation(the collage) of the video.
+- A videohash instance can be compared to a 64-bit stored hash, its hex representation, bitlist, and other videohash instances.
+- Faster than the old method of comparing each frame individually. The videohash package generates a single 64-bit video hash value, which saves a significant amount of database space. And the number of comparisons required drops significantly.
 
 --------------------------------------------------------------------------
 
 ### 🚀 Usage
-In the following usage example the first three instances of VideoHash class are computing the hash for the same video and the last one is a different video.
-  - videohash1 is the video at <https://www.youtube.com/watch?v=PapBjpzRhnA>.
-  - videohash2 is downscaled copy of https://www.youtube.com/watch?v=PapBjpzRhnA contained in [Matroska Multimedia Container](https://www.matroska.org/index.html).
-  - videohash3 is the same video as videohash2 but on local storage.
-  - videohash4 uses a completely different video at <https://www.youtube.com/watch?v=_T8cn2J13-4>.
+
+In the following usage example the first three instance of VideoHash class are computing the hash for the same video(not same as in checksum) and the last one is a different video.
+
+- videohash1 is the video at <https://www.youtube.com/watch?v=PapBjpzRhnA>.
+
+- videohash2 is downscaled copy of <https://www.youtube.com/watch?v=PapBjpzRhnA> contained in [Matroska Multimedia Container](https://www.matroska.org/index.html).
+
+- videohash3 is the same video as videohash2 but on local storage.
+
+- videohash4 uses a completely different video at <https://www.youtube.com/watch?v=_T8cn2J13-4>.
+
 ```python
 >>> from videohash import VideoHash
 >>> # video: Artemis I Hot Fire Test
@@ -116,16 +128,17 @@ True
 >>> videohash4 != videohash2
 True
 ```
+
 <sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
 
 **Extended Usage** : <https://github.com/akamhy/videohash/wiki/Extended-Usage>
 
 **API Reference** : <https://github.com/akamhy/videohash/wiki/API-Reference>
 
-
 --------------------------------------------------------------------------
 
 ### 🛡 License
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
 Released under the MIT License. See
@@ -134,6 +147,4 @@ Released under the MIT License. See
 The VideoHash logo was created by [iconolocode](https://github.com/iconolocode). See [license](https://github.com/akamhy/videohash/blob/main/assets/logo/LICENSE-LOGO) for details.
 
 Videos are from NASA and are in the public domain.
-> NASA videos are in the public domain. NASA copyright policy states that "NASA material is not protected by copyright unless noted".
-
-------------------------------------------------------------------------------------
+> NASA copyright policy states that "NASA material is not protected by copyright unless noted".
