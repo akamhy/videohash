@@ -332,6 +332,8 @@ class VideoHash(object):
                     "Bit lists have unequal number of bits."
                     + " Can not compute hamming distance. Hamming distance is undefined."
                 )
+            _bitlist_a = bitlist_a
+            _bitlist_b = bitlist_b
 
         if string_a and string_b:
             if len(string_a) != len(string_b):
