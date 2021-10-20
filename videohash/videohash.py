@@ -340,24 +340,19 @@ class VideoHash(object):
                 )
 
             if string_a == self.hash:
-                bitlist_a = self.bitlist
+                _bitlist_a = self.bitlist
             else:
-                bitlist_a = list(map(int, string_a.replace("0b", "")))
+                _bitlist_a = list(map(int, string_a.replace("0b", "")))
 
             if string_b == self.hash:
-                bitlist_b = self.bitlist
+                _bitlist_b = self.bitlist
             else:
-                bitlist_b = list(map(int, string_b.replace("0b", "")))
-
-        if not bitlist_a or not bitlist_b:
-            raise ValueError(
-                "Required two bitlists for computing hamming_distance by bitwise XOR'ing."
-            )
+                _bitlist_b = list(map(int, string_b.replace("0b", "")))
 
         return len(
             np.bitwise_xor(
-                bitlist_a,
-                bitlist_b,
+                _bitlist_a,
+                _bitlist_b,
             ).nonzero()[0]
         )
 
