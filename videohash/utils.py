@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List
 
 
-def get_list_of_all_files_in_dir(directory: str) -> List:
+def get_list_of_all_files_in_dir(directory: str) -> List[str]:
     """
     Returns a list containing all the file paths(absolute path) in a directory.
     The list is sorted.

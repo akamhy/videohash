@@ -5,8 +5,7 @@ import re
 import random
 from PIL import Image
 import imagehash  # type: ignore
-import numpy as np # type: ignore
-from typing import List
+import numpy as np
 
 from .collagemaker import MakeCollage
 from .downloader import Download
@@ -17,6 +16,7 @@ from .utils import (
     create_and_return_temporary_directory,
     get_list_of_all_files_in_dir,
 )
+from typing import List, Optional
 
 
 class VideoHash(object):
@@ -29,9 +29,9 @@ class VideoHash(object):
 
     def __init__(
         self,
-        path: str = "",
-        url: str = "",
-        storage_path: str = "",
+        path: Optional[str] = None,
+        url: Optional[str] = None,
+        storage_path: Optional[str] = None,
         download_worst: bool = True,
     ) -> None:
         """
@@ -45,15 +45,17 @@ class VideoHash(object):
                              absolute path of that directory.
 
         :param download_worst: If set to False, download the default quality of
-                               youtube-dl/yt-dlp downloader. These two downloader
+                               youtube-dl/yt-dlp downloader. These two downloaders
                                usually default to the best quality available.
                                Worst quality may be an issue for some users, they
                                are free to set the download_worst to False.
         """
         self.path = path
         self.url = url
-        self.storage_path = storage_path
-        self._storage_path = storage_path
+        self.storage_path = ""
+        if storage_path:
+            self.storage_path = storage_path
+        self._storage_path = self.storage_path
         self.download_worst = download_worst
         self.task_uid = VideoHash._get_task_uid()
         self._create_required_dirs_and_check_for_errors()
@@ -97,7 +99,7 @@ class VideoHash(object):
         """
         return len(self.hash)
 
-    def __ne__(self, other) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
         Definition of the "!=" operator for the VideoHash objects.
 
@@ -112,7 +114,7 @@ class VideoHash(object):
             return False
         return True
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Definition of the '=' operator on VideoHash objects.
 
@@ -128,7 +130,7 @@ class VideoHash(object):
             return True
         return False
 
-    def __sub__(self, other) -> int:
+    def __sub__(self, other: object) -> int:
         """
         Definition of the '-' operator on VideoHash objects.
 
@@ -178,8 +180,8 @@ class VideoHash(object):
             )
 
         raise TypeError(
-            "To calculate difference both of the hashes must be either"
-            + " hexadecimal/binary strings or instance of VideoHash class."
+            "To calculate difference both of the hashes must be either "
+            + "hexadecimal/binary strings or instance of VideoHash class."
         )
 
     def _copy_video_to_video_dir(self) -> None:
@@ -219,7 +221,6 @@ class VideoHash(object):
             downloaded_file = get_list_of_all_files_in_dir(self.video_download_dir)[0]
             match = re.search(r"\.(.*?)$", downloaded_file)
 
-            # Matroska is universal format
             extension = "mkv"
 
             if match:
@@ -310,10 +311,10 @@ class VideoHash(object):
 
     def hamming_distance(
         self,
-        string_a: str = "",
-        string_b: str = "",
-        bitlist_a: List = [],
-        bitlist_b: List = [],
+        string_a: Optional[str] = None,
+        string_b: Optional[str] = None,
+        bitlist_a: Optional[List[int]] = None,
+        bitlist_b: Optional[List[int]] = None,
     ) -> int:
         """
         Computes the hamming distance of the input bitstrings or bitlists.
@@ -328,7 +329,7 @@ class VideoHash(object):
         if bitlist_a and bitlist_b:
             if len(bitlist_a) != len(bitlist_b):
                 raise ValueError(
-                    "Bit lists have unequal number of elements."
+                    "Bit lists have unequal number of bits."
                     + " Can not compute hamming distance. Hamming distance is undefined."
                 )
 
@@ -347,6 +348,11 @@ class VideoHash(object):
                 bitlist_b = self.bitlist
             else:
                 bitlist_b = list(map(int, string_b.replace("0b", "")))
+
+        if not bitlist_a or not bitlist_b:
+            raise ValueError(
+                "Required two bitlists for computing hamming_distance by bitwise XOR'ing."
+            )
 
         return len(
             np.bitwise_xor(

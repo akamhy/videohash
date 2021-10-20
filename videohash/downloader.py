@@ -6,6 +6,7 @@ from subprocess import check_output, Popen, PIPE
 
 from .utils import does_path_exists
 from .exceptions import YouTubeDLNotFound, DownloadOutPutDirDoesNotExits, DownloadFailed
+from typing import Optional
 
 
 # Python module to download the video from the input URL.
@@ -24,7 +25,11 @@ class Download(object):
     """
 
     def __init__(
-        self, url: str, output_dir: str, youtube_dl_path: str = "", worst: bool = True
+        self,
+        url: str,
+        output_dir: str,
+        youtube_dl_path: Optional[str] = None,
+        worst: bool = True,
     ) -> None:
         """
         Check if output_dir exists and is a directory, must end with "/".
@@ -47,7 +52,10 @@ class Download(object):
         """
         self.url = url
         self.output_dir = output_dir
-        self.youtube_dl_path = youtube_dl_path
+        self.youtube_dl_path = ""
+        if youtube_dl_path:
+            self.youtube_dl_path = youtube_dl_path
+
         self.worst = worst
 
         if not does_path_exists(self.output_dir):

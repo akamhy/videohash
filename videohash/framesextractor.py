@@ -10,6 +10,7 @@ from .exceptions import (
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
 )
+from typing import Optional
 
 
 # python module to extract the frames from the input video.
@@ -23,7 +24,11 @@ class FramesExtractor(object):
     """
 
     def __init__(
-        self, video_path: str, output_dir: str, interval: int = 1, ffmpeg_path: str = ""
+        self,
+        video_path: str,
+        output_dir: str,
+        interval: int = 1,
+        ffmpeg_path: Optional[str] = None,
     ) -> None:
         """
         Raises Exeception if video_path does not exists.
@@ -45,7 +50,9 @@ class FramesExtractor(object):
         self.video_path = video_path
         self.output_dir = output_dir
         self.interval = interval
-        self.ffmpeg_path = ffmpeg_path
+        self.ffmpeg_path = ""
+        if ffmpeg_path:
+            self.ffmpeg_path = ffmpeg_path
 
         if not does_path_exists(self.video_path):
             raise FileNotFoundError(
@@ -90,7 +97,11 @@ class FramesExtractor(object):
                 )
 
     @staticmethod
-    def detect_crop(video_path: str, ffmpeg_path: str, frames: int = 3) -> str:
+    def detect_crop(
+        video_path: Optional[str] = None,
+        frames: int = 3,
+        ffmpeg_path: Optional[str] = None,
+    ) -> str:
         """
         Detects the the amount of cropping to remove black bars.
 
@@ -155,7 +166,9 @@ class FramesExtractor(object):
             video_path = shlex.quote(self.video_path)
             output_dir = shlex.quote(self.output_dir)
 
-        crop = FramesExtractor.detect_crop(video_path, ffmpeg_path, frames=3)
+        crop = FramesExtractor.detect_crop(
+            video_path=video_path, frames=3, ffmpeg_path=ffmpeg_path
+        )
 
         command = (
             f'"{ffmpeg_path}"'

@@ -1,10 +1,10 @@
 import os
 from PIL import Image
 from math import ceil, sqrt
-from typing import List
 
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
+from typing import List
 
 
 # Module to create collage from list of images, the
@@ -61,7 +61,10 @@ class MakeCollage(object):
     """
 
     def __init__(
-        self, image_list: List, output_path: str, collage_image_width: int = 1024
+        self,
+        image_list: List[str],
+        output_path: str,
+        collage_image_width: int = 1024,
     ) -> None:
         """
         Checks if the list passed is not an empty list.
@@ -162,7 +165,7 @@ class MakeCollage(object):
         i, j = (0, 0)
 
         # iterate the frames and paste them on their position on the collage_image
-        for count, frame in enumerate(self.image_list):
+        for count, frame_path in enumerate(self.image_list):
 
             # Set the x coordinate to zero if we are on the first column
             # If self.images_per_row_in_collage is 4
@@ -171,7 +174,7 @@ class MakeCollage(object):
                 i = 0
 
             # open the frame image, must open it to resize it using the thumbnail method
-            frame = Image.open(frame)
+            frame = Image.open(frame_path)
 
             # scale the opened frame images
             frame.thumbnail(

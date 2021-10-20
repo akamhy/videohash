@@ -1,7 +1,10 @@
 # Report
 report.html
 
-# ffmpeg install on tests @ windows
+# Monkey Type db
+monkeytype.sqlite3
+
+# FFmpeg install on tests @ windows
 ffmpeg*
 
 # Byte-compiled / optimized / DLL files
