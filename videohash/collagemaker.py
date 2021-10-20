@@ -122,17 +122,14 @@ class MakeCollage(object):
         # arbitrarily selecting the first image from the list, index 0
         with Image.open(self.image_list[0]) as first_frame_image:
 
-            # calculate the width and height of the first image of the list.
-            # Here we assume that all the images passed should have same size.
+            # Find the width and height of the first image of the list.
+            # Assuming all the images have same size.
             frame_image_width, frame_image_height = first_frame_image.size
 
         # scale is the ratio of collage_image_width and product of
         # images_per_row_in_collage with frame_image_width.
-        # clearly denominator will be bigger than numerator unless
-        # collage_image_width is set to a very small integer, the video
-        # is of very low resolution or collage_image_width is set to a big
-        # integer.
-        # Therefore scale will always lie between 0 and 1, which implies that
+
+        # The scale will always lie between 0 and 1, which implies that
         # the images are always going to get downsized.
         scale = (self.collage_image_width) / (
             self.images_per_row_in_collage * frame_image_width
@@ -143,19 +140,17 @@ class MakeCollage(object):
         scaled_frame_image_height = ceil(frame_image_height * scale)
 
         # Divide the number of images by images_per_row_in_collage. The later
-        # was calculated by taking the square root of total images.
+        # was calculated by taking the square root of total number of images.
         number_of_rows = ceil(self.number_of_images / self.images_per_row_in_collage)
 
-        # We are multiplying the height of one downsized image with number of rows.
-        # height of 1 downsized image = scale * frame_image_height
-        # total height is clearly the multiplication of number of rows and height of
-        # one downsized image.
+        # Multiplying the height of one downsized image with number of rows.
+        # Height of 1 downsized image is product of scale and frame_image_height
+        # Total height is number of rows times the height of one downsized image.
         self.collage_image_height = ceil(scale * frame_image_height * number_of_rows)
 
         # Create an image of passed collage_image_width and calculated collage_image_height.
         # The downsized images will be pasted on this new base image.
-        # The image is 0,0,0 RGB(black) and has little effect on the hash value also it
-        # reduces the issues with the black-bars in some videos.
+        # The image is 0,0,0 RGB(black).
         collage_image = Image.new(
             "RGB", (self.collage_image_width, self.collage_image_height)
         )
@@ -193,8 +188,8 @@ class MakeCollage(object):
             # the product of 0 with scaled_frame_image_height is also zero, they
             # y coordinate for the first row is 0.
             # For the second row the result of floor division is one and the prodcut
-            # with scaled_frame_image_height enusre that the y coordinate is
-            # scaled_frame_image_height below the images of the first row.
+            # with scaled_frame_image_height ensures that the y coordinate is
+            # scaled_frame_image_height below the first row.
             y = (j // self.images_per_row_in_collage) * scaled_frame_image_height
 
             # paste the frame image on the newly created base image(base image is black)
@@ -211,6 +206,6 @@ class MakeCollage(object):
             # therefore the y coordinate stays the same for any given row.
             j += 1
 
-        # save the base image with all the scaled images embeded on it.
+        # save the base image with all the scaled frame images embeded on it.
         collage_image.save(self.output_path)
         collage_image.close()
