@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 import random
 from PIL import Image
-import imagehash  # type: ignore
+import imagehash
 import numpy as np
 
 from .collagemaker import MakeCollage
