@@ -119,7 +119,6 @@ class MakeCollage(object):
         that the shape of collage is as close to the shape of a square.
         """
 
-        frame_image_width, frame_image_height = (0, 0)
         # arbitrarily selecting the first image from the list, index 0
         with Image.open(self.image_list[0]) as first_frame_image:
 
