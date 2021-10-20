@@ -85,7 +85,8 @@ In the following usage example the first three instance of VideoHash class are c
 ```python
 >>> from videohash import VideoHash
 >>> # video: Artemis I Hot Fire Test
->>> videohash1 = VideoHash(url="https://www.youtube.com/watch?v=PapBjpzRhnA", download_worst=False)
+>>> url1 = "https://www.youtube.com/watch?v=PapBjpzRhnA"
+>>> videohash1 = VideoHash(url=url1, download_worst=False)
 >>>
 >>> videohash1.hash # video hash value of the file, value is same as str(videohash1)
 '0b0011010000011111111011111111111110001111011110000000000000000000'
