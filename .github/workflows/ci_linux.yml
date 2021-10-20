@@ -38,7 +38,7 @@ jobs:
         flake8 videohash/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --per-file-ignores="videohash/__init__.py:F401"
     - name: Static type test with mypy
       run: |
-        mypy videohash/
+        mypy
     - name: Test with pytest
       run: |
         pytest
