@@ -9,7 +9,8 @@ with open(os.path.join(os.path.dirname(__file__), "videohash", "__version__.py")
     exec(f.read(), about)
 
 version = str(about["__version__"])
-download_url = "https://github.com/akamhy/videohash/archive/%s.tar.gz" % version
+
+download_url = f"https://github.com/akamhy/videohash/archive/{version}.tar.gz"
 
 setup(
     name=about["__title__"],
@@ -25,6 +26,8 @@ setup(
     download_url=download_url,
     keywords=[
         "videohash",
+        "near duplicate video detection",
+        "NDVD",
         "perceptual video hashing",
         "video hashing",
         "near duplicate video",
@@ -37,8 +40,18 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
+        "Intended Audience :: End Users/Desktop",
+        "Intended Audience :: Information Technology",
+        "Operating System :: MacOS",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX",
+        "Operating System :: POSIX :: Linux",
+        "Operating System :: POSIX :: BSD",
+        "Topic :: Multimedia :: Video",
         "Natural Language :: English",
         "Topic :: Software Development :: Build Tools",
+        "Topic :: Scientific/Engineering :: Image Recognition",
+        "Typing :: Typed",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
@@ -50,6 +63,7 @@ setup(
     ],
     project_urls={
         "Source": "https://github.com/akamhy/videohash",
+        "Documentation": "https://github.com/akamhy/videohash/wiki/Extended-Usage",
         "Tracker": "https://github.com/akamhy/videohash/issues",
     },
 )
