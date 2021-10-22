@@ -62,13 +62,12 @@ class FramesExtractor:
 
         if not does_path_exists(self.video_path):
             raise FileNotFoundError(
-                "No video found at '%s' for frame extraction." % self.video_path
+                f"No video found at '{self.video_path}' for frame extraction."
             )
 
         if not does_path_exists(self.output_dir):
             raise FramesExtractorOutPutDirDoesNotExits(
-                "No directory called '%s' found for storing the frames."
-                % self.output_dir
+                f"No directory called '{self.output_dir}' found for storing the frames."
             )
 
         self._check_ffmpeg()
@@ -103,14 +102,13 @@ class FramesExtractor:
             output = check_output([str(self.ffmpeg_path), "-version"]).decode()
 
         except FileNotFoundError:
-            raise FFmpegNotFound("FFmpeg not found at '%s'." % self.ffmpeg_path)
+            raise FFmpegNotFound(f"FFmpeg not found at '{self.ffmpeg_path}'.")
 
         else:
 
             if "ffmpeg version" not in output:
                 raise FFmpegNotFound(
-                    "ffmpeg at '%s' is not really ffmpeg. Output of ffmpeg -version is \n'%s'."
-                    % (self.ffmpeg_path, output)
+                    f"ffmpeg at '{self.ffmpeg_path}' is not really ffmpeg. Output of ffmpeg -version is \n'{output}'."
                 )
 
     @staticmethod
@@ -173,7 +171,7 @@ class FramesExtractor:
 
         crop = " "
         if mode:
-            crop = " -vf %s " % mode
+            crop = f" -vf {mode} "
 
         return crop
 
@@ -224,6 +222,5 @@ class FramesExtractor:
         if len(os.listdir(self.output_dir)) == 0:
 
             raise FFmpegFailedToExtractFrames(
-                "FFmpeg could not extract any frames.\n%s\n%s\n%s"
-                % (command, ffmpeg_output, ffmpeg_error)
+                f"FFmpeg could not extract any frames.\n{command}\n{ffmpeg_output}\n{ffmpeg_error}"
             )

@@ -47,6 +47,6 @@ def create_and_return_temporary_directory() -> str:
 
     :rtype: str
     """
-    path = os.path.join(tempfile.mkdtemp(), ("temp_storage_dir%s" % os.path.sep))
+    path = os.path.join(tempfile.mkdtemp(), ("temp_storage_dir" + os.path.sep))
     Path(path).mkdir(parents=True, exist_ok=True)
     return path
