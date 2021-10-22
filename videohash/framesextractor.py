@@ -10,6 +10,7 @@ from .exceptions import (
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
 )
+
 from typing import Optional
 
 
@@ -33,7 +34,12 @@ class FramesExtractor:
         """
         Raises Exeception if video_path does not exists.
         Raises Exeception if output_dir does not exists or if not a directory.
+
         Checks  the ffmpeg installation and the path; thus ensure that we can use it.
+
+        :return: None
+
+        :rtype: NoneType
 
         :param video_path: absolute path of the video
 
@@ -73,23 +79,34 @@ class FramesExtractor:
         """
         Checks the ffmpeg path and runs 'ffmpeg -version' to verify that the
         software, ffmpeg is found and works.
+
+        :return: None
+
+        :rtype: NoneType
         """
+
         if not self.ffmpeg_path:
+
             if not which("ffmpeg"):
+
                 raise FFmpegNotFound(
                     "FFmpeg is not on the path. Install FFmpeg and add it to the path."
                     + "Or you can also pass the path via the 'ffmpeg_path' param."
                 )
             else:
+
                 self.ffmpeg_path = str(which("ffmpeg"))
 
         # Check the ffmpeg
         try:
             # check_output will raise FileNotFoundError if it does not finds the ffmpeg
             output = check_output([str(self.ffmpeg_path), "-version"]).decode()
+
         except FileNotFoundError:
             raise FFmpegNotFound("FFmpeg not found at '%s'." % self.ffmpeg_path)
+
         else:
+
             if "ffmpeg version" not in output:
                 raise FFmpegNotFound(
                     "ffmpeg at '%s' is not really ffmpeg. Output of ffmpeg -version is \n'%s'."
@@ -109,6 +126,10 @@ class FramesExtractor:
         to detect_crop for some fixed intervals.
 
         The mode of the detected crops is selected as the crop required.
+
+        :return: FFmpeg argument -vf filter and confromable crop parameter.
+
+        :rtype: str
         """
 
         # We look upto the 120th minute into the video to detect the most
@@ -129,8 +150,11 @@ class FramesExtractor:
         ]
 
         crop_list = []
+
         for start_time in time_start_list:
+
             command = f'"{ffmpeg_path}" -ss {start_time} -i "{video_path}" -vframes {frames} -vf cropdetect -f null -'
+
             process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
 
             output, error = process.communicate()
@@ -157,10 +181,16 @@ class FramesExtractor:
         """
         Extract the frames at every n seconds where n is the
         integer set to self.interval.
+
+        :return: None
+
+        :rtype: NoneType
         """
+
         ffmpeg_path = self.ffmpeg_path
         video_path = self.video_path
         output_dir = self.output_dir
+
         if os.name == "posix":
             ffmpeg_path = shlex.quote(self.ffmpeg_path)
             video_path = shlex.quote(self.video_path)
@@ -192,6 +222,7 @@ class FramesExtractor:
         ffmpeg_error = error.decode()
 
         if len(os.listdir(self.output_dir)) == 0:
+
             raise FFmpegFailedToExtractFrames(
                 "FFmpeg could not extract any frames.\n%s\n%s\n%s"
                 % (command, ffmpeg_output, ffmpeg_error)

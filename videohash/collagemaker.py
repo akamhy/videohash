@@ -4,6 +4,7 @@ from math import ceil, sqrt
 
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
+
 from typing import List
 
 
@@ -82,6 +83,10 @@ class MakeCollage:
 
         :param collage_image_width: An integer specifying the image width of the
                                     output collage. Default value is 1024 pixels.
+
+        :return: None
+
+        :rtype: NoneType
         """
         self.image_list = image_list
         self.number_of_images = len(self.image_list)
@@ -117,6 +122,10 @@ class MakeCollage:
         on it.
         The frame images are scaled to fit the collage base image such
         that the shape of collage is as close to the shape of a square.
+
+        :return: None
+
+        :rtype: NoneType
         """
 
         # arbitrarily selecting the first image from the list, index 0

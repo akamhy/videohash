@@ -6,6 +6,7 @@ from subprocess import check_output, Popen, PIPE
 
 from .utils import does_path_exists
 from .exceptions import YouTubeDLNotFound, DownloadOutPutDirDoesNotExits, DownloadFailed
+
 from typing import Optional
 
 
@@ -49,6 +50,10 @@ class Download:
                       True for worst quality and False for the default settings
                       of the downloader. The downloaders are yt-dlp and youtube_dl.
                       Default worst is True
+
+        :return: None
+
+        :rtype: NoneType
         """
         self.url = url
         self.output_dir = output_dir
@@ -69,7 +74,13 @@ class Download:
         self.download_video()
 
     def _check_youtube_dl(self) -> None:
-        """Checks the youtube-dl and yt-dlp installations."""
+        """Checks the youtube-dl and yt-dlp installations.
+
+        :return: None
+
+        :rtype: NoneType
+
+        """
         if not self.youtube_dl_path:
 
             if not which("yt-dlp"):
@@ -109,7 +120,13 @@ class Download:
             )
 
     def download_video(self) -> None:
-        """Download the video from URL"""
+        """Download the video from URL
+
+        :return: None
+
+        :rtype: NoneType
+
+        """
         youtube_dl_path = self.youtube_dl_path
         output_dir = self.output_dir
         if os.name == "posix":

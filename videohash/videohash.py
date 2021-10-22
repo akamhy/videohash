@@ -16,15 +16,15 @@ from .utils import (
     create_and_return_temporary_directory,
     get_list_of_all_files_in_dir,
 )
+
 from typing import List, Optional
 
 
 class VideoHash:
 
     """
-    The VideoHash class provides an interface for computing & comparing the video
-    hash values for videos supported by the ffmpeg. Every video format, encoding and
-    containers that are supported by the ffmpeg can be used as an input.
+    VideoHash class provides an interface for computing & comparing the video
+    hash values for videos(codec, containers etc) supported by FFmpeg.
     """
 
     def __init__(
@@ -35,38 +35,57 @@ class VideoHash:
         download_worst: bool = True,
     ) -> None:
         """
-        :param path: Absolute path of the video file.
+        :param path: Absolute path of the input video file.
 
-        :param url: URL of the video file. Every URL that is supported by the
-                    youtube-dl or yt-dlp package can be passed.
+        :param url: URL of the input video file. Every URL that is supported by
+                    youtube-dl or yt-dlp can be passed.
 
-        :param storage_path: If you want to provide a storage path for the files
-                             created/downloaded by the instance, pass the
-                             absolute path of that directory.
+        :param storage_path: Storage path for the files created/downloaded by
+                             the instance, pass the absolute path of the
+                             directory.
+                             If no argument is passed then the instance will
+                             itself create the storage directory inside the
+                             temporary directory of the system.
 
         :param download_worst: If set to False, download the default quality of
-                               youtube-dl/yt-dlp downloader. These two downloaders
-                               usually default to the best quality available.
-                               Worst quality may be an issue for some users, they
-                               are free to set the download_worst to False.
+                               youtube-dl/yt-dlp downloader. youtube-dl and
+                               yt-dlp usually default to the best quality video
+                               available.
+                               Worst quality might be an issue for some users,
+                               they may set the download_worst to False.
+                               The default value is True to conserve bandwidth.
+
+
+        :return: None
+
+        :rtype: NoneType
         """
         self.path = path
         self.url = url
+
         self.storage_path = ""
         if storage_path:
             self.storage_path = storage_path
+
         self._storage_path = self.storage_path
         self.download_worst = download_worst
+
         self.task_uid = VideoHash._get_task_uid()
+
         self._create_required_dirs_and_check_for_errors()
+
         self._copy_video_to_video_dir()
+
         FramesExtractor(self.video_path, self.frames_dir, interval=1)
+
         self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
+
         MakeCollage(
             get_list_of_all_files_in_dir(self.frames_dir),
             self.collage_path,
             collage_image_width=1024,
         )
+
         self.image = Image.open(self.collage_path)
         self.bits_in_hash = 64
 
@@ -75,7 +94,12 @@ class VideoHash:
     def __str__(self) -> str:
         """
         The video hash value of the instance. The hash value is 64 bit string
-        prefixed with '0b', indicating the that the hash value is binary.
+        prefixed with '0b', indicating the that the hash value is a bitstring.
+
+        :return: The string representation of the instance. The video hash value
+                 itself is the returned value.
+
+        :rtype: str
         """
 
         return self.hash
@@ -83,6 +107,10 @@ class VideoHash:
     def __repr__(self) -> str:
         """
         Developer's representation of the VideoHash object.
+
+        :return: Developer's representation of the instance.
+
+        :rtype: str
         """
 
         return "VideoHash(hash=%s, hash_hex=%s, collage_path=%s, bits_in_hash=%s)" % (
@@ -96,6 +124,10 @@ class VideoHash:
         """
         Length of the hash value string. Total length is 66 characters, 64 for
         the bitstring and 2 for the prefix '0b'.
+
+        :return: Length of the the hash value, including the prefix '0b'.
+
+        :rtype: int
         """
         return len(self.hash)
 
@@ -109,7 +141,13 @@ class VideoHash:
 
         If the hamming distance of this instance and the other instance
         is zero returns False else returns True.
+
+        :return: True if other object and instance do not have the same hash
+                 value else False.
+
+        :rtype: bool
         """
+
         if self == other:
             return False
         return True
@@ -121,9 +159,10 @@ class VideoHash:
         Instance of the VideoHash class, lists(bitlist) and string prefixed with
          '0x' and '0b' are accepted other types.
 
+        :return: True if other object and instance have the same hash
+                 value else False.
 
-        If the hamming distance of the instance and the other instance
-        is zero returns True else returns False.
+        :rtype: bool
         """
 
         if self - other == 0:
@@ -141,31 +180,49 @@ class VideoHash:
         hexadecimal strings prefixed with '0x' and if the string is not
         prefixed then raise ValueError.
 
-        Raises ValueError if the object passed is not an instance of string, list
+        :return: The hamming distance of hash values of the instance and other
+                 object.
+
+        :rtype: int
+
+        :raises TypeError: If the object passed is not an instance of string, list
         or VideoHash.
+
+        :raises ValueError: If the length of the hash values/bitlist of the
+                            instance and the other object are not equal.
+
+        :raises TypeError: If the hash values are python string objects but do
+                           not have '0x' or '0b' as prefix.
         """
         if other is None:
             raise TypeError("Other hash is None. And it should not be None.")
 
         if isinstance(other, str):
+
             if other.lower().startswith("0x"):
+
                 return self.hamming_distance(
                     string_a=self.hash,
                     string_b=VideoHash.hex2bin(other.lower(), self.bits_in_hash),
                 )
+
             elif other.lower().startswith("0b"):
+
                 if len(other) != len(self.hash):
                     raise ValueError(
                         "Can not compare different bits hashes. You must supply a %d bits hash."
                         % self.bits_in_hash
                     )
                 return self.hamming_distance(string_a=self.hash, string_b=other.lower())
+
             else:
+
                 raise TypeError(
                     "Hash string must start with either '0x' for hexadecimal or '0b' for binary."
                 )
 
         if isinstance(other, list):
+
             if len(other) != self.bits_in_hash:
                 raise ValueError(
                     "The list does not have %s bits. Can not calculate hamming distance."
@@ -196,28 +253,38 @@ class VideoHash:
         then download the video and copy the file to video
         directory.
 
+
+        :return: None
+
+        :rtype: NoneType
+
         :raises ValueError: If the path supplied by the end user
-                            lacks an extension. Like webm or mp4.
+                            lacks an extension. E.g. webm, mkv and mp4.
         """
         self.video_path: str = ""
+
         if self.path:
             # create a copy of the video at self.storage_path
             match = re.search(r"\.([^.]+$)", self.path)
 
             if match:
                 extension = match.group(1)
+
             else:
                 raise ValueError("File name (path) does not have an extension.")
 
             self.video_path = os.path.join(self.video_dir, ("video.%s" % extension))
+
             shutil.copyfile(self.path, self.video_path)
 
         if self.url:
+
             Download(
                 self.url,
                 self.video_download_dir,
                 worst=self.download_worst,
             )
+
             downloaded_file = get_list_of_all_files_in_dir(self.video_download_dir)[0]
             match = re.search(r"\.(.*?)$", downloaded_file)
 
@@ -230,6 +297,7 @@ class VideoHash:
                 self.video_dir,
                 extension,
             )
+
             shutil.copyfile(downloaded_file, self.video_path)
 
     def _create_required_dirs_and_check_for_errors(self) -> None:
@@ -239,6 +307,10 @@ class VideoHash:
         The instance files are stored in these directories, no need to worry
         about the end user or some other processes interfering with the instance
         generated files.
+
+        :return: None
+
+        :rtype: NoneType
 
         :raises DidNotSupplyPathOrUrl: If the user forgot to specify both the
                                        path and the url. One of them must be
@@ -261,7 +333,6 @@ class VideoHash:
 
         if not self.storage_path:
             self.storage_path = create_and_return_temporary_directory()
-
         if not does_path_exists(self.storage_path):
             raise StoragePathDoesNotExist(
                 "Storage path '%s' does not exist." % self.storage_path
@@ -270,25 +341,49 @@ class VideoHash:
         self.storage_path = os.path.join(
             self.storage_path, ("%s%s" % (self.task_uid, os.path.sep))
         )
+
         self.video_dir = os.path.join(self.storage_path, ("video%s" % os.path.sep))
         Path(self.video_dir).mkdir(parents=True, exist_ok=True)
+
         self.video_download_dir = os.path.join(
             self.storage_path, ("downloadedvideo%s" % os.path.sep)
         )
         Path(self.video_download_dir).mkdir(parents=True, exist_ok=True)
+
         self.frames_dir = os.path.join(self.storage_path, ("frames%s" % os.path.sep))
         Path(self.frames_dir).mkdir(parents=True, exist_ok=True)
+
         self.collage_dir = os.path.join(self.storage_path, ("collage%s" % os.path.sep))
         Path(self.collage_dir).mkdir(parents=True, exist_ok=True)
 
     def delete_storage_path(self) -> None:
-        """Delete the storage_path directory tree."""
+        """
+        Delete the storage_path directory tree.
+
+        Remember that deleting the storage directory will also delete the
+        collage, extracted frames, and the downloaded video. If you passed an
+        argument to the storage_path that directory will not be deleted but
+        only the files and directories created inside that directory by the
+        instance will be deleted, this is a feature(not a bug) to ensure that
+        multiple instances of the same program are not deleting the storage
+        path while other instances still require that storage directory.
+
+        Many OS delete the temporary directory on boot or they never delete it.
+        If you will be calculating videohash-value for many videos and don't
+        want to run out of storage don't forget to delete the storage path.
+
+        :return: None
+
+        :rtype: NoneType
+        """
         directory = self.storage_path
+
         if not self._storage_path:
             directory = "%s%s" % (
                 os.path.dirname(os.path.dirname(os.path.dirname(self.storage_path))),
                 os.path.sep,
             )
+
         shutil.rmtree(directory, ignore_errors=True, onerror=None)
 
     @staticmethod
@@ -300,8 +395,13 @@ class VideoHash:
         We want to make sure that only the instance is manipulating the instance files
         and no other process nor user by accident deletes or edits instance files while
         we are still processing.
+
+        :return: instance's unique task id.
+
+        :rtype: str
         """
         sys_random = random.SystemRandom()
+
         return "".join(
             sys_random.choice(
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -322,20 +422,27 @@ class VideoHash:
         bitlist_a and bitlist_b must be python strings containing only the
         bits and not the prefix "0b".
 
+        :return: Hamming distance of the input bitstrings or bitlists.
+
+        :rtype: int
+
         :raises ValueError: The input strings are of unequal length or bitlists
                             have different number of bits. Hamming distance is
                             not defined for unequal length strings.
         """
         if bitlist_a and bitlist_b:
+
             if len(bitlist_a) != len(bitlist_b):
                 raise ValueError(
                     "Bit lists have unequal number of bits."
                     + " Can not compute hamming distance. Hamming distance is undefined."
                 )
+
             _bitlist_a = bitlist_a
             _bitlist_b = bitlist_b
 
         if string_a and string_b:
+
             if len(string_a) != len(string_b):
                 raise ValueError(
                     "Strings are of unequal length. Can not compute hamming distance. Hamming distance is undefined."
@@ -343,11 +450,13 @@ class VideoHash:
 
             if string_a == self.hash:
                 _bitlist_a = self.bitlist
+
             else:
                 _bitlist_a = list(map(int, string_a.replace("0b", "")))
 
             if string_b == self.hash:
                 _bitlist_b = self.bitlist
+
             else:
                 _bitlist_b = list(map(int, string_b.replace("0b", "")))
 
@@ -364,11 +473,17 @@ class VideoHash:
         Convert hexadecimal('0x' prefixed) to bitstring string prefixed
         with '0b'.
 
+        :return: Padded binary representation(bitstring) of the hexadecimal
+                 input.
+
+        :rtype: str
+
         :raises ValueError: If input hexadecimal string is not prefixed
                             with '0x'.
         """
         if not hexstr.lower().startswith("0x"):
             raise ValueError("Input hexadecimal string must have '0x' as the prefix.")
+
         return "0b%s" % (
             str(bin(int(hexstr.lower(), 0))).replace("0b", "").zfill(padding)
         )
@@ -378,6 +493,10 @@ class VideoHash:
         """
         Convert bitstring('0b' prefixed) to hexadecimal string prefixed
         with '0x'.
+
+        :return: Hex representation of the input bitstring.
+
+        :rtype: str
 
         :raises ValueError: It input binary string is not prefixed with '0b'.
         """
@@ -396,15 +515,21 @@ class VideoHash:
         End-user is not provided any access to the imagehash instance but
         instead the binary and hexadecimal equivalent of the result of
         wavelet-hash.
+
+        :return: None
+
+        :rtype: NoneType
         """
 
         wavelethash_bit_list = []
+
         for row in imagehash.whash(self.image).hash.tolist():
             wavelethash_bit_list.extend(row)
 
         self.hash: str = ""
 
         for bit in wavelethash_bit_list:
+
             if bit:
                 self.hash += "1"
             else:
