@@ -113,11 +113,9 @@ class VideoHash:
         :rtype: str
         """
 
-        return "VideoHash(hash=%s, hash_hex=%s, collage_path=%s, bits_in_hash=%s)" % (
-            self.hash,
-            self.hash_hex,
-            self.collage_path,
-            self.bits_in_hash,
+        return (
+            f"VideoHash(hash={self.hash}, hash_hex={self.hash_hex}, "
+            + f"collage_path={self.collage_path}, bits_in_hash={self.bits_in_hash})"
         )
 
     def __len__(self) -> int:
@@ -225,8 +223,7 @@ class VideoHash:
 
             if len(other) != self.bits_in_hash:
                 raise ValueError(
-                    "The list does not have %s bits. Can not calculate hamming distance."
-                    % str(self.bits_in_hash)
+                    f"The list does not have {self.bits_in_hash} bits. Can not calculate hamming distance."
                 )
 
             return self.hamming_distance(bitlist_a=self.bitlist, bitlist_b=other)
@@ -273,7 +270,7 @@ class VideoHash:
             else:
                 raise ValueError("File name (path) does not have an extension.")
 
-            self.video_path = os.path.join(self.video_dir, ("video.%s" % extension))
+            self.video_path = os.path.join(self.video_dir, (f"video.{extension}"))
 
             shutil.copyfile(self.path, self.video_path)
 
@@ -293,10 +290,7 @@ class VideoHash:
             if match:
                 extension = match.group(1)
 
-            self.video_path = "%svideo.%s" % (
-                self.video_dir,
-                extension,
-            )
+            self.video_path = f"{self.video_dir}video.{extension}"
 
             shutil.copyfile(downloaded_file, self.video_path)
 
@@ -308,9 +302,6 @@ class VideoHash:
         about the end user or some other processes interfering with the instance
         generated files.
 
-        :return: None
-
-        :rtype: NoneType
 
         :raises DidNotSupplyPathOrUrl: If the user forgot to specify both the
                                        path and the url. One of them must be
@@ -322,6 +313,10 @@ class VideoHash:
 
         :raises StoragePathDoesNotExist: If the storage path specified by the
                                          user does not exist.
+
+        :return: None
+
+        :rtype: NoneType
         """
         if not self.path and not self.url:
             raise DidNotSupplyPathOrUrl(
@@ -335,25 +330,27 @@ class VideoHash:
             self.storage_path = create_and_return_temporary_directory()
         if not does_path_exists(self.storage_path):
             raise StoragePathDoesNotExist(
-                "Storage path '%s' does not exist." % self.storage_path
+                f"Storage path '{self.storage_path}' does not exist."
             )
 
+        os_path_sep = os.path.sep
+
         self.storage_path = os.path.join(
-            self.storage_path, ("%s%s" % (self.task_uid, os.path.sep))
+            self.storage_path, (f"{self.task_uid}{os_path_sep}")
         )
 
-        self.video_dir = os.path.join(self.storage_path, ("video%s" % os.path.sep))
+        self.video_dir = os.path.join(self.storage_path, (f"video{os_path_sep}"))
         Path(self.video_dir).mkdir(parents=True, exist_ok=True)
 
         self.video_download_dir = os.path.join(
-            self.storage_path, ("downloadedvideo%s" % os.path.sep)
+            self.storage_path, (f"downloadedvideo{os_path_sep}")
         )
         Path(self.video_download_dir).mkdir(parents=True, exist_ok=True)
 
-        self.frames_dir = os.path.join(self.storage_path, ("frames%s" % os.path.sep))
+        self.frames_dir = os.path.join(self.storage_path, (f"frames{os_path_sep}"))
         Path(self.frames_dir).mkdir(parents=True, exist_ok=True)
 
-        self.collage_dir = os.path.join(self.storage_path, ("collage%s" % os.path.sep))
+        self.collage_dir = os.path.join(self.storage_path, (f"collage{os_path_sep}"))
         Path(self.collage_dir).mkdir(parents=True, exist_ok=True)
 
     def delete_storage_path(self) -> None:
@@ -379,9 +376,9 @@ class VideoHash:
         directory = self.storage_path
 
         if not self._storage_path:
-            directory = "%s%s" % (
-                os.path.dirname(os.path.dirname(os.path.dirname(self.storage_path))),
-                os.path.sep,
+            directory = (
+                os.path.dirname(os.path.dirname(os.path.dirname(self.storage_path)))
+                + os.path.sep
             )
 
         shutil.rmtree(directory, ignore_errors=True, onerror=None)
@@ -484,9 +481,7 @@ class VideoHash:
         if not hexstr.lower().startswith("0x"):
             raise ValueError("Input hexadecimal string must have '0x' as the prefix.")
 
-        return "0b%s" % (
-            str(bin(int(hexstr.lower(), 0))).replace("0b", "").zfill(padding)
-        )
+        return "0b" + str(bin(int(hexstr.lower(), 0))).replace("0b", "").zfill(padding)
 
     @staticmethod
     def bin2hex(binstr: str) -> str:
@@ -536,6 +531,6 @@ class VideoHash:
                 self.hash += "0"
 
         # the binary value is prefixed with 0b.
-        self.hash = "0b%s" % self.hash
+        self.hash = f"0b{self.hash}"
         self.hash_hex: str = VideoHash.bin2hex(self.hash)
         self.bitlist: List = list(map(int, self.hash.replace("0b", "")))

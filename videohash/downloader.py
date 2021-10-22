@@ -65,8 +65,7 @@ class Download:
 
         if not does_path_exists(self.output_dir):
             raise DownloadOutPutDirDoesNotExits(
-                "No directory called '%s' found for storing the downloaded video. Can not download the video."
-                % self.output_dir
+                f"No directory called '{self.output_dir}' found for storing the downloaded video. Can not download the video."
             )
 
         self._check_youtube_dl()
@@ -109,14 +108,13 @@ class Download:
                 # check by youtube-dl --version
 
                 raise FileNotFoundError(
-                    "The output is not matching the expected '%s --version' output."
-                    % self.youtube_dl_path
+                    f"The output is not matching the expected '{self.youtube_dl_path} --version' output."
                 )
 
         except FileNotFoundError:
 
             raise YouTubeDLNotFound(
-                "Youtube-dl/yt-dlp is not found at '%s'." % self.youtube_dl_path
+                f"Youtube-dl/yt-dlp is not found at '{self.youtube_dl_path}'."
             )
 
     def download_video(self) -> None:
@@ -159,6 +157,6 @@ class Download:
 
         if len(os.listdir(self.output_dir)) == 0:
             raise DownloadFailed(
-                "%s failed to download the video at '%s'.\n%s\n%s"
-                % (self.youtube_dl_path, self.url, youtube_dl_output, youtube_dl_error)
+                f"{self.youtube_dl_path} failed to download the video at"
+                + f" '{self.url}'.\n{youtube_dl_output}\n{youtube_dl_error}"
             )
