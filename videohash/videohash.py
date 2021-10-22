@@ -19,7 +19,7 @@ from .utils import (
 from typing import List, Optional
 
 
-class VideoHash(object):
+class VideoHash:
 
     """
     The VideoHash class provides an interface for computing & comparing the video
@@ -110,7 +110,7 @@ class VideoHash(object):
         If the hamming distance of this instance and the other instance
         is zero returns False else returns True.
         """
-        if self.__eq__(other):
+        if self == other:
             return False
         return True
 
@@ -126,7 +126,7 @@ class VideoHash(object):
         is zero returns True else returns False.
         """
 
-        if self.__sub__(other) == 0:
+        if self - other == 0:
             return True
         return False
 

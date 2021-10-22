@@ -11,7 +11,7 @@ from typing import List
 # images are the extracted frames of the input video.
 
 
-class MakeCollage(object):
+class MakeCollage:
 
     """
     Class that creates the collage from list of images.

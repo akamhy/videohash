@@ -17,7 +17,7 @@ from typing import Optional
 # Uses the FFmpeg Software to extract the frames.
 
 
-class FramesExtractor(object):
+class FramesExtractor:
 
     """
     extract from from the passed video file and save at the output directory.

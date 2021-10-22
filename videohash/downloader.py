@@ -15,7 +15,7 @@ from typing import Optional
 # yt-dlp. yt-dlp is more maintained than youtube_dl.
 
 
-class Download(object):
+class Download:
 
     """
     Class that downloads the video prior to frames extraction.
