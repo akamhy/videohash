@@ -516,14 +516,14 @@ class VideoHash:
         :rtype: NoneType
         """
 
-        wavelethash_bit_list = []
+        self.bitlist: List = []
 
         for row in imagehash.whash(self.image).hash.tolist():
-            wavelethash_bit_list.extend(row)
+            self.bitlist.extend(row)
 
         self.hash: str = ""
 
-        for bit in wavelethash_bit_list:
+        for bit in self.bitlist:
 
             if bit:
                 self.hash += "1"
@@ -533,4 +533,3 @@ class VideoHash:
         # the binary value is prefixed with 0b.
         self.hash = f"0b{self.hash}"
         self.hash_hex: str = VideoHash.bin2hex(self.hash)
-        self.bitlist: List = list(map(int, self.hash.replace("0b", "")))
