@@ -5,7 +5,12 @@ from shutil import which
 from subprocess import check_output, Popen, PIPE
 
 from .utils import does_path_exists
-from .exceptions import YouTubeDLNotFound, DownloadOutPutDirDoesNotExits, DownloadFailed
+from .exceptions import (
+    YouTubeDLNotFound,
+    DownloadOutPutDirDoesNotExits,
+    DownloadFailed,
+    DownloadSoftwareError,
+)
 
 from typing import Optional
 
@@ -31,6 +36,7 @@ class Download:
         output_dir: str,
         youtube_dl_path: Optional[str] = None,
         worst: bool = True,
+        default_dl: str = "yt-dlp",
     ) -> None:
         """
         Check if output_dir exists and is a directory, must end with "/".
@@ -51,6 +57,9 @@ class Download:
                       of the downloader. The downloaders are yt-dlp and youtube_dl.
                       Default worst is True
 
+        :param default_dl: The the default downloader, only used if youtube_dl_path
+                           is not provided.
+
         :return: None
 
         :rtype: NoneType
@@ -60,6 +69,8 @@ class Download:
         self.youtube_dl_path = ""
         if youtube_dl_path:
             self.youtube_dl_path = youtube_dl_path
+
+        self.default_dl = default_dl.strip().lower().replace("_", "-")
 
         self.worst = worst
 
@@ -80,41 +91,31 @@ class Download:
         :rtype: NoneType
 
         """
+
+        def find_dl(dl_name):
+            if not which(dl_name):
+                raise YouTubeDLNotFound(f"{dl_name} not found on your system path.")
+            self.youtube_dl_path = str(which(dl_name))
+
         if not self.youtube_dl_path:
-
-            if not which("yt-dlp"):
-
-                if not which("youtube-dl"):
-
-                    raise YouTubeDLNotFound(
-                        "youtube-dl and yt-dlp not found on path."
-                        + " Install one of the two and add them to the path."
-                        + " Or you can also pass the path to 'youtube_dl_path' param"
-                    )
-
-                else:
-                    self.youtube_dl_path = str(which("youtube-dl"))
-
-            else:
-                self.youtube_dl_path = str(which("yt-dlp"))
+            find_dl(self.default_dl)
 
         try:
-
             output = check_output([str(self.youtube_dl_path), "--version"]).decode()
-
-            if not re.search(
-                r"[0-9]{4}\.[0-9]{2}\.[0-9]{2}", output
-            ):  # raise Exception is youtube is not installed.
-                # check by youtube-dl --version
-
-                raise FileNotFoundError(
-                    f"The output is not matching the expected '{self.youtube_dl_path} --version' output."
-                )
-
         except FileNotFoundError:
-
             raise YouTubeDLNotFound(
-                f"Youtube-dl/yt-dlp is not found at '{self.youtube_dl_path}'."
+                f"Video downloader can not be found at '{self.youtube_dl_path}'."
+            )
+
+        if not re.search(
+            r"[0-9]{4}\.[0-9]{2}\.[0-9]{2}", output
+        ):  # raise Exception is youtube is not installed.
+            # check by youtube-dl --version
+
+            raise DownloadSoftwareError(
+                f"The output is not matching the expected '{self.youtube_dl_path} --version' output."
+                + " Please check your youtube_dl/yt-dlp installation. If the problem persist after "
+                + "re-install open an issue at https://github.com/akamhy/videohash/issues"
             )
 
     def download_video(self) -> None:
@@ -157,6 +158,6 @@ class Download:
 
         if len(os.listdir(self.output_dir)) == 0:
             raise DownloadFailed(
-                f"{self.youtube_dl_path} failed to download the video at"
+                f"'{self.youtube_dl_path}' failed to download the video at"
                 + f" '{self.url}'.\n{youtube_dl_output}\n{youtube_dl_error}"
             )
