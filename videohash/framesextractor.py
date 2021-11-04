@@ -7,6 +7,7 @@ from subprocess import check_output, Popen, PIPE
 from .utils import does_path_exists
 from .exceptions import (
     FramesExtractorOutPutDirDoesNotExits,
+    FFmpegError,
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
 )
@@ -89,8 +90,8 @@ class FramesExtractor:
             if not which("ffmpeg"):
 
                 raise FFmpegNotFound(
-                    "FFmpeg is not on the path. Install FFmpeg and add it to the path."
-                    + "Or you can also pass the path via the 'ffmpeg_path' param."
+                    "FFmpeg is not on the system path. Install FFmpeg and add it to the path."
+                    + "Or you can also pass the path via the 'ffmpeg_path' parameter."
                 )
             else:
 
@@ -107,7 +108,7 @@ class FramesExtractor:
         else:
 
             if "ffmpeg version" not in output:
-                raise FFmpegNotFound(
+                raise FFmpegError(
                     f"ffmpeg at '{self.ffmpeg_path}' is not really ffmpeg. Output of ffmpeg -version is \n'{output}'."
                 )
 
