@@ -6,5 +6,6 @@ patool
 pyunpack
 flake8
 mypy
+youtube_dl
 types-Pillow
 black
