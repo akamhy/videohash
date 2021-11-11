@@ -35,7 +35,7 @@ setup(
         "video",
         "video diff",
     ],
-    install_requires=["ImageHash", "Pillow", "youtube_dl", "yt-dlp"],
+    install_requires=["ImageHash", "Pillow", "yt-dlp"],
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
