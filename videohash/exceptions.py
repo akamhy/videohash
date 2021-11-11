@@ -47,13 +47,6 @@ class DownloadOutPutDirDoesNotExits(DownloadError):
     pass
 
 
-class YouTubeDLNotFound(DownloadSoftwareError):
-
-    """youtube-dl and yt-dl are not found in path"""
-
-    pass
-
-
 class FFmpegNotFound(FFmpegError):
 
     """FFmpeg is not is the path"""
