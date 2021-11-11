@@ -518,7 +518,7 @@ class VideoHash:
 
         self.bitlist: List = []
 
-        for row in imagehash.whash(self.image).hash.tolist():
+        for row in imagehash.whash(self.image).hash.astype(int).tolist():
             self.bitlist.extend(row)
 
         self.hash: str = ""

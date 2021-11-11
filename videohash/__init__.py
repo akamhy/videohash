@@ -93,7 +93,6 @@ from .exceptions import (
     DownloadSoftwareError,
     DownloadFailed,
     DownloadOutPutDirDoesNotExits,
-    YouTubeDLNotFound,
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
     FramesExtractorOutPutDirDoesNotExits,
