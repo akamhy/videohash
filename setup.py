@@ -64,7 +64,7 @@ setup(
     ],
     project_urls={
         "Source": "https://github.com/akamhy/videohash",
-        "Documentation": "https://github.com/akamhy/videohash/wiki/Extended-Usage",
+        "Documentation": "https://github.com/akamhy/videohash/wiki",
         "Tracker": "https://github.com/akamhy/videohash/issues",
     },
 )
