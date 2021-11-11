@@ -46,13 +46,19 @@ To use this software, you must have [FFmpeg](https://ffmpeg.org/) installed. Ple
 
 #### Install videohash
 
-- Using [pip](https://en.wikipedia.org/wiki/Pip_(package_manager)):
+Upgrade pip
+```bash
+python3 -m pip install --upgrade pip
+```
+If you do not want to upgrade pip and the installation fails try appending `--use-wheel` to the following installation command(s).
+
+- Install from the [PyPi](https://pypi.org/) (recommended):
 
 ```bash
 pip install videohash
 ```
 
-- Install directly from GitHub:
+- Install directly from [the](https://github.com/akamhy/videohash) GitHub repository (NOT recommended):
 
 ```bash
 pip install git+https://github.com/akamhy/videohash.git
