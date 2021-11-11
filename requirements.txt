@@ -1,4 +1,3 @@
 ImageHash
 Pillow
 yt-dlp
-youtube_dl

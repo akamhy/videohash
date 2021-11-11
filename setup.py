@@ -35,7 +35,7 @@ setup(
         "video",
         "video diff",
     ],
-    install_requires=["ImageHash", "Pillow", "youtube_dl", "yt-dlp"],
+    install_requires=["ImageHash", "Pillow", "yt-dlp"],
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -59,11 +59,12 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     project_urls={
         "Source": "https://github.com/akamhy/videohash",
-        "Documentation": "https://github.com/akamhy/videohash/wiki/Extended-Usage",
+        "Documentation": "https://github.com/akamhy/videohash/wiki",
         "Tracker": "https://github.com/akamhy/videohash/issues",
     },
 )
