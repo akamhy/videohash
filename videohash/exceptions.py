@@ -28,7 +28,7 @@ class FFmpegError(Exception):
 
 class DownloadSoftwareError(DownloadError):
 
-    """Base for all youtube_dl and yt-dlp errors."""
+    """Base for all yt-dlp errors."""
 
     pass
 

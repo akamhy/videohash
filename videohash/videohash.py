@@ -38,7 +38,7 @@ class VideoHash:
         :param path: Absolute path of the input video file.
 
         :param url: URL of the input video file. Every URL that is supported by
-                    youtube-dl or yt-dlp can be passed.
+                    the yt-dlp package can be passed.
 
         :param storage_path: Storage path for the files created/downloaded by
                              the instance, pass the absolute path of the
@@ -48,9 +48,8 @@ class VideoHash:
                              temporary directory of the system.
 
         :param download_worst: If set to False, download the default quality of
-                               youtube-dl/yt-dlp downloader. youtube-dl and
-                               yt-dlp usually default to the best quality video
-                               available.
+                               yt-dlp downloader. yt-dlp usually default to the 
+                               best quality video available.
                                Worst quality might be an issue for some users,
                                they may set the download_worst to False.
                                The default value is True to conserve bandwidth.

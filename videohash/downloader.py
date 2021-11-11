@@ -14,7 +14,7 @@ class Download:
     Class that downloads the video prior to frames extraction.
 
     Tries to download the lowest quality video possible.
-    Uses youtube-dl or yt-dl to download the videos.
+    Uses yt-dlp to download the videos.
     """
 
     def __init__(
