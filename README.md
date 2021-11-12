@@ -50,7 +50,7 @@ Upgrade pip
 ```bash
 python3 -m pip install --upgrade pip
 ```
-If you do not want to upgrade pip and the installation fails try appending `--use-wheel` to the following installation command(s).
+If you do not want to upgrade pip and the installation fails try appending `--prefer-binary scipy` to the following installation command(s).
 
 - Install from the [PyPi](https://pypi.org/) (recommended):
 
