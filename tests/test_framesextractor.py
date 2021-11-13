@@ -3,7 +3,7 @@ import os
 from videohash.framesextractor import FramesExtractor
 from videohash.utils import create_and_return_temporary_directory
 from videohash.exceptions import (
-    FramesExtractorOutPutDirDoesNotExits,
+    FramesExtractorOutPutDirDoesNotExist,
     FFmpegNotFound,
 )
 
@@ -28,7 +28,7 @@ def test_all():
         ffmpeg_path = os.path.join(output_dir, "ffmpeg")
         FramesExtractor(video_path, output_dir, interval=1, ffmpeg_path=ffmpeg_path)
 
-    with pytest.raises(FramesExtractorOutPutDirDoesNotExits):
+    with pytest.raises(FramesExtractorOutPutDirDoesNotExist):
         video_path = os.path.join(script_path, "../assets/rocket.mkv")
         output_dir = os.path.join(script_path, "thisdirdoesnotexist/")
         FramesExtractor(video_path, output_dir, interval=1, ffmpeg_path=None)
