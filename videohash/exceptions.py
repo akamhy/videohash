@@ -7,87 +7,72 @@ This module contains the videohash's exceptions.
 
 class VideoHashError(Exception):
 
-    """Main Exception for the package"""
+    """Base Exception for the videohash package."""
 
     pass
 
 
-class DownloadError(Exception):
+class StoragePathDoesNotExist(VideoHashError):
 
-    """Base for all downloading errors."""
-
-    pass
-
-
-class FFmpegError(Exception):
-
-    """Base FFmpeg software error"""
+    """
+    The storage path passed by the user does not exist.
+    The collage is the image representing your video as an two dimensional bitmap image.
+    """
 
     pass
 
 
-class DownloadSoftwareError(DownloadError):
+class FramesExtractorOutPutDirDoesNotExist(VideoHashError):
 
-    """Base for all yt-dlp errors."""
-
-    pass
-
-
-class DownloadFailed(DownloadError):
-
-    """Failed to download the video file from url supplied"""
+    """The frames output directory passed to the frame extractor does not exist."""
 
     pass
 
 
-class DownloadOutPutDirDoesNotExits(DownloadError):
+class DownloadOutPutDirDoesNotExist(VideoHashError):
 
-    """The output directory supplied to store the downloaded video does not exists."""
+    """The output directory passed to downloader for storing the downloaded video does not exist."""
+
+    pass
+
+
+class DidNotSupplyPathOrUrl(VideoHashError):
+
+    """Must supply either a path for the video or a valid URL"""
+
+    pass
+
+
+class CollageOfZeroFramesError(VideoHashError):
+
+    """Raised if zero frames are passed for collage making."""
+
+    pass
+
+
+class DownloadFailed(VideoHashError):
+
+    """Download software failed to download the video from the url."""
+
+    pass
+
+
+class FFmpegError(VideoHashError):
+
+    """Base error for the FFmpeg software."""
 
     pass
 
 
 class FFmpegNotFound(FFmpegError):
 
-    """FFmpeg is not is the path"""
+    """FFmpeg is either not installed or not in the executable path of the system."""
 
     pass
 
 
 class FFmpegFailedToExtractFrames(FFmpegError):
 
-    """FFmpeg failed to extract any frame"""
-
-    pass
-
-
-class FramesExtractorOutPutDirDoesNotExits(Exception):
-
-    """The output dir passed to the frame extractor does not exits."""
-
-    pass
-
-
-class StoragePathDoesNotExist(Exception):
-
-    """
-    The supplied storage path does not exists.
-    Do not supply if you don't care about the collage or extracted farmes.
-    The collage is the image representing your video.
-    """
-
-    pass
-
-
-class DidNotSupplyPathOrUrl(Exception):
-
-    """Must supply either a path for your video or a valid URL"""
-
-    pass
-
-
-class CollageOfZeroFramesError(Exception):
-
-    """Raised if zero frames are passed for collage making"""
+    """FFmpeg failed to extract any frame at all. Maybe the input video is damaged or corrupt."""
 
     pass

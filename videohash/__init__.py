@@ -88,14 +88,12 @@ from .__version__ import (
 
 from .exceptions import (
     VideoHashError,
-    DownloadError,
     FFmpegError,
-    DownloadSoftwareError,
     DownloadFailed,
-    DownloadOutPutDirDoesNotExits,
+    DownloadOutPutDirDoesNotExist,
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
-    FramesExtractorOutPutDirDoesNotExits,
+    FramesExtractorOutPutDirDoesNotExist,
     StoragePathDoesNotExist,
     DidNotSupplyPathOrUrl,
     CollageOfZeroFramesError,

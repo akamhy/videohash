@@ -48,7 +48,7 @@ class VideoHash:
                              temporary directory of the system.
 
         :param download_worst: If set to False, download the default quality of
-                               yt-dlp downloader. yt-dlp usually default to the 
+                               yt-dlp downloader. yt-dlp usually default to the
                                best quality video available.
                                Worst quality might be an issue for some users,
                                they may set the download_worst to False.

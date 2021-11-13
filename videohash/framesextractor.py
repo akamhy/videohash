@@ -6,7 +6,7 @@ from subprocess import check_output, Popen, PIPE
 
 from .utils import does_path_exists
 from .exceptions import (
-    FramesExtractorOutPutDirDoesNotExits,
+    FramesExtractorOutPutDirDoesNotExist,
     FFmpegError,
     FFmpegNotFound,
     FFmpegFailedToExtractFrames,
@@ -67,7 +67,7 @@ class FramesExtractor:
             )
 
         if not does_path_exists(self.output_dir):
-            raise FramesExtractorOutPutDirDoesNotExits(
+            raise FramesExtractorOutPutDirDoesNotExist(
                 f"No directory called '{self.output_dir}' found for storing the frames."
             )
 

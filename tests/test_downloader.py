@@ -3,8 +3,7 @@ import os
 from videohash.downloader import Download
 from videohash.exceptions import (
     DownloadFailed,
-    DownloadOutPutDirDoesNotExits,
-    DownloadSoftwareError,
+    DownloadOutPutDirDoesNotExist,
 )
 from videohash.utils import (
     create_and_return_temporary_directory,
@@ -17,7 +16,7 @@ def test_all():
         create_and_return_temporary_directory(), "/gduisgf73r7guai7td7g38yisif7si7/"
     )
 
-    with pytest.raises(DownloadOutPutDirDoesNotExits):
+    with pytest.raises(DownloadOutPutDirDoesNotExist):
         Download(url="https://example.com", output_dir=_dir)
 
     url = "https://www.youtube.com/watch?v=s7X5JuqEXuI"  # patagonia
