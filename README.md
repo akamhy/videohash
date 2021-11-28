@@ -24,7 +24,7 @@
 Videohash is a Python library for **detecting near-duplicate videos (Perceptual Video Hashing)**.
 Any video input can be used to generate a 64-bit equivalent hash value with this package.
 
-The video-hash-values for identical/near-duplicate videos are the same or similar, implying that if the video is resized (upscaled/downscaled), transcoded, watermark added/removed, changed color, changed frame rate, changed aspect ratio, slightly cropped, or black-bars added/removed, the hash-value should remain unchanged or not vary substantially.
+The video-hash-values for identical or near-duplicate videos are the same or similar, implying that if the video is resized (upscaled/downscaled), transcoded, watermark added/removed, stabilized, color changed, frame rate changed, changed aspect ratio, slightly cropped, black-bars added or removed, the hash-value should remain unchanged or not vary substantially.
 
 ### How the hash values are calculated
 
@@ -148,7 +148,7 @@ True
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
-Released under the MIT License. See
+Copyright (c) 2021 Akash Mahanty. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
 
 The VideoHash logo was created by [iconolocode](https://github.com/iconolocode). See [license](https://github.com/akamhy/videohash/blob/main/assets/logo/LICENSE-LOGO) for details.
