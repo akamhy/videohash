@@ -17,7 +17,7 @@ from .utils import (
     get_list_of_all_files_in_dir,
 )
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 
 class VideoHash:
@@ -33,7 +33,7 @@ class VideoHash:
         url: Optional[str] = None,
         storage_path: Optional[str] = None,
         download_worst: bool = True,
-        frame_interval: int = 1,
+        frame_interval: Union[int, float] = 1,
     ) -> None:
         """
         :param path: Absolute path of the input video file.
@@ -55,8 +55,11 @@ class VideoHash:
                                they may set the download_worst to False.
                                The default value is True to conserve bandwidth.
 
-        :param frame_interval: Number of number of frames extracted per unit
-                               time, the default value is 1 per unit time.
+        :param frame_interval: Number of frames extracted per unit time, the
+                               default value is 1 per unit time. For 1 frame
+                               per 5 seconds pass 1/5 or 0.2. For 5 fps pass 5.
+                               Smaller frame_interval implies fewer frames and
+                               vice-versa.
 
 
         :return: None
