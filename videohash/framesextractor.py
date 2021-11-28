@@ -12,7 +12,7 @@ from .exceptions import (
     FFmpegFailedToExtractFrames,
 )
 
-from typing import Optional
+from typing import Optional, Union
 
 
 # python module to extract the frames from the input video.
@@ -29,7 +29,7 @@ class FramesExtractor:
         self,
         video_path: str,
         output_dir: str,
-        interval: int = 1,
+        interval: Union[int, float] = 1,
         ffmpeg_path: Optional[str] = None,
     ) -> None:
         """

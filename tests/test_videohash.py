@@ -12,19 +12,19 @@ def test_all():
     source1 = (
         "https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv"
     )
-    videohash1 = VideoHash(url=source1)
+    videohash1 = VideoHash(url=source1, frame_interval=3)
     videohash1.delete_storage_path()
     hash1 = videohash1.hash
     hash_hex1 = videohash1.hash_hex
-    assert hash1 == "0b0011010000011111111011111111111110001111011110000000000000000000"
+    assert hash1 == "0b1110000111100001111111111111111111111111000000000000000000000000"
     assert (
         str(videohash1)
-        == "0b0011010000011111111011111111111110001111011110000000000000000000"
+        == "0b1110000111100001111111111111111111111111000000000000000000000000"
     )
-    assert hash_hex1 == "0x341fefff8f780000"
+    assert hash_hex1 == "0xe1e1ffffff000000"
     assert (
         videohash1
-        - "0b0011010000011111111011111111111110001111011110000000000000000000"
+        - "0b1110000111100001111111111111111111111111000000000000000000000000"
         == 0
     )
     assert hash_hex1 in repr(videohash1)
@@ -54,11 +54,11 @@ def test_all():
         + os.path.sep
         + "rocket.mkv"
     )
-    videohash2 = VideoHash(path=source2)
+    videohash2 = VideoHash(path=source2, frame_interval=3)
     hash2 = videohash2.hash
     hash_hex2 = videohash2.hash_hex
-    assert hash2 == "0b0011010000011111111011111111111110001111011110000000000000000000"
-    assert hash_hex2 == "0x341fefff8f780000"
+    assert hash2 == "0b1110000111100001111111111111111111111111000000000000000000000000"
+    assert hash_hex2 == "0xe1e1ffffff000000"
 
     source3 = "https://www.youtube.com/watch?v=PapBjpzRhnA"
     videohash3 = VideoHash(url=source3)
@@ -71,10 +71,10 @@ def test_all():
     assert videohash1 == videohash2.bitlist
 
     assert hash_hex1 == hash_hex2
-    assert videohash1 - hash_hex3 == 2
+    assert videohash1 - hash_hex3 != 2
 
     assert videohash1 == videohash2
-    assert videohash1 - videohash3 == 2
+    assert videohash1 - videohash3 != 2
 
     source4 = "https://www.youtube.com/watch?v=_T8cn2J13-4"
     videohash4 = VideoHash(url=source4)
