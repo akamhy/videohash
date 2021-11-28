@@ -33,6 +33,7 @@ class VideoHash:
         url: Optional[str] = None,
         storage_path: Optional[str] = None,
         download_worst: bool = True,
+        frame_interval: int = 1,
     ) -> None:
         """
         :param path: Absolute path of the input video file.
@@ -54,6 +55,9 @@ class VideoHash:
                                they may set the download_worst to False.
                                The default value is True to conserve bandwidth.
 
+        :param frame_interval: Number of number of frames extracted per unit
+                               time, the default value is 1 per unit time.
+
 
         :return: None
 
@@ -68,6 +72,7 @@ class VideoHash:
 
         self._storage_path = self.storage_path
         self.download_worst = download_worst
+        self.frame_interval = frame_interval
 
         self.task_uid = VideoHash._get_task_uid()
 
@@ -75,7 +80,7 @@ class VideoHash:
 
         self._copy_video_to_video_dir()
 
-        FramesExtractor(self.video_path, self.frames_dir, interval=1)
+        FramesExtractor(self.video_path, self.frames_dir, interval=self.frame_interval)
 
         self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
 
