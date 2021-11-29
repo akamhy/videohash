@@ -9,6 +9,7 @@ import numpy as np
 
 from .collagemaker import MakeCollage
 from .downloader import Download
+from .videoduration import video_duration
 from .framesextractor import FramesExtractor
 from .exceptions import DidNotSupplyPathOrUrl, StoragePathDoesNotExist
 from .utils import (
@@ -95,6 +96,7 @@ class VideoHash:
 
         self.image = Image.open(self.collage_path)
         self.bits_in_hash = 64
+        self.video_duration = video_duration(self.video_path)
 
         self._calc_hash()
 
