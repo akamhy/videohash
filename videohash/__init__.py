@@ -73,6 +73,7 @@ API Reference : https://github.com/akamhy/videohash/wiki/API-Reference
 """
 
 from .videohash import VideoHash
+from .videoduration import video_duration
 
 from .__version__ import (
     __title__,
