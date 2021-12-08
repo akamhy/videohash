@@ -22,7 +22,7 @@ from typing import Optional, Union
 class FramesExtractor:
 
     """
-    extract from from the passed video file and save at the output directory.
+    Extract frames from the input video file and save at the output directory(frame storage directory).
     """
 
     def __init__(
