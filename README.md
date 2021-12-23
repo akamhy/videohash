@@ -21,14 +21,14 @@
 
 ## ⭐️ Introduction
 
-Videohash is a Python library for **detecting near-duplicate videos (Perceptual Video Hashing)**.
-Any video input can be used to generate a 64-bit equivalent hash value with this package.
+Videohash is a [Python package](https://www.udacity.com/blog/2021/01/what-is-a-python-package.html) for **detecting near-duplicate videos (Perceptual Video Hashing)**.
+It can take any input video and generate a 64-bit equivalent hash value. Videohash is way more faster than comparing the imagehash values of individual [frames](https://en.wikipedia.org/wiki/Film_frame) of the video and more reliable than hashing [keyframes](https://en.wikipedia.org/wiki/Key_frame).
 
-The video-hash-values for identical or near-duplicate videos are the same or similar, implying that if the video is resized (upscaled/downscaled), transcoded, watermark added/removed, stabilized, color changed, frame rate changed, changed aspect ratio, slightly cropped, black-bars added or removed, the hash-value should remain unchanged or not vary substantially.
+The video-hash-values for identical or near-duplicate videos are the same or similar, implying that if the video is resized (upscaled/downscaled), [transcoded](https://medium.com/videocoin/what-is-video-transcoding-and-why-do-you-do-it-348a2610cefc), [watermark](https://en.wikipedia.org/wiki/Digital_watermarking) added/removed, [stabilized](https://link.springer.com/referenceworkentry/10.1007%2F978-0-387-78414-4_76), [color changed](https://en.wikipedia.org/wiki/Chrominance), [frame rate](https://www.techsmith.com/blog/frame-rate-beginners-guide/) changed, changed [aspect ratio](https://en.wikipedia.org/wiki/Aspect_ratio_(image)),  [cropped](https://www.avs4you.com/blog/trim-cut-crop-avs4you/), [black-bars](https://en.wikipedia.org/wiki/Letterboxing_(filming)) added or removed, the hash-value should remain unchanged or not vary substantially.
 
 ### How the hash values are calculated
 
-> - Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://web.archive.org/web/20201108093251/https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) is the video hash value for the original input video.
+> - In layman's terms : Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) is the video hash value for the original input video.
 
 ### When not to use Videohash
 
@@ -68,11 +68,11 @@ pip install git+https://github.com/akamhy/videohash.git
 
 ### 🌱 Features
 
-- Generate videohash of a video directly from its URL or its path.
-- Can be used to implement scalable Near Duplicate Video Retrieval.
+- It is fast!
+- Generate videohash of a video directly from its URL(uses [yt-dlp](https://github.com/yt-dlp/yt-dlp)) or its path.
+- Can be used as the core of a scalable Near Duplicate Video Retrieval (NDVR) system.
 - The end-user can access the image representation(the collage) of the video.
 - A videohash instance can be compared to a 64-bit stored hash, its hex representation, bitlist, and other videohash instances.
-- Faster than the old method of comparing each frame individually. The videohash package generates a single 64-bit video hash value, which saves a significant amount of database space. And the number of comparisons required drops significantly.
 
 --------------------------------------------------------------------------
 
@@ -144,6 +144,17 @@ True
 
 --------------------------------------------------------------------------
 
+
+### 🙏 Credits
+
+  - [JohannesBuchner](https://github.com/JohannesBuchner) and [bunchesofdonald](https://github.com/bunchesofdonald) for [imagehash](https://github.com/JohannesBuchner/imagehash).
+  - [Dmitry Petrov](https://medium.com/@fullstackml) for [implementing](https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) [discrete wavelet transform](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) (DWT) based image hashing in Python.
+  - [FFmpeg developers](https://ffmpeg.org/consulting.html).
+  - [Eddievin](https://github.com/Eddievin) for README design.
+  - [iconolocode](https://github.com/iconolocode) for the videohash logo.
+ 
+--------------------------------------------------------------------------
+  
 ### 🛡 License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
