@@ -6,7 +6,7 @@ __description__ = (
 )
 
 __url__ = "https://akamhy.github.io/videohash/"
-__version__ = "2.1.6"
+__version__ = "2.1.7"
 __status__ = "production"
 __author__ = "Akash Mahanty"
 __author_email__ = "akamhy@yahoo.com"
