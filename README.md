@@ -152,6 +152,8 @@ True
   - [FFmpeg developers](https://ffmpeg.org/consulting.html).
   - [Eddievin](https://github.com/Eddievin) for README design.
   - [iconolocode](https://github.com/iconolocode) for the videohash logo.
+ 
+--------------------------------------------------------------------------
   
 ### 🛡 License
 
