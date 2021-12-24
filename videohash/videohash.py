@@ -33,7 +33,7 @@ class VideoHash:
         path: Optional[str] = None,
         url: Optional[str] = None,
         storage_path: Optional[str] = None,
-        download_worst: bool = True,
+        download_worst: bool = False,
         frame_interval: Union[int, float] = 1,
     ) -> None:
         """
@@ -49,12 +49,8 @@ class VideoHash:
                              itself create the storage directory inside the
                              temporary directory of the system.
 
-        :param download_worst: If set to False, download the default quality of
-                               yt-dlp downloader. yt-dlp usually default to the
-                               best quality video available.
-                               Worst quality might be an issue for some users,
-                               they may set the download_worst to False.
-                               The default value is True to conserve bandwidth.
+        :param download_worst: If set to True, download the worst quality video.
+                               The default value is False to conserve bandwidth.
 
         :param frame_interval: Number of frames extracted per unit time, the
                                default value is 1 per unit time. For 1 frame
