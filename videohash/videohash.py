@@ -50,7 +50,7 @@ class VideoHash:
                              temporary directory of the system.
 
         :param download_worst: If set to True, download the worst quality video.
-                               The default value is False to conserve bandwidth.
+                               The default value is False, set True to conserve bandwidth.
 
         :param frame_interval: Number of frames extracted per unit time, the
                                default value is 1 per unit time. For 1 frame
