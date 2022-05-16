@@ -72,30 +72,28 @@ API Reference : https://github.com/akamhy/videohash/wiki/API-Reference
 :cite: https://doi.org/10.5281/zenodo.4448295
 """
 
-from .videohash import VideoHash
-from .videoduration import video_duration
-
 from .__version__ import (
-    __title__,
-    __description__,
-    __url__,
-    __version__,
-    __status__,
     __author__,
     __author_email__,
-    __license__,
     __copyright__,
+    __description__,
+    __license__,
+    __status__,
+    __title__,
+    __url__,
+    __version__,
 )
-
 from .exceptions import (
-    VideoHashError,
-    FFmpegError,
+    CollageOfZeroFramesError,
+    DidNotSupplyPathOrUrl,
     DownloadFailed,
     DownloadOutPutDirDoesNotExist,
-    FFmpegNotFound,
+    FFmpegError,
     FFmpegFailedToExtractFrames,
+    FFmpegNotFound,
     FramesExtractorOutPutDirDoesNotExist,
     StoragePathDoesNotExist,
-    DidNotSupplyPathOrUrl,
-    CollageOfZeroFramesError,
+    VideoHashError,
 )
+from .videoduration import video_duration
+from .videohash import VideoHash
