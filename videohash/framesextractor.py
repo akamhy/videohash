@@ -2,18 +2,16 @@ import os
 import re
 import shlex
 from shutil import which
-from subprocess import check_output, Popen, PIPE
-
-from .utils import does_path_exists
-from .exceptions import (
-    FramesExtractorOutPutDirDoesNotExist,
-    FFmpegError,
-    FFmpegNotFound,
-    FFmpegFailedToExtractFrames,
-)
-
+from subprocess import PIPE, Popen, check_output
 from typing import Optional, Union
 
+from .exceptions import (
+    FFmpegError,
+    FFmpegFailedToExtractFrames,
+    FFmpegNotFound,
+    FramesExtractorOutPutDirDoesNotExist,
+)
+from .utils import does_path_exists
 
 # python module to extract the frames from the input video.
 # Uses the FFmpeg Software to extract the frames.
