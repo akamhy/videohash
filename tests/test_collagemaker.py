@@ -1,10 +1,10 @@
-import pytest
 import os
+
+import pytest
+
 from videohash.collagemaker import MakeCollage
 from videohash.exceptions import CollageOfZeroFramesError
-from videohash.utils import (
-    create_and_return_temporary_directory,
-)
+from videohash.utils import create_and_return_temporary_directory
 
 
 def test_all():

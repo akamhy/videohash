@@ -1,10 +1,9 @@
-import pytest
 import os
+
+import pytest
+
 from videohash.downloader import Download
-from videohash.exceptions import (
-    DownloadFailed,
-    DownloadOutPutDirDoesNotExist,
-)
+from videohash.exceptions import DownloadFailed, DownloadOutPutDirDoesNotExist
 from videohash.utils import (
     create_and_return_temporary_directory,
     get_list_of_all_files_in_dir,

@@ -1,11 +1,10 @@
-import pytest
 import os
+
+import pytest
+
+from videohash.exceptions import FFmpegNotFound, FramesExtractorOutPutDirDoesNotExist
 from videohash.framesextractor import FramesExtractor
 from videohash.utils import create_and_return_temporary_directory
-from videohash.exceptions import (
-    FramesExtractorOutPutDirDoesNotExist,
-    FFmpegNotFound,
-)
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
