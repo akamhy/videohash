@@ -1,7 +1,6 @@
 import re
 from shutil import which
-from subprocess import Popen, PIPE
-
+from subprocess import PIPE, Popen
 from typing import Optional
 
 # Module to determine the length of video.
