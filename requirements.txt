@@ -1,3 +1,5 @@
 ImageHash
+image_slicer
+imagedominantcolor
 Pillow
 yt-dlp
