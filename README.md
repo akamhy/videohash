@@ -152,10 +152,10 @@ False
   
 ### License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/main/LICENSE)
 
 Copyright (c) 2021-2022 Akash Mahanty. See
-[license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
+[license](https://github.com/akamhy/videohash/blob/main/LICENSE) for details.
 
 The VideoHash logo was created by [iconolocode](https://github.com/iconolocode). See [license](https://github.com/akamhy/videohash/blob/main/assets/logo/LICENSE-LOGO) for details.
 
