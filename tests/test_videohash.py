@@ -70,6 +70,7 @@ def test_all():
     assert hash_hex3 == "0x7c57efff2ee80303"
 
     assert hash1 == hash2
+    assert videohash1.is_similar(videohash2)
     assert videohash1 == videohash2.bitlist
 
     assert hash_hex1 == hash_hex2
@@ -89,6 +90,7 @@ def test_all():
     assert videohash1 != videohash4
     assert videohash2 != videohash4
     assert videohash3 != videohash4
+    assert videohash3.is_diffrent(videohash4)
 
     with pytest.raises(ValueError):
         # not padded with 0x

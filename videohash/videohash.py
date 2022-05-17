@@ -3,6 +3,7 @@ import random
 import re
 import shutil
 from pathlib import Path
+from math import ceil
 from typing import List, Optional, Union
 
 import imagehash
@@ -103,6 +104,7 @@ class VideoHash:
 
         self.image = Image.open(self.collage_path)
         self.bits_in_hash = 64
+        self.similar_percentage = 15
         self.video_duration = video_duration(self.video_path)
 
         self._calc_hash()
@@ -378,6 +380,27 @@ class VideoHash:
         Path(self.horizontally_concatenated_image_dir).mkdir(
             parents=True, exist_ok=True
         )
+
+    def is_similar(self, other: object) -> bool:
+        """
+        If 'similar_percentage' of bits are similar
+        the similar else not.
+        """
+        if self - other <= ceil((self.similar_percentage / 100) * self.bits_in_hash):
+            return True
+        else:
+            return False
+
+    def is_diffrent(self, other: object) -> bool:
+        """
+        Refer to the is_similar,
+        if not similar then diffrent.
+        """
+
+        if not self.is_similar(other):
+            return True
+        else:
+            return False
 
     def delete_storage_path(self) -> None:
         """
