@@ -1,4 +1,4 @@
-# This module contains code from https://github.com/samdobson/image_slicer
+# This module has some code from <https://github.com/samdobson/image_slicer>
 
 # Copyright (c) 2013 Sam Dobson
 
