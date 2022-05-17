@@ -78,62 +78,51 @@ pip install git+https://github.com/akamhy/videohash.git
 
 ### 🚀 Usage
 
-In the following usage example the first three instance of VideoHash class are computing the hash for the same video(not same as in checksum) and the last one is a different video.
+In the following usage example the first two and the fourth instance of VideoHash class are computing the hash for the same video(not same as in checksum) and the third one is a different video.
 
-- videohash1 is the video at <https://www.youtube.com/watch?v=PapBjpzRhnA>.
+- videohash1 is the VideoHash object for the video at <https://user-images.githubusercontent.com/64683866/168872267-7c6682f8-7294-4d9a-8a68-8c6f44c06df6.mp4>.
 
-- videohash2 is downscaled copy of <https://www.youtube.com/watch?v=PapBjpzRhnA> contained in [Matroska Multimedia Container](https://www.matroska.org/index.html).
+- videohash2 video (link : <https://user-images.githubusercontent.com/64683866/168869109-1f77c839-6912-4e24-8738-42cb15f3ab47.mp4>) is upscaled, FPS changed and a text overlay added version of the first video, url1 at <https://user-images.githubusercontent.com/64683866/168872267-7c6682f8-7294-4d9a-8a68-8c6f44c06df6.mp4>.
 
-- videohash3 is the same video as videohash2 but on local storage.
+- videohash3 video is a completely different video, at <https://user-images.githubusercontent.com/64683866/148960165-a210f2d2-6c41-4349-bd8d-a4cb673bc0af.mp4>.
 
-- videohash4 uses a completely different video at <https://www.youtube.com/watch?v=_T8cn2J13-4>.
+- videohash4 video is a local copy of url1,  <https://user-images.githubusercontent.com/64683866/168872267-7c6682f8-7294-4d9a-8a68-8c6f44c06df6.mp4>.
 
 ```python
 >>> from videohash import VideoHash
->>> # video: Artemis I Hot Fire Test
->>> url1 = "https://www.youtube.com/watch?v=PapBjpzRhnA"
+>>> url1 = "https://user-images.githubusercontent.com/64683866/168872267-7c6682f8-7294-4d9a-8a68-8c6f44c06df6.mp4"
 >>> videohash1 = VideoHash(url=url1)
->>>
->>> videohash1.hash # video hash value of the file, value is same as str(videohash1)
-'0b0011010000011111111011111111111110001111011110000000000000000000'
->>>
->>> #VIDEO:Artemis I Hot Fire Test
->>> url2="https://raw.githubusercontent.com/akamhy/videohash/main/assets/rocket.mkv"
+>>> 
+>>> url2 = "https://user-images.githubusercontent.com/64683866/168869109-1f77c839-6912-4e24-8738-42cb15f3ab47.mp4"
 >>> videohash2 = VideoHash(url=url2)
->>> videohash2.hash
-'0b0011010000011111111011111111111110001111011110000000000000000000'
->>> videohash2.hash_hex
-'0x341fefff8f780000'
->>> videohash2.hash_hex
-'0x341fefff8f780000'
->>> videohash1 - videohash2
-0
->>> videohash1 == videohash2
+>>> videohash2 - videohash1
+2
+>>> videohash2.is_similar(videohash1)
 True
->>> videohash1 == "0b0011010000011111111011111111111110001111011110000000000000000000"
-True
->>> videohash1 != videohash2
+>>> 
+>>> url3 = "https://user-images.githubusercontent.com/64683866/148960165-a210f2d2-6c41-4349-bd8d-a4cb673bc0af.mp4"
+>>> videohash3 = VideoHash(url=url3)
+>>> videohash3.is_similar(videohash1)
 False
->>> path3 = "/home/akamhy/Downloads/rocket.mkv" #VIDEO: Artemis I Hot Fire Test
->>> videohash3 = VideoHash(path=path3)
->>> videohash3.hash
-'0b0011010000011111111011111111111110001111011110000000000000000000'
->>> videohash3 - videohash2
-0
->>> videohash3 == videohash1
+>>> videohash3.is_diffrent(videohash2)
 True
->>> url4 = "https://www.youtube.com/watch?v=_T8cn2J13-4" #VIDEO: How We Are Going to the Moon
->>> videohash4 = VideoHash(url=url4)
->>> videohash4.hash_hex
-'0x7cffff000000eff0'
->>> videohash4 - "0x7cffff000000eff0"
-0
->>> videohash4.hash
-'0b0111110011111111111111110000000000000000000000001110111111110000'
->>> videohash4 - videohash2
+>>> videohash3-videohash1
 34
->>> videohash4 != videohash2
+>>> videohash3-videohash2
+34
+>>> path4 = "/home/akamhy/Downloads/168872267-7c6682f8-7294-4d9a-8a68-8c6f44c06df6.mp4"
+>>> videohash4 = VideoHash(path=path4)
+>>> videohash4 == videohash1
 True
+>>> videohash4 - videohash1
+0
+>>> videohash4.is_similar(videohash2)
+True
+>>> videohash4.is_similar(videohash4)
+True
+>>> videohash4.is_similar(videohash3)
+False
+>>> 
 ```
 
 <sub>Run the above code @ <https://replit.com/@akamhy/videohash-usage-2xx-example-code-for-video-hashing#main.py></sub>
