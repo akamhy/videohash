@@ -1,5 +1,3 @@
-import sys
-
 from image_slicer import save_tiles, slice
 from PIL import Image
 
@@ -23,7 +21,7 @@ def concatenate_video_frames_horizontally(
         base_image.paste(img, (x_offset, 0))
         img.close()
         x_offset += width
-        
+
     base_image.save(horizontally_concatenated_image_path)
 
 
