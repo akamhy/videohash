@@ -159,7 +159,7 @@ True
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
-Copyright (c) 2021 Akash Mahanty. See
+Copyright (c) 2021-2022 Akash Mahanty. See
 [license](https://github.com/akamhy/videohash/blob/master/LICENSE) for details.
 
 The VideoHash logo was created by [iconolocode](https://github.com/iconolocode). See [license](https://github.com/akamhy/videohash/blob/main/assets/logo/LICENSE-LOGO) for details.

@@ -1,10 +1,10 @@
 import os
-import tempfile
 import shutil
-from pyunpack import Archive
+import tempfile
 from pathlib import Path
-import requests
 
+import requests
+from pyunpack import Archive
 
 cwd = os.getcwd()
 

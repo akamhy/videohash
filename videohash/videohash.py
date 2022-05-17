@@ -1,24 +1,26 @@
 import os
+import random
+import re
 import shutil
 from pathlib import Path
-import re
-import random
-from PIL import Image
+from typing import List, Optional, Union
+
 import imagehash
 import numpy as np
+from imagedominantcolor import DominantColor
+from PIL import Image
 
 from .collagemaker import MakeCollage
 from .downloader import Download
-from .videoduration import video_duration
-from .framesextractor import FramesExtractor
 from .exceptions import DidNotSupplyPathOrUrl, StoragePathDoesNotExist
+from .framesextractor import FramesExtractor
+from .tilemaker import make_tile
 from .utils import (
-    does_path_exists,
     create_and_return_temporary_directory,
+    does_path_exists,
     get_list_of_all_files_in_dir,
 )
-
-from typing import List, Optional, Union
+from .videoduration import video_duration
 
 
 class VideoHash:
@@ -84,10 +86,19 @@ class VideoHash:
 
         self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
 
+        self.horizontally_concatenated_image_path = os.path.join(
+            self.horizontally_concatenated_image_dir,
+            "horizontally_concatenated_image.png",
+        )
+
         MakeCollage(
             get_list_of_all_files_in_dir(self.frames_dir),
             self.collage_path,
             collage_image_width=1024,
+        )
+
+        make_tile(
+            self.frames_dir, self.horizontally_concatenated_image_path, self.tiles_dir
         )
 
         self.image = Image.open(self.collage_path)
@@ -355,8 +366,18 @@ class VideoHash:
         self.frames_dir = os.path.join(self.storage_path, (f"frames{os_path_sep}"))
         Path(self.frames_dir).mkdir(parents=True, exist_ok=True)
 
+        self.tiles_dir = os.path.join(self.storage_path, (f"tiles{os_path_sep}"))
+        Path(self.tiles_dir).mkdir(parents=True, exist_ok=True)
+
         self.collage_dir = os.path.join(self.storage_path, (f"collage{os_path_sep}"))
         Path(self.collage_dir).mkdir(parents=True, exist_ok=True)
+
+        self.horizontally_concatenated_image_dir = os.path.join(
+            self.storage_path, (f"horizontally_concatenated_image{os_path_sep}")
+        )
+        Path(self.horizontally_concatenated_image_dir).mkdir(
+            parents=True, exist_ok=True
+        )
 
     def delete_storage_path(self) -> None:
         """
@@ -523,8 +544,102 @@ class VideoHash:
 
         self.bitlist: List = []
 
+        self.whash_bitlist: List = []
+
+        self.dominant_color_bitlist: List = []
+
         for row in imagehash.whash(self.image).hash.astype(int).tolist():
-            self.bitlist.extend(row)
+            self.whash_bitlist.extend(row)
+
+        dominant_color_list = []
+        for file_path in get_list_of_all_files_in_dir(self.tiles_dir):
+            dominantcolor = DominantColor(file_path)
+            dominant_color_list.append(dominantcolor.dominant_color)
+
+        pixels = [
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "r",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+            "l",
+        ]
+
+        for i in range(64):
+            bit = 0
+            if pixels[i] == dominant_color_list[i]:
+                bit = 1
+
+            self.dominant_color_bitlist.append(bit)
+
+        for i in range(64):
+            x = self.dominant_color_bitlist[i]
+            y = self.whash_bitlist[i]
+
+            if x == y and x == 1:
+                self.bitlist.append(0)
+            elif x == y and x == 0:
+                self.bitlist.append(0)
+            else:
+                self.bitlist.append(1)
 
         self.hash: str = ""
 

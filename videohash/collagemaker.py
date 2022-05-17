@@ -1,12 +1,11 @@
 import os
-from PIL import Image
 from math import ceil, sqrt
+from typing import List
+
+from PIL import Image
 
 from .exceptions import CollageOfZeroFramesError
 from .utils import does_path_exists
-
-from typing import List
-
 
 # Module to create collage from list of images, the
 # images are the extracted frames of the input video.

@@ -1,4 +1,5 @@
 import os.path
+
 from setuptools import setup
 
 with open(os.path.join(os.path.dirname(__file__), "README.md"), encoding="utf-8") as f:
@@ -35,7 +36,12 @@ setup(
         "video",
         "video diff",
     ],
-    install_requires=["ImageHash", "Pillow", "yt-dlp"],
+    install_requires=[
+        "Pillow",
+        "ImageHash",
+        "imagedominantcolor",
+        "yt-dlp",
+    ],
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
