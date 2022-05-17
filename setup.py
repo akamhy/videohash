@@ -37,10 +37,10 @@ setup(
         "video diff",
     ],
     install_requires=[
+        "Pillow>=9.0.0",
         "ImageHash",
         "imagedominantcolor",
         "image_slicer",
-        "Pillow>=9.0.0",
         "yt-dlp",
     ],
     python_requires=">=3.7",

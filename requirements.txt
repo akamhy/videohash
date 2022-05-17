@@ -1,5 +1,5 @@
 ImageHash
+Pillow>=9.0.0
 image_slicer
 imagedominantcolor
-Pillow
 yt-dlp
