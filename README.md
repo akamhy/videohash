@@ -19,7 +19,7 @@
 
 --------------------------------------------------------------------------
 
-## ⭐️ Introduction
+# <img src="https://github.githubassets.com/images/icons/emoji/unicode/2b50.png" width="30"></img> Introduction
 
 Videohash is a [Python package](https://www.udacity.com/blog/2021/01/what-is-a-python-package.html) for **detecting near-duplicate videos (Perceptual Video Hashing)**.
 It can take any input video and generate a 64-bit equivalent hash value. Videohash is way more faster than comparing the imagehash values of individual [frames](https://en.wikipedia.org/wiki/Film_frame) of the video and more reliable than hashing [keyframes](https://en.wikipedia.org/wiki/Key_frame).
@@ -40,7 +40,7 @@ The video-hash-values for identical or near-duplicate videos are the same or sim
 
 --------------------------------------------------------------------------
 
-### 🏗 Installation
+## <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f3d7.png" width="20"></img> Installation
 
 To use this software, you must have [FFmpeg](https://ffmpeg.org/) installed. Please read [how to install FFmpeg](https://github.com/akamhy/videohash/wiki/Install-FFmpeg,-but-how%3F) if you don't already know how.
 
@@ -52,13 +52,21 @@ python3 -m pip install --upgrade pip
 ```
 If you do not want to upgrade pip and the installation fails try appending `--prefer-binary` to the following installation command(s).
 
-- Install from the [PyPi](https://pypi.org/) (recommended):
+**Install from the [PyPi](https://pypi.org/) (recommended)**:
 
 ```bash
 pip install videohash
 ```
 
-- Install directly from [the](https://github.com/akamhy/videohash) GitHub repository (NOT recommended):
+**Using [conda](https://en.wikipedia.org/wiki/Conda_(package_manager)), from [conda-forge](https://anaconda.org/conda-forge/videohash) (recommended)**:
+
+Maintainer is  [@step21](https://github.com/step21)
+
+```bash
+conda install -c conda-forge videohash
+```
+
+**Install directly from [the](https://github.com/akamhy/videohash) GitHub repository (NOT recommended)**:
 
 ```bash
 pip install git+https://github.com/akamhy/videohash.git
@@ -66,9 +74,8 @@ pip install git+https://github.com/akamhy/videohash.git
 
 --------------------------------------------------------------------------
 
-### 🌱 Features
+### Features
 
-- It is fast!
 - Generate videohash of a video directly from its URL(uses [yt-dlp](https://github.com/yt-dlp/yt-dlp)) or its path.
 - Can be used as the core of a scalable Near Duplicate Video Retrieval (NDVR) system.
 - The end-user can access the image representation(the collage) of the video.
@@ -76,7 +83,7 @@ pip install git+https://github.com/akamhy/videohash.git
 
 --------------------------------------------------------------------------
 
-### 🚀 Usage
+## <img src="https://github.githubassets.com/images/icons/emoji/unicode/1f680.png" width="20"></img> Usage
 
 In the following usage example the first two and the fourth instance of VideoHash class are computing the hash for the same video(not same as in checksum) and the third one is a different video.
 
@@ -134,17 +141,18 @@ False
 --------------------------------------------------------------------------
 
 
-### 🙏 Credits
+### Credits
 
   - [JohannesBuchner](https://github.com/JohannesBuchner) and [bunchesofdonald](https://github.com/bunchesofdonald) for [imagehash](https://github.com/JohannesBuchner/imagehash).
   - [Dmitry Petrov](https://medium.com/@fullstackml) for [implementing](https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) [discrete wavelet transform](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) (DWT) based image hashing in Python.
   - [FFmpeg developers](https://ffmpeg.org/consulting.html).
+  - [Sam Dobson](https://github.com/samdobson) for [image_slicer](https://github.com/samdobson/image_slicer), videohash incorporates some code from image_slicer.
   - [Eddievin](https://github.com/Eddievin) for README design.
   - [iconolocode](https://github.com/iconolocode) for the videohash logo.
  
 --------------------------------------------------------------------------
   
-### 🛡 License
+### License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/akamhy/videohash/blob/master/LICENSE)
 
