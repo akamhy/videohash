@@ -37,13 +37,12 @@ setup(
         "video diff",
     ],
     install_requires=[
-        "Pillow>=9.0.0",
+        "Pillow",
         "ImageHash",
         "imagedominantcolor",
-        "image_slicer",
         "yt-dlp",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.6",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
@@ -62,6 +61,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
