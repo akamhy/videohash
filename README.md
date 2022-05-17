@@ -28,7 +28,7 @@ The video-hash-values for identical or near-duplicate videos are the same or sim
 
 ### How the hash values are calculated
 
-> - In layman's terms : Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5) is the video hash value for the original input video.
+> - In layman's terms : Every one second, a frame from the input video is extracted, the frames are shrunk to a 144x144 pixel square, a collage is constructed that contains all of the resized frames(square-shaped), the collage's [wavelet hash](https://fullstackml.com/wavelet-image-hash-in-python-3504fdd282b5)'s bit-list is the first bit-list that we use. The frames extracted are now stitched horizontally to each other, and finally divided into 64 equal sized images, the domiant color of these 64 images are detected and compared with a pre-defined pattern of dominant colors, if they match the bit is set else unset. So now we have two bitlist, finally we bitwise XOR these two bitlists. The XOR'ed output is  used to generate the final 64 bit hash-value for the video. The bits are joined to form the 64 bit hash-value of the  input value.
 
 ### When not to use Videohash
 
