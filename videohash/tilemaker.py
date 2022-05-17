@@ -20,36 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from PIL import Image
-
 import os
-from math import sqrt, ceil, floor
+from math import ceil, floor, sqrt
+
+from PIL import Image
 
 from .utils import get_list_of_all_files_in_dir
 
-def get_basename(filename):
-    """Strip path and extension. Return basename."""
-    return os.path.splitext(os.path.basename(filename))[0]
 
-
-def open_images(directory):
-    """Open all images in a directory. Return tuple of Image instances."""
-    return [Image.open(os.path.join(directory, file)) for file in os.listdir(directory)]
-
-
-def get_columns_rows(filenames):
-    """Derive number of columns and rows from filenames."""
-    tiles = []
-    for filename in filenames:
-        row, column = os.path.splitext(filename)[0][-5:].split("_")
-        tiles.append((int(row), int(column)))
-    rows = [pos[0] for pos in tiles]
-    columns = [pos[1] for pos in tiles]
-    num_rows = max(rows)
-    num_columns = max(columns)
-    return (num_columns, num_rows)
-
-class Tile(object):
+class Tile:
     """Represents a single tile."""
 
     def __init__(self, image, number, position, coords, filename=None):
@@ -67,35 +46,25 @@ class Tile(object):
     def column(self):
         return self.position[1]
 
-    @property
-    def basename(self):
-        """Strip path and extension. Return base filename."""
-        return get_basename(self.filename)
-
     def generate_filename(
-        self, directory=os.getcwd(), prefix="tile", format="png", path=True
+        self, directory=os.getcwd(), prefix="tile", file_format="png", path=True
     ):
         """Construct and return a filename for this tile."""
         filename = prefix + "_{col:02d}_{row:02d}.{ext}".format(
-            col=self.column, row=self.row, ext=format.lower().replace("jpeg", "jpg")
+            col=self.column,
+            row=self.row,
+            ext=file_format.lower().replace("jpeg", "jpg"),
         )
         if not path:
             return filename
         return os.path.join(directory, filename)
 
-    def save(self, filename=None, format="png"):
+    def save(self, filename=None, file_format="png"):
         if not filename:
-            filename = self.generate_filename(format=format)
-        self.image.save(filename, format)
+            filename = self.generate_filename(file_format=file_format)
+        self.image.save(filename, file_format)
         self.filename = filename
 
-    def __repr__(self):
-        """Show tile number, and if saved to disk, filename."""
-        if self.filename:
-            return "<Tile #{} - {}>".format(
-                self.number, os.path.basename(self.filename)
-            )
-        return "<Tile #{}>".format(self.number)
 
 def calc_columns_rows(n):
     """
@@ -108,7 +77,7 @@ def calc_columns_rows(n):
     return (num_columns, num_rows)
 
 
-def validate_image(image, number_tiles):
+def validate_image(number_tiles):
     """Basic sanity checks prior to performing a split."""
     TILE_LIMIT = 99 * 99
 
@@ -126,26 +95,7 @@ def validate_image(image, number_tiles):
         )
 
 
-def validate_image_col_row(image, col, row):
-    """Basic checks for columns and rows values"""
-    SPLIT_LIMIT = 99
-
-    try:
-        col = int(col)
-        row = int(row)
-    except BaseException:
-        raise ValueError("columns and rows values could not be cast to integer.")
-
-    if col < 1 or row < 1 or col > SPLIT_LIMIT or row > SPLIT_LIMIT:
-        raise ValueError(
-            f"Number of columns and rows must be between 1 and"
-            f"{SPLIT_LIMIT} (you asked for rows: {row} and col: {col})."
-        )
-    if col == 1 and row == 1:
-        raise ValueError("There is nothing to divide. You asked for the entire image.")
-
-
-def save_tiles(tiles, prefix="", directory=os.getcwd(), format="png"):
+def save_tiles(tiles, prefix="", directory=os.getcwd(), file_format="png"):
     """
     Write image files to disk. Create specified folder(s) if they
        don't exist. Return list of :class:`Tile` instance.
@@ -160,14 +110,14 @@ def save_tiles(tiles, prefix="", directory=os.getcwd(), format="png"):
     for tile in tiles:
         tile.save(
             filename=tile.generate_filename(
-                prefix=prefix, directory=directory, format=format
+                prefix=prefix, directory=directory, file_format=file_format
             ),
-            format=format,
+            file_format=file_format,
         )
     return tuple(tiles)
 
 
-def slice(
+def slicer(
     filename,
     number_tiles=None,
     col=None,
@@ -182,12 +132,8 @@ def slice(
     columns = 0
     rows = 0
     if number_tiles:
-        validate_image(im, number_tiles)
+        validate_image(number_tiles)
         columns, rows = calc_columns_rows(number_tiles)
-    else:
-        validate_image_col_row(im, col, row)
-        columns = col
-        rows = row
 
     tile_w, tile_h = int(floor(im_w / columns)), int(floor(im_h / rows))
 
@@ -232,11 +178,11 @@ def make_tile(frames_dir, horizontally_concatenated_image_path, tiles_dir) -> No
         frames_dir, horizontally_concatenated_image_path
     )
     tiles = list(
-        slice(
+        slicer(
             horizontally_concatenated_image_path,
             number_tiles=64,
             col=8,
             row=8,
         )
     )
-    save_tiles(tiles, prefix="tile", directory=tiles_dir, format="jpeg")
+    save_tiles(tiles, prefix="tile", directory=tiles_dir, file_format="jpeg")
