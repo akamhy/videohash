@@ -23,7 +23,7 @@ jobs:
       run: |
         brew install ffmpeg
         ffmpeg -version
-        python -m pip install --upgrade pip
+        python -m pip install -U --force-reinstall pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
     - name: Test with pytest
