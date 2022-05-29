@@ -185,4 +185,4 @@ def make_tile(frames_dir, horizontally_concatenated_image_path, tiles_dir) -> No
             row=8,
         )
     )
-    save_tiles(tiles, prefix="tile", directory=tiles_dir, file_format="jpeg")
+    save_tiles(tiles, prefix="tile", directory=tiles_dir, file_format="png")
