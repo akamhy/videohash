@@ -83,7 +83,8 @@ class VideoHash:
 
         self._copy_video_to_video_dir()
 
-        FramesExtractor(self.video_path, self.frames_dir, interval=self.frame_interval)
+        frame_extractor = FramesExtractor(self.video_path, self.frames_dir, interval=self.frame_interval)
+        frame_extractor.save_ffmpeg_output_error(self.storage_path)
 
         self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
 

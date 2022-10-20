@@ -71,6 +71,8 @@ class FramesExtractor:
 
         self._check_ffmpeg()
 
+        self.ffmpeg_output = None
+        self.ffmpeg_error = None
         self.extract()
 
     def _check_ffmpeg(self) -> None:
@@ -197,29 +199,43 @@ class FramesExtractor:
             video_path=video_path, frames=3, ffmpeg_path=ffmpeg_path
         )
 
-        command = (
-            f'"{ffmpeg_path}"'
-            + " -i "
-            + f'"{video_path}"'
-            + f"{crop}"
-            + " -s 144x144 "
-            + " -r "
-            + str(self.interval)
-            + " "
-            + '"'
-            + output_dir
-            + "video_frame_%07d.jpeg"
-            + '"'
-        )
+        command = [
+            str(ffmpeg_path),
+            "-i",
+            str(video_path),
+            str(crop),
+            "-s",
+            "144x144",
+            "-r",
+            str(self.interval),
+            str(output_dir),
+            "video_frame_%07d.jpeg",
+        ]
 
-        process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
+        process = Popen(command, stdout=PIPE, stderr=PIPE)
         output, error = process.communicate()
 
-        ffmpeg_output = output.decode()
-        ffmpeg_error = error.decode()
+        self.ffmpeg_output = output.decode()
+        self.ffmpeg_error = error.decode()
 
         if len(os.listdir(self.output_dir)) == 0:
 
             raise FFmpegFailedToExtractFrames(
-                f"FFmpeg could not extract any frames.\n{command}\n{ffmpeg_output}\n{ffmpeg_error}"
+                f"FFmpeg could not extract any frames.\n{command}\n{self.ffmpeg_output}\n{self.ffmpeg_error}"
             )
+
+    def save_ffmpeg_output_error(self, directory, stdout_filename='ffmpeg_stdout.log', stderr_filename='ffmpeg_stderr.log') -> None:
+        """
+        Saves the stdout and stderr from ffmpeg if they were created to the provided directory
+
+        :return: None
+
+        :rtype: NoneType
+        """
+        if self.ffmpeg_output:
+            with open(os.path.join(directory, stdout_filename)) as outfile:
+                outfile.write(self.ffmpeg_output)
+
+        if self.ffmpeg_error:
+            with open(os.path.join(directory, stderr_filename)) as outfile:
+                outfile.write(self.ffmpeg_error)
