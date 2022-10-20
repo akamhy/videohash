@@ -208,8 +208,7 @@ class FramesExtractor:
             "144x144",
             "-r",
             str(self.interval),
-            str(output_dir),
-            "video_frame_%07d.jpeg",
+            str(output_dir)+"video_frame_%07d.jpeg",
         ]
 
         process = Popen(command, stdout=PIPE, stderr=PIPE)
