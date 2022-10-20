@@ -38,6 +38,7 @@ class VideoHash:
         storage_path: Optional[str] = None,
         download_worst: bool = False,
         frame_interval: Union[int, float] = 1,
+        do_not_copy: bool = False,
     ) -> None:
         """
         :param path: Absolute path of the input video file.
@@ -75,6 +76,7 @@ class VideoHash:
 
         self._storage_path = self.storage_path
         self.download_worst = download_worst
+        self.do_not_copy = do_not_copy
         self.frame_interval = frame_interval
 
         self.task_uid = VideoHash._get_task_uid()
@@ -291,7 +293,10 @@ class VideoHash:
 
             self.video_path = os.path.join(self.video_dir, (f"video.{extension}"))
 
-            shutil.copyfile(self.path, self.video_path)
+            if self.do_not_copy:
+                os.symlink(self.path, self.video_path)
+            else:
+                shutil.copyfile(self.path, self.video_path)
 
         if self.url:
 
@@ -311,7 +316,10 @@ class VideoHash:
 
             self.video_path = f"{self.video_dir}video.{extension}"
 
-            shutil.copyfile(downloaded_file, self.video_path)
+            if self.do_not_copy:
+                os.symlink(downloaded_file, self.video_path)
+            else:
+                shutil.copyfile(downloaded_file, self.video_path)
 
     def _create_required_dirs_and_check_for_errors(self) -> None:
         """
