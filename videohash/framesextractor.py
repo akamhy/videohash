@@ -232,9 +232,9 @@ class FramesExtractor:
         :rtype: NoneType
         """
         if self.ffmpeg_output:
-            with open(os.path.join(directory, stdout_filename)) as outfile:
+            with open(os.path.join(directory, stdout_filename), 'w') as outfile:
                 outfile.write(self.ffmpeg_output)
 
         if self.ffmpeg_error:
-            with open(os.path.join(directory, stderr_filename)) as outfile:
+            with open(os.path.join(directory, stderr_filename), 'w') as outfile:
                 outfile.write(self.ffmpeg_error)
