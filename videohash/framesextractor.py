@@ -170,9 +170,9 @@ class FramesExtractor:
         if len(crop_list) > 0:
             mode = max(crop_list, key=crop_list.count)
 
-        crop = " "
+        crop = []
         if mode:
-            crop = f" -vf {mode} "
+            crop = ["-vf", mode]
 
         return crop
 
@@ -203,7 +203,7 @@ class FramesExtractor:
             str(ffmpeg_path),
             "-i",
             str(video_path),
-            str(crop),
+            *crop,
             "-s",
             "144x144",
             "-r",
