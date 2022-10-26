@@ -2,7 +2,7 @@ import os
 import re
 import shlex
 from shutil import which
-from subprocess import PIPE, DEVNUL, Popen, check_output
+from subprocess import PIPE, DEVNULL, Popen, check_output
 from typing import Optional, Union
 
 from .exceptions import (
