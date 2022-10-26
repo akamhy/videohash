@@ -2,7 +2,7 @@ import os
 import re
 import shlex
 from shutil import which
-from subprocess import PIPE, Popen, check_output
+from subprocess import PIPE, DEVNUL, Popen, check_output
 from typing import Optional, Union
 
 from .exceptions import (
@@ -154,7 +154,7 @@ class FramesExtractor:
 
             command = f'"{ffmpeg_path}" -ss {start_time} -i "{video_path}" -vframes {frames} -vf cropdetect -f null -'
 
-            process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
+            process = Popen(shlex.split(command), stdin=DEVNULL, stdout=PIPE, stderr=PIPE)
 
             output, error = process.communicate()
 
@@ -211,7 +211,7 @@ class FramesExtractor:
             str(output_dir)+"video_frame_%07d.jpeg",
         ]
 
-        process = Popen(command, stdout=PIPE, stderr=PIPE)
+        process = Popen(command, stdin=DEVNULL, stdout=PIPE, stderr=PIPE)
         output, error = process.communicate()
 
         self.ffmpeg_output = output.decode()
