@@ -39,6 +39,7 @@ class VideoHash:
         download_worst: bool = False,
         frame_interval: Union[int, float] = 1,
         do_not_copy: bool = False,
+        save_logs: bool = False
     ) -> None:
         """
         :param path: Absolute path of the input video file.
@@ -61,6 +62,9 @@ class VideoHash:
                                per 5 seconds pass 1/5 or 0.2. For 5 fps pass 5.
                                Smaller frame_interval implies fewer frames and
                                vice-versa.
+
+        :param save_logs:      If set to True, also save the logs from ffmpeg
+                               into the storage_path.
 
 
         :return: None
@@ -85,8 +89,7 @@ class VideoHash:
 
         self._copy_video_to_video_dir()
 
-        frame_extractor = FramesExtractor(self.video_path, self.frames_dir, interval=self.frame_interval)
-        frame_extractor.save_ffmpeg_output_error(self.storage_path)
+        FramesExtractor(self.video_path, self.frames_dir, interval=self.frame_interval, save_logs_path=self.storage_path if save_logs else None)
 
         self.collage_path = os.path.join(self.collage_dir, "collage.jpg")
 

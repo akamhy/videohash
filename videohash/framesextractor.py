@@ -29,6 +29,7 @@ class FramesExtractor:
         output_dir: str,
         interval: Union[int, float] = 1,
         ffmpeg_path: Optional[str] = None,
+        save_logs_path: Optional[str] = None,
     ) -> None:
         """
         Raises Exeception if video_path does not exists.
@@ -50,6 +51,8 @@ class FramesExtractor:
                          Default is 1, that is one frame every second.
 
         :param ffmpeg_path: path of the ffmpeg software if not in path.
+
+        :param save_logs_path: path to directory for storing ffmpeg logs.
 
         """
         self.video_path = video_path
@@ -74,6 +77,8 @@ class FramesExtractor:
         self.ffmpeg_output = None
         self.ffmpeg_error = None
         self.extract()
+        if save_logs_path is not None:
+            self.save_ffmpeg_output_error(save_logs_path)
 
     def _check_ffmpeg(self) -> None:
         """
