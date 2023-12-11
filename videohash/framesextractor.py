@@ -164,7 +164,7 @@ class FramesExtractor:
             output, error = process.communicate()
 
             matches = re.findall(
-                r"crop\=[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}",
+                r"crop\=[1-9][0-9]{0,3}:[1-9][0-9]{0,3}:[0-9]{1,4}:[0-9]{1,4}",
                 (output.decode() + error.decode()),
             )
 
