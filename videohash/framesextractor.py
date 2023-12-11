@@ -2,7 +2,7 @@ import os
 import re
 import shlex
 from shutil import which
-from subprocess import PIPE, Popen, check_output
+from subprocess import PIPE, DEVNULL, Popen, check_output
 from typing import Optional, Union
 
 from .exceptions import (
@@ -29,6 +29,7 @@ class FramesExtractor:
         output_dir: str,
         interval: Union[int, float] = 1,
         ffmpeg_path: Optional[str] = None,
+        save_logs_path: Optional[str] = None,
     ) -> None:
         """
         Raises Exeception if video_path does not exists.
@@ -51,6 +52,8 @@ class FramesExtractor:
 
         :param ffmpeg_path: path of the ffmpeg software if not in path.
 
+        :param save_logs_path: path to directory for storing ffmpeg logs.
+
         """
         self.video_path = video_path
         self.output_dir = output_dir
@@ -71,7 +74,11 @@ class FramesExtractor:
 
         self._check_ffmpeg()
 
+        self.ffmpeg_output = None
+        self.ffmpeg_error = None
         self.extract()
+        if save_logs_path is not None:
+            self.save_ffmpeg_output_error(save_logs_path)
 
     def _check_ffmpeg(self) -> None:
         """
@@ -152,12 +159,12 @@ class FramesExtractor:
 
             command = f'"{ffmpeg_path}" -ss {start_time} -i "{video_path}" -vframes {frames} -vf cropdetect -f null -'
 
-            process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
+            process = Popen(shlex.split(command), stdin=DEVNULL, stdout=PIPE, stderr=PIPE)
 
             output, error = process.communicate()
 
             matches = re.findall(
-                r"crop\=[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}:[0-9]{1,4}",
+                r"crop\=[1-9][0-9]{0,3}:[1-9][0-9]{0,3}:[0-9]{1,4}:[0-9]{1,4}",
                 (output.decode() + error.decode()),
             )
 
@@ -168,9 +175,9 @@ class FramesExtractor:
         if len(crop_list) > 0:
             mode = max(crop_list, key=crop_list.count)
 
-        crop = " "
+        crop = []
         if mode:
-            crop = f" -vf {mode} "
+            crop = ["-vf", mode]
 
         return crop
 
@@ -197,29 +204,42 @@ class FramesExtractor:
             video_path=video_path, frames=3, ffmpeg_path=ffmpeg_path
         )
 
-        command = (
-            f'"{ffmpeg_path}"'
-            + " -i "
-            + f'"{video_path}"'
-            + f"{crop}"
-            + " -s 144x144 "
-            + " -r "
-            + str(self.interval)
-            + " "
-            + '"'
-            + output_dir
-            + "video_frame_%07d.jpeg"
-            + '"'
-        )
+        command = [
+            str(ffmpeg_path),
+            "-i",
+            str(video_path),
+            *crop,
+            "-s",
+            "144x144",
+            "-r",
+            str(self.interval),
+            str(output_dir)+"video_frame_%07d.jpeg",
+        ]
 
-        process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
+        process = Popen(command, stdin=DEVNULL, stdout=PIPE, stderr=PIPE)
         output, error = process.communicate()
 
-        ffmpeg_output = output.decode()
-        ffmpeg_error = error.decode()
+        self.ffmpeg_output = output.decode()
+        self.ffmpeg_error = error.decode()
 
         if len(os.listdir(self.output_dir)) == 0:
 
             raise FFmpegFailedToExtractFrames(
-                f"FFmpeg could not extract any frames.\n{command}\n{ffmpeg_output}\n{ffmpeg_error}"
+                f"FFmpeg could not extract any frames.\n{command}\n{self.ffmpeg_output}\n{self.ffmpeg_error}"
             )
+
+    def save_ffmpeg_output_error(self, directory, stdout_filename='ffmpeg_stdout.log', stderr_filename='ffmpeg_stderr.log') -> None:
+        """
+        Saves the stdout and stderr from ffmpeg if they were created to the provided directory
+
+        :return: None
+
+        :rtype: NoneType
+        """
+        if self.ffmpeg_output:
+            with open(os.path.join(directory, stdout_filename), 'w') as outfile:
+                outfile.write(self.ffmpeg_output)
+
+        if self.ffmpeg_error:
+            with open(os.path.join(directory, stderr_filename), 'w') as outfile:
+                outfile.write(self.ffmpeg_error)
