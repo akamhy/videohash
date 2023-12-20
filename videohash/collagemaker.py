@@ -180,7 +180,7 @@ class MakeCollage:
 
             # scale the opened frame images
             frame.thumbnail(
-                (scaled_frame_image_width, scaled_frame_image_height), Image.ANTIALIAS
+                (scaled_frame_image_width, scaled_frame_image_height), Image.LANCZOS
             )
 
             # set the value of x to that of i's value.
