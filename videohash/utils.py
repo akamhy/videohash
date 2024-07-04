@@ -18,25 +18,16 @@ def get_list_of_all_files_in_dir(directory: str) -> List[str]:
 
 def does_path_exists(path: str) -> bool:
     """
-    If a directory is supplied then check if it exists.
-    If a file is supplied then check if it exists.
-
-    Directory ends with "/" on posix or "\" in windows and files do not.
-
     If directory/file exists returns True else returns False
 
     :return: True if dir or file exists else False.
 
     :rtype: bool
     """
-    if path.endswith("/") or path.endswith("\\"):
-        # it's directory
-        return os.path.isdir(path)
-
+    if os.path.isdir(path) or os.path.isfile(path):
+        return os.path.exists(path)
     else:
-        # it's file
-        return os.path.isfile(path)
-
+        return False
 
 def create_and_return_temporary_directory() -> str:
     """
