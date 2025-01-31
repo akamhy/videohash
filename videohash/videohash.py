@@ -185,6 +185,9 @@ class VideoHash:
             return True
         return False
 
+    def __hash__(self) -> int:
+        return int(self.hash, 2)
+
     def __sub__(self, other: object) -> int:
         """
         Definition of the '-' operator on VideoHash objects.
