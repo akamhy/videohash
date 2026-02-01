@@ -103,7 +103,7 @@ def save_tiles(tiles, prefix="", directory=os.getcwd(), file_format="png"):
        tiles (list):  List, tuple or set of :class:`Tile` objects to save.
        prefix (str):  Filename prefix of saved tiles.
     Kwargs:
-       directory (str):  Directory to save tiles. Created if non-existant.
+       directory (str):  Directory to save tiles. Created if non-existent.
     Returns:
         Tuple of :class:`Tile` instances.
     """
