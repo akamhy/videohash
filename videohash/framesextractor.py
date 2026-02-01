@@ -31,8 +31,8 @@ class FramesExtractor:
         ffmpeg_path: Optional[str] = None,
     ) -> None:
         """
-        Raises Exeception if video_path does not exists.
-        Raises Exeception if output_dir does not exists or if not a directory.
+        Raises Exception if video_path does not exists.
+        Raises Exception if output_dir does not exists or if not a directory.
 
         Checks  the ffmpeg installation and the path; thus ensure that we can use it.
 

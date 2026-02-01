@@ -19,7 +19,7 @@ class MakeCollage:
     Collage that should be as close to the shape of a square.
 
     The images are arranged by timestamp of the frames, their
-    index in the image_list is based on thier timestamp on the
+    index in the image_list is based on their timestamp on the
     video. The image with the index 2 is a frame from the 3rd
     second and an index 39 is from at the 40th second. The index
     is one less due to zero-based indexing.
@@ -117,7 +117,7 @@ class MakeCollage:
         A base image of 'collage_image_width' width and of 'number
         of rows times scaled frame image height' height is created.
         The base image has all pixels with RGB value 0,0,0 that is
-        the base image is pure black. The frame images are now embeded
+        the base image is pure black. The frame images are now embedded
         on it.
         The frame images are scaled to fit the collage base image such
         that the shape of collage is as close to the shape of a square.
@@ -195,7 +195,7 @@ class MakeCollage:
             # for the first row the result of floor division is always zero and
             # the product of 0 with scaled_frame_image_height is also zero, they
             # y coordinate for the first row is 0.
-            # For the second row the result of floor division is one and the prodcut
+            # For the second row the result of floor division is one and the product
             # with scaled_frame_image_height ensures that the y coordinate is
             # scaled_frame_image_height below the first row.
             y = (j // self.images_per_row_in_collage) * scaled_frame_image_height
@@ -214,6 +214,6 @@ class MakeCollage:
             # therefore the y coordinate stays the same for any given row.
             j += 1
 
-        # save the base image with all the scaled frame images embeded on it.
+        # save the base image with all the scaled frame images embedded on it.
         collage_image.save(self.output_path)
         collage_image.close()

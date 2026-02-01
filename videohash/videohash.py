@@ -394,7 +394,7 @@ class VideoHash:
     def is_diffrent(self, other: object) -> bool:
         """
         Refer to the is_similar,
-        if not similar then diffrent.
+        if not similar then different.
         """
 
         if not self.is_similar(other):
